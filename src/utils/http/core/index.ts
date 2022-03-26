@@ -44,16 +44,16 @@ export function useRequest(): Json<any> {
       }
       return new Proxy(apis[prop], {
         get(current, api: string) {
-          // eslint-disable-next-line
           return (data: Json<unknown> = {}) => {
             const { method, url } = current[api]
             const params:Set<string> = new Set()
             const parseUrl = (url: string): string => {
-              Object.entries(data).forEach(_ => {
-                if (url.includes(`${_[0]}`)) {
-                  url = url.replace(`{${_[0]}}`, _[1] as string);
+              Object.entries(data).forEach(item => {
+                const [key, value] = item
+                if (url.includes(key)) {
+                  url = url.replace(key, <string>value);
                 } else {
-                  params.add(`${_[0]}=${_[1]}`)
+                  params.add(`${key}=${value}`)
                 }
               })
               const queryString = [...params].join('&');
