@@ -1,7 +1,3 @@
-type JsonData = Json<unknown>
-
-type PromiseResponse = Promise<JsonData>
-
 export interface ApiRequestMethods {
   auth: {
     login: (data: JsonData) => PromiseResponse,

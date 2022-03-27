@@ -35,20 +35,18 @@ const rules = {
   username: [
     { required: true, message: '请输入用户名' },
     { min: 4, message: '用户名至少 4 个字符' },
-    { max: 12, message: '用户名最多 12 个字符' },
     { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须是英文、数字或下划线组成' },
   ],
   password: [
     { required: true, message: '请输入密码' },
     { min: 4, message: '密码至少 4 个字符' },
-    { max: 12, message: '密码最多 12 个字符' },
   ],
   captcha: [
     { required: true, message: '请输入验证码' },
   ],
 }
 
-const login = async (payload: Json<unknown>) => {
+const login = async (payload: JsonData) => {
   const { ok, data } = await useRequest().auth.login(payload)
   if (!ok) {
     console.info('failed')

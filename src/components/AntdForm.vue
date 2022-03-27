@@ -7,7 +7,7 @@ import type { FormItem, FormItemSize, FormItemButton, FormItemButtonType, FormIt
 const props = withDefaults(defineProps<
   {
     items: Array<FormItem>,
-    values: Json<string | number | Array<string | number>>,
+    values: JsonData,
     rules?: FormItemRule,
     labelCol?: { span: number },
     wrapperCol?: { span: number },
@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<
 
 const emits = defineEmits<
   {
-    (e: 'onSubmit', payload: Json<unknown>): void,
+    (e: 'onSubmit', payload: JsonData): void,
   }
 >()
 
