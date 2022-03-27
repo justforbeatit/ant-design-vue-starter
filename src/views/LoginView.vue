@@ -1,32 +1,81 @@
 <script setup lang="ts">
-import { UserOutlined, LockOutlined, SafetyOutlined } from '@ant-design/icons-vue'
+import { SafetyOutlined } from '@ant-design/icons-vue'
+import AntdForm from '@/components/AntdForm.vue'
+import type {FormItem} from '@/types/antd';
+import {useRequest} from '@/utils/http/core';
+
+const title = import.meta.env.VITE_APP_TITLE
+
+const items: FormItem[] = [{
+  type: 'input',
+  name: 'username',
+  placeholder: '请输入用户名',
+  size: 'large',
+  prefix: { type: 'icon', value: 'UserOutlined' }
+}, {
+  type: 'input',
+  name: 'password',
+  placeholder: '请输入密码',
+  size: 'large',
+  prefix: { type: 'icon', value: 'LockOutlined' }
+}, {
+  type: 'custom',
+  name: 'captcha',
+  placeholder: '请输入验证码',
+  size: 'large',
+}]
+
+const values = {
+  username: '',
+  password: '',
+  captcha: '',
+}
+
+const rules = {
+  username: [
+    { required: true, message: '请输入用户名' },
+    { min: 4, message: '用户名至少 4 个字符' },
+    { max: 12, message: '用户名最多 12 个字符' },
+    { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须是英文、数字或下划线组成' },
+  ],
+  password: [
+    { required: true, message: '请输入密码' },
+    { min: 4, message: '密码至少 4 个字符' },
+    { max: 12, message: '密码最多 12 个字符' },
+  ],
+  captcha: [
+    { required: true, message: '请输入验证码' },
+  ],
+}
+
+const login = async (payload: Json<unknown>) => {
+  const { ok, data } = await useRequest().auth.login(payload)
+  if (!ok) {
+    console.info('failed')
+  }
+  console.info(data)
+}
 </script>
 
 <template>
   <div id="container">
-    <header><label>xxx后台管理系统</label></header>
+    <header><label>{{ title }}</label></header>
     <main>
-      <a-form>
-        <a-form-item>
-          <a-input placeholder="请输入用户名" size="large">
-            <template #prefix>
-              <UserOutlined />
-            </template>
-          </a-input>
-        </a-form-item>
-        <a-form-item>
-          <a-input-password type="password" size="large" placeholder="请输入密码">
-            <template #prefix>
-              <LockOutlined />
-            </template>
-          </a-input-password>
-        </a-form-item>
-        <a-form-item>
-          <a-row >
+      <antd-form
+        :label-col="{ span: 0 }"
+        :wrapper-col="{ span: 24 }"
+        :items="items"
+        :values="values"
+        :rules="rules"
+        :button="{ text: '登录', type: 'primary', size: 'large', block: true }"
+        @on-submit="login"
+      >
+        <template #custom ="{ item, state }">
+          <a-row v-if="item.name === 'captcha'">
             <a-col :span="16">
-              <a-input type="password" size="large" placeholder="请输入验证码">
+              <a-input :size="item.size" :placeholder="item.placeholder" v-model:value="state['captcha']">
                 <template #prefix>
-                  <SafetyOutlined />
+                  <SafetyOutlined style="color: #ccc;"/>
                 </template>
               </a-input>
             </a-col>
@@ -34,13 +83,8 @@ import { UserOutlined, LockOutlined, SafetyOutlined } from '@ant-design/icons-vu
               <img src="https://n5gm.wanyuenet.com/captcha/math?i23UYInH" style="height: 100%;width: 100%;">
             </a-col>
           </a-row>
-        </a-form-item>
-        <a-form-item>
-          <a-button type="primary" size="large" block>
-            登录
-          </a-button>
-        </a-form-item>
-      </a-form>
+        </template>
+      </antd-form>
     </main>
   </div>
   <footer>
@@ -68,7 +112,6 @@ header {
 }
 
 header label {
-  color: #fff;
   font-size: 1.4rem;
 }
 
