@@ -53,8 +53,7 @@ const rules = {
 const login = async (payload: JsonData) => {
   const { ok, msg, data } = await useRequest().auth.login(payload)
   if (!ok) {
-    error(msg)
-    return
+    return error(msg)
   }
   useToken().set(data.token)
   success('登录成功')
