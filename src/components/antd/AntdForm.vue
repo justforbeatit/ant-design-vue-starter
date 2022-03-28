@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, toRaw } from 'vue'
+import { useRouter } from 'vue-router';
 import { Form } from 'ant-design-vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import type { FormItem, FormItemSize, FormItemButton, FormItemButtonType, FormItemRule } from '@/types/antd'
+import { success } from '@/utils/message';
 
 const props = withDefaults(defineProps<
   {
@@ -12,6 +14,8 @@ const props = withDefaults(defineProps<
     labelCol?: { span: number },
     wrapperCol?: { span: number },
     button?: FormItemButton | null,
+    submit?: (payload: JsonData) => PromiseResponse,
+    jumpTo?: { name: string, params?: JsonData } | null,
   }
 >(), {
     rules: () => ({}),
@@ -29,21 +33,32 @@ const props = withDefaults(defineProps<
 
 const emits = defineEmits<
   {
-    (e: 'onSubmit', payload: JsonData): void,
+    (e: 'onValidated', payload: JsonData): void,
   }
 >()
 
 const state = ref(props.values)
 const rules = ref(props.rules)
 const loading = ref(false)
+const router = useRouter()
 
 const { validate, validateInfos } = Form.useForm(state, rules)
 
 const onSubmit = () => {
+  const { button, submit, jumpTo } = props
   validate().then(() => {
     loading.value = true
-    emits('onSubmit', toRaw(state.value))
-    setTimeout(() => {
+    setTimeout(async () => {
+      emits('onValidated', toRaw(state.value))
+      if (submit) {
+        const { ok, data } = await submit(toRaw(state.value))
+        const msg = (<JsonData>data).msg
+        if (!ok) {
+          return
+        }
+        success(msg ?? `${button?.text || ''}成功`)
+        jumpTo && router.push(jumpTo)
+      }
       loading.value = false
     }, 2000)
   }).catch(() => {

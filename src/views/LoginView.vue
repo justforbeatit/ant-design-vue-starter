@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { SafetyOutlined } from '@ant-design/icons-vue'
-import AntdForm from '@/components/AntdForm.vue'
+import AntdForm from '@/components/antd/AntdForm.vue'
 import type {FormItem} from '@/types/antd';
 import {useRequest} from '@/utils/http/core';
+import {success} from '@/utils/message';
+import {useRouter} from 'vue-router';
 
 const title = import.meta.env.VITE_APP_TITLE
+const router = useRouter()
 
 const items: FormItem[] = [{
   type: 'input',
@@ -49,10 +52,13 @@ const rules = {
 const login = async (payload: JsonData) => {
   const { ok, data } = await useRequest().auth.login(payload)
   if (!ok) {
-    console.info('failed')
+    console.info(data)
+    return
   }
-  console.info(data)
+  success('登录成功')
+  router.push({ name: 'home' })
 }
+
 </script>
 
 <template>
@@ -66,12 +72,12 @@ const login = async (payload: JsonData) => {
         :values="values"
         :rules="rules"
         :button="{ text: '登录', type: 'primary', size: 'large', block: true }"
-        @on-submit="login"
+        @on-validated="login"
       >
         <template #custom ="{ item, state }">
           <a-row v-if="item.name === 'captcha'">
             <a-col :span="16">
-              <a-input :size="item.size" :placeholder="item.placeholder" v-model:value="state['captcha']">
+              <a-input :size="item.size" :placeholder="item.placeholder" v-model:value="state[item.name]">
                 <template #prefix>
                   <SafetyOutlined style="color: #ccc;"/>
                 </template>
