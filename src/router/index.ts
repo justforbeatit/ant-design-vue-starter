@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { autoload } from '@/utils/route'
+
+autoload()
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

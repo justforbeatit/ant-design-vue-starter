@@ -5,7 +5,7 @@ import type {FormItem} from '@/types/antd';
 import {useRequest} from '@/utils/http/core';
 import {error, success} from '@/utils/message';
 import {useRouter} from 'vue-router';
-import {useToken} from '@/utils/token';
+import {setToken} from '@/utils/token';
 
 const title = import.meta.env.VITE_APP_TITLE
 const router = useRouter()
@@ -55,7 +55,7 @@ const login = async (payload: JsonData) => {
   if (!ok) {
     return error(msg)
   }
-  useToken().set(data.token)
+  setToken(data.token)
   success('登录成功')
   router.push({ name: 'home' })
 }

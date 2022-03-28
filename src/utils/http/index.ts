@@ -1,15 +1,14 @@
 import type {ApiResponseReturn} from "@/utils/http/types";
 import type {AfterFetchContext, OnFetchErrorContext} from "@vueuse/core";
 import {error, warning} from "../message";
-import {useToken} from "../token";
+import {getToken, removeToken} from "../token";
 
 export function useBaseUrl(): string {
   return import.meta.env.VITE_APP_URL
 }
 
 export function useHeaders() {
-  const token = useToken().get()
-  return { Authorization: `Bearer ${token}` }
+  return { Authorization: `Bearer ${getToken()}` }
 }
 
 export function asResponseOk(response: ApiResponseReturn): boolean {
@@ -25,6 +24,7 @@ export function asServerError(response: OnFetchErrorContext): boolean {
 }
 
 export function onUnauthorized(): void {
+  removeToken()
   warning("会话已失效，请重新登录")
   window.location.assign(`${useBaseUrl()}/auth/login`)
 }
