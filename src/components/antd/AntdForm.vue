@@ -6,6 +6,9 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import type { FormItem, FormItemSize, FormItemButton, FormItemButtonType, FormItemRule } from '@/types/antd'
 import { success } from '@/utils/message';
 
+const loading = ref(false)
+const router = useRouter()
+
 const props = withDefaults(defineProps<
   {
     items: Array<FormItem>,
@@ -39,8 +42,6 @@ const emits = defineEmits<
 
 const state = ref(props.values)
 const rules = ref(props.rules)
-const loading = ref(false)
-const router = useRouter()
 
 const { validate, validateInfos } = Form.useForm(state, rules)
 
@@ -51,8 +52,7 @@ const onSubmit = () => {
     setTimeout(async () => {
       emits('onValidated', toRaw(state.value))
       if (submit) {
-        const { ok, data } = await submit(toRaw(state.value))
-        const msg = (<JsonData>data).msg
+        const { ok, msg } = await submit(toRaw(state.value))
         if (!ok) {
           return
         }

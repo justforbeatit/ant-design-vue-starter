@@ -3,8 +3,9 @@ import { SafetyOutlined } from '@ant-design/icons-vue'
 import AntdForm from '@/components/antd/AntdForm.vue'
 import type {FormItem} from '@/types/antd';
 import {useRequest} from '@/utils/http/core';
-import {success} from '@/utils/message';
+import {error, success} from '@/utils/message';
 import {useRouter} from 'vue-router';
+import {useToken} from '@/utils/token';
 
 const title = import.meta.env.VITE_APP_TITLE
 const router = useRouter()
@@ -50,15 +51,15 @@ const rules = {
 }
 
 const login = async (payload: JsonData) => {
-  const { ok, data } = await useRequest().auth.login(payload)
+  const { ok, msg, data } = await useRequest().auth.login(payload)
   if (!ok) {
-    console.info(data)
+    error(msg)
     return
   }
+  useToken().set(data.token)
   success('登录成功')
   router.push({ name: 'home' })
 }
-
 </script>
 
 <template>

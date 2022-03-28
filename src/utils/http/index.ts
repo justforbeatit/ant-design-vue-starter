@@ -1,12 +1,14 @@
 import type {ApiResponseReturn} from "@/utils/http/types";
 import type {AfterFetchContext, OnFetchErrorContext} from "@vueuse/core";
+import {error, warning} from "../message";
+import {useToken} from "../token";
 
 export function useBaseUrl(): string {
   return import.meta.env.VITE_APP_URL
 }
 
 export function useHeaders() {
-  const token = 'Yet nothing provided '
+  const token = useToken().get()
   return { Authorization: `Bearer ${token}` }
 }
 
@@ -23,10 +25,10 @@ export function asServerError(response: OnFetchErrorContext): boolean {
 }
 
 export function onUnauthorized(): void {
-  console.info('afterUnauthorized')
-  //window.location.assign('https://www.google.com')
+  warning("会话已失效，请重新登录")
+  window.location.assign(`${useBaseUrl()}/auth/login`)
 }
 
 export function onServerError(): void {
-  console.error('服务器繁忙，请稍后再试');
+  error('服务器繁忙，请稍后再试');
 }
