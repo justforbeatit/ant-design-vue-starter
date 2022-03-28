@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import { Form } from 'ant-design-vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import type { FormItem, FormItemSize, FormItemButton, FormItemButtonType, FormItemRule } from '@/types/antd'
-import { success } from '@/utils/message';
+import { error, success } from '@/utils/message';
 
 const loading = ref(false)
 const router = useRouter()
@@ -54,7 +54,7 @@ const onSubmit = () => {
       if (submit) {
         const { ok, msg } = await submit(toRaw(state.value))
         if (!ok) {
-          return
+          return error(msg)
         }
         success(msg ?? `${button?.text || ''}成功`)
         jumpTo && router.push(jumpTo)
