@@ -58,8 +58,8 @@ const onSubmit = () => {
         }
         success(msg ?? `${button?.text || ''}成功`)
         jumpTo && router.push(jumpTo)
+        loading.value = false
       }
-      loading.value = false
     }, 2000)
   }).catch(() => {
     loading.value = false
