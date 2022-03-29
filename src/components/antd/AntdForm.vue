@@ -5,6 +5,7 @@ import { Form } from 'ant-design-vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import type { FormItem, FormItemSize, FormItemButton, FormItemButtonType, FormItemRule } from '@/types/antd'
 import { error, success } from '@/utils/message';
+import {useEventListener} from '@vueuse/core';
 
 const loading = ref(false)
 const router = useRouter()
@@ -31,6 +32,7 @@ const props = withDefaults(defineProps<
       size: 'default',
       disabled: false,
       block: false,
+      enterable: false,
     }),
 })
 
@@ -42,10 +44,9 @@ const emits = defineEmits<
 
 const state = ref(props.values)
 const rules = ref(props.rules)
-
 const { validate, validateInfos } = Form.useForm(state, rules)
 
-const onSubmit = () => {
+const triggerSubmit = () => {
   const { button, submit, jumpTo } = props
   validate().then(() => {
     loading.value = true
@@ -58,12 +59,19 @@ const onSubmit = () => {
         }
         success(msg ?? `${button?.text || ''}成功`)
         jumpTo && router.push(jumpTo)
-        loading.value = false
       }
     }, 2000)
   }).catch(() => {
     loading.value = false
   })
+}
+
+defineExpose<{
+  triggerSubmit: () => void,
+}>()
+
+if (props.button?.enterable) {
+  useEventListener('keyup', (e: KeyboardEvent) => (e.code === 'Enter') && triggerSubmit())
 }
 </script>
 
@@ -97,7 +105,7 @@ const onSubmit = () => {
           :size="(button as FormItemButton).size as FormItemSize"
           :block="(button as FormItemButton).block"
           :loading="loading"
-          @click="onSubmit"
+          @click="triggerSubmit"
         >
           {{(button as FormItemButton).text}}
         </a-button>

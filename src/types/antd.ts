@@ -22,4 +22,5 @@ export interface FormItemButton {
   size?: FormItemSize,
   disabled?: boolean,
   block?: boolean,
+  enterable?: boolean,
 }

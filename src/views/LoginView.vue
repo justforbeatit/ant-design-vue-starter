@@ -71,7 +71,7 @@ const login = async (payload: JsonData) => {
         :items="items"
         :values="values"
         :rules="rules"
-        :button="{ text: '登录', type: 'primary', size: 'large', block: true }"
+        :button="{ text: '登录', type: 'primary', size: 'large', block: true, enterable: true }"
         @on-validated="login"
       >
         <template #custom ="{ item, state }">
