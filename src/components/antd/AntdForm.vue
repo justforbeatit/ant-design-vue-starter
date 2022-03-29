@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { ref, toRaw } from 'vue'
+import { nextTick, ref, toRaw } from 'vue'
 import { useRouter } from 'vue-router';
 import { Form } from 'ant-design-vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import type { FormItem, FormItemSize, FormItemButton, FormItemButtonType, FormItemRule } from '@/types/antd'
 import { error, success } from '@/utils/message';
 import {useEventListener} from '@vueuse/core';
-
-const loading = ref(false)
-const router = useRouter()
 
 const props = withDefaults(defineProps<
   {
@@ -20,6 +17,7 @@ const props = withDefaults(defineProps<
     button?: FormItemButton | null,
     submit?: (payload: JsonData) => PromiseResponse,
     jumpTo?: { name: string, params?: JsonData } | null,
+    enterable?: boolean,
   }
 >(), {
     rules: () => ({}),
@@ -32,8 +30,8 @@ const props = withDefaults(defineProps<
       size: 'default',
       disabled: false,
       block: false,
-      enterable: false,
     }),
+    enterable: false,
 })
 
 const emits = defineEmits<
@@ -44,6 +42,8 @@ const emits = defineEmits<
 
 const state = ref(props.values)
 const rules = ref(props.rules)
+const loading = ref(false)
+const router = useRouter()
 const { validate, validateInfos } = Form.useForm(state, rules)
 
 const triggerSubmit = () => {
@@ -70,9 +70,11 @@ defineExpose<{
   triggerSubmit: () => void,
 }>()
 
-if (props.button?.enterable) {
-  useEventListener('keyup', (e: KeyboardEvent) => (e.code === 'Enter') && triggerSubmit())
-}
+nextTick(() => {
+  if (props.enterable) {
+    useEventListener('keyup', (e: KeyboardEvent) => (e.code === 'Enter') && triggerSubmit())
+  }
+})
 </script>
 
 <template>
@@ -92,9 +94,18 @@ if (props.button?.enterable) {
         >
           <template #prefix v-if="item.prefix && item.prefix.type === 'icon'">
             <UserOutlined v-if="item.prefix?.value === 'UserOutlined'" class="icon-gray" />
-            <LockOutlined v-if="item.prefix?.value === 'LockOutlined'" class="icon-gray" />
           </template>
         </a-input>
+        <a-input-password
+          v-else-if="item.type === 'password'"
+          :placeholder="item?.placeholder ? item.placeholder : item?.label ? `请输入${item.placeholder}` : '' "
+          :size="item.size as FormItemSize || 'default'"
+          v-model:value="(state as any)[item.name]"
+        >
+          <template #prefix v-if="item.prefix && item.prefix.type === 'icon'">
+            <LockOutlined v-if="item.prefix?.value === 'LockOutlined'" class="icon-gray" />
+          </template>
+        </a-input-password>
         <slot name="custom" v-if="item.type === 'custom'" :item="item" :state="state"></slot>
       </a-form-item>
     </template>

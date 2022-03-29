@@ -17,7 +17,7 @@ const items: FormItem[] = [{
   size: 'large',
   prefix: { type: 'icon', value: 'UserOutlined' }
 }, {
-  type: 'input',
+  type: 'password',
   name: 'password',
   placeholder: '请输入密码',
   size: 'large',
@@ -71,8 +71,9 @@ const login = async (payload: JsonData) => {
         :items="items"
         :values="values"
         :rules="rules"
-        :button="{ text: '登录', type: 'primary', size: 'large', block: true, enterable: true }"
+        :button="{ text: '登录', type: 'primary', size: 'large', block: true}"
         @on-validated="login"
+        enterable
       >
         <template #custom ="{ item, state }">
           <a-row v-if="item.name === 'captcha'">
