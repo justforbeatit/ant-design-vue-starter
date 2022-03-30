@@ -2,7 +2,6 @@
 import { nextTick, ref, toRaw } from 'vue'
 import { useRouter } from 'vue-router';
 import { Form } from 'ant-design-vue';
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import type { FormItem, FormItemSize, FormItemButton, FormItemButtonType, FormItemRule } from '@/types/antd'
 import { error, success } from '@/utils/message';
 import {useEventListener} from '@vueuse/core';

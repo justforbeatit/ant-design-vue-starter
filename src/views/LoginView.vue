@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { SafetyOutlined } from '@ant-design/icons-vue'
 import AntdForm from '@/components/antd/AntdForm.vue'
 import type {FormItem} from '@/types/antd';
 import {useRequest} from '@/utils/http/core';
 import {error, success} from '@/utils/message';
 import {useRouter} from 'vue-router';
-import {useStorage} from '@/utils/storage';
+import {useStorage} from '@/utils/store';
 
 const title = import.meta.env.VITE_APP_TITLE
 const router = useRouter()

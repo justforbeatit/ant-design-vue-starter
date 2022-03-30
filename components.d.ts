@@ -21,7 +21,10 @@ declare module 'vue' {
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
+    LockOutlined: typeof import('@ant-design/icons-vue')['LockOutlined']
+    SafetyOutlined: typeof import('@ant-design/icons-vue')['SafetyOutlined']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
+    UserOutlined: typeof import('@ant-design/icons-vue')['UserOutlined']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
 }

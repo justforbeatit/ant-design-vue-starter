@@ -11,6 +11,11 @@ export default defineConfig({
     Components({
       resolvers: [
         AntDesignVueResolver(),
+        (name) => {
+          if (name.endsWith('Outlined')) {
+            return { importName: name, path: '@ant-design/icons-vue' }
+          }
+        }
       ]
     })
   ],
