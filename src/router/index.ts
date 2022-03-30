@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { autoload } from '@/utils/route'
+import autoload from '@/utils/router'
 
-autoload()
+console.info(autoload())
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,7 +9,10 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/HomeView.vue')
+      component: () => import('@/views/HomeView.vue'),
+      children: [
+        ...autoload()
+      ]
     },
     {
       path: '/auth/login',

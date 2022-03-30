@@ -3,8 +3,7 @@
 </script>
 
 <template>
-  <h1>The Home Page !</h1>
-  <router-view></router-view>
+  <h1>TestCreateView</h1>
 </template>
 
 <style scoped>

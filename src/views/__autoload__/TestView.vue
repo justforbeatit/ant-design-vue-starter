@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <h1>The Home Page !</h1>
+  <h1>The test component which is autoloaded !</h1>
   <router-view></router-view>
 </template>
 
