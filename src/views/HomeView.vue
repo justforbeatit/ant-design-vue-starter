@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 
+const title = import.meta.env.VITE_APP_TITLE
 const theme = import.meta.env.VITE_APP_THEME
 const selectedKeys = ref(['1'])
 const collapsed = ref(false)
@@ -19,7 +20,7 @@ const toggleCollapse = () => collapsed.value = !collapsed.value
       :theme="theme"
     >
       <div class="logo">
-        <span v-if="!collapsed">xxx后台管理系统</span>
+        <span v-if="!collapsed">{{ title }}</span>
         <span v-else>LOGO</span>
       </div>
       <a-menu :theme="theme" mode="inline" v-model:selectedKeys="selectedKeys">
