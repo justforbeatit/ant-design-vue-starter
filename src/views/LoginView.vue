@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AntdForm from '@/components/antd/AntdForm.vue'
-import type {FormItem} from '@/types/antd';
+import AntForm from '@/components/AntForm.vue'
+import type {FormItem} from '@/types/ant';
 import {useRequest} from '@/utils/http/core';
 import {error, success} from '@/utils/message';
 import {useRouter} from 'vue-router';
@@ -64,7 +64,7 @@ const login = async (payload: JsonData) => {
   <div id="container">
     <header><label>{{ title }}</label></header>
     <main>
-      <antd-form
+      <ant-form
         :label-col="{ span: 0 }"
         :wrapper-col="{ span: 24 }"
         :items="items"
@@ -88,7 +88,7 @@ const login = async (payload: JsonData) => {
             </a-col>
           </a-row>
         </template>
-      </antd-form>
+      </ant-form>
     </main>
   </div>
   <footer>

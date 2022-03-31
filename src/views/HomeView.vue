@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from 'vue';
+import {ref} from 'vue'
 
 const title = import.meta.env.VITE_APP_TITLE
 const theme = import.meta.env.VITE_APP_THEME
@@ -12,7 +12,6 @@ const toggleCollapse = () => collapsed.value = !collapsed.value
 <template>
   <a-layout>
     <a-layout-sider
-      breakpoint="lg"
       collapsible
       v-model:collapsed="collapsed"
       :trigger="null"
