@@ -21,6 +21,7 @@ export default function() {
         {
           '@vueuse/core': [
             'createFetch',
+            'useFullscreen',
             ['useStorage', 'vueuseStorage'],
             'StorageSerializers',
             'useEventListener',

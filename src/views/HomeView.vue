@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import {ref} from 'vue'
-
 const title = import.meta.env.VITE_APP_TITLE
 const theme = import.meta.env.VITE_APP_THEME
-const selectedKeys = ref(['1'])
+const container = ref(null)
 const collapsed = ref(false)
+const selectedKeys = ref(['1'])
 
-const toggleCollapse = () => collapsed.value = !collapsed.value
+const toggleSider = () => collapsed.value = !collapsed.value
+
+const { toggle: toggleFullscreen } = useFullscreen(container.value)
 </script>
 
 <template>
-  <a-layout>
+  <a-layout ref="container">
     <a-layout-sider
       collapsible
       v-model:collapsed="collapsed"
@@ -71,20 +72,34 @@ const toggleCollapse = () => collapsed.value = !collapsed.value
       </a-menu>
     </a-layout-sider>
     <a-layout :style="{ marginLeft: collapsed ? '80px' : '200px' }">
-      <a-layout-header style="background: #fff; padding: 0;">
-        <MenuUnfoldOutlined v-if="collapsed" class="trigger" @click="toggleCollapse" />
-        <MenuFoldOutlined v-else class="trigger" @click="toggleCollapse" />
+      <a-layout-header class="layout-header">
+        <div class="layout-header-toggle">
+          <MenuUnfoldOutlined v-if="collapsed" class="trigger" @click="toggleSider" />
+          <MenuFoldOutlined v-else class="trigger" @click="toggleSider" />
+        </div>
+        <div class="layout-header-actions">
+          <FullscreenOutlined
+            @click="toggleFullscreen"
+            style="margin-right: 1.4rem;font-size: 1rem;cursor: pointer;"
+          />
+          <a-dropdown>
+            <span>
+              <UserOutlined /> 管理员
+              <DownOutlined style="cursor: pointer;" />
+            </span>
+            <template #overlay>
+              <a-menu>
+                <a-menu-item>
+                  <LogoutOutlined />
+                  <span>退出登录</span>
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </div>
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
-        <div :style="{ padding: '24px', background: '#fff', textAlign: 'center' }">
-          <p>xxxxxxxxxx</p>
-          <p>xxxxxxxxxx</p>
-          <p>xxxxxxxxxx</p>
-          <p>xxxxxxxxxx</p>
-          <p>xxxxxxxxxx</p>
-          <p>xxxxxxxxxx</p>
-          <p>xxxxxxxxxx</p>
-          <p>xxxxxxxxxx</p>
+        <div :style="{ padding: '24px', background: '#fff', minHeight: '80vh' }">
           <p>xxxxxxxxxx</p>
           <p>xxxxxxxxxx</p>
           <p>xxxxxxxxxx</p>
@@ -124,5 +139,14 @@ const toggleCollapse = () => collapsed.value = !collapsed.value
 }
 .trigger:hover {
   color: #1890ff;
+}
+.layout-header {
+  background: #fff;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+.layout-header-actions {
+  margin-right: 24px;
 }
 </style>
