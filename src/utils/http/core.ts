@@ -1,12 +1,11 @@
 import type { AfterFetchContext, OnFetchErrorContext } from "@vueuse/core";
-import { createFetch } from "@vueuse/core";
 import {
   useHeaders, asResponseOk, useBaseUrl, asUnauthorized, onUnauthorized, asServerError, onServerError
 } from '@/utils/http'
-import type {AllowedHttpMethods} from "@/utils/http/types";
+import type {AllowedHttpMethods} from "@/utils/types/http";
 import apis from '@/api'
 
-const httpClient = (url: string, method: AllowedHttpMethods, data: Json<unknown> = {}) => {
+const httpClient = (url: string, method: AllowedHttpMethods, data: JsonData = {}) => {
   return new Promise((resolve: CallableFunction) => {
     createFetch({
       baseUrl: useBaseUrl(),
@@ -33,8 +32,7 @@ const httpClient = (url: string, method: AllowedHttpMethods, data: Json<unknown>
   })
 }
 
-// eslint-disable-next-line
-export function useRequest(): Json<any> {
+export function useRequest(): JsonData {
   return new Proxy({
     httpClient
   }, {

@@ -1,6 +1,3 @@
-import {ref} from "vue";
-import { StorageSerializers, useStorage as vueuseStorage } from "@vueuse/core";
-
 export function useStorage() {
   return new Proxy({}, {
     //eslint-disable-next-line @typescript-eslint/no-explicit-any

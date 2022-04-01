@@ -1,7 +1,6 @@
-import type {ApiResponseReturn} from "@/utils/http/types";
-import type {AfterFetchContext, OnFetchErrorContext} from "@vueuse/core";
-import {error, warning} from "../message";
-import {useStorage} from "../store";
+import type {ApiResponseReturn} from "@/utils/types/http"
+import type {AfterFetchContext, OnFetchErrorContext} from "@vueuse/core"
+import {useStorage} from "../store"
 
 export function useBaseUrl(): string {
   return import.meta.env.VITE_APP_URL

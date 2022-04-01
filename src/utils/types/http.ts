@@ -9,6 +9,5 @@ export interface ApiConfigOptions {
 export interface ApiResponseReturn {
   code: string | number,
   msg: string,
-  // eslint-disable-next-line
-  data: Json<unknown> | Array<Json<unknown>>
+  data: JsonData | Array<JsonData>
 }

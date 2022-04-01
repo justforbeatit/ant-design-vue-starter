@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { nextTick, ref, toRaw } from 'vue'
-import { useRouter } from 'vue-router'
 import { Form } from 'ant-design-vue'
-import type { FormItem, FormItemSize, FormItemButton, FormItemButtonType, FormItemRule } from '@/types/ant'
-import { error, success } from '@/utils/message'
-import {useEventListener} from '@vueuse/core'
+import type { FormItem, FormItemSize, FormItemButton, FormItemButtonType, FormItemRule } from '@/utils/types/ant'
 
 const props = withDefaults(defineProps<
   {

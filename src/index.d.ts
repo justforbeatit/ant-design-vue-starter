@@ -1,4 +1,3 @@
-import { useRequest } from '@/utils/http/core'
 import { ApiRequestMethods } from './api/type'
 import { useStorage } from '@/utils/storage'
 
@@ -14,7 +13,7 @@ declare module '@/utils/http/core' {
   export function useRequest(): ApiRequestMethods
 }
 
-declare module '@/utils/storage' {
+declare module '@/utils/store' {
   export function useStorage(): {
     token: (value?: undefined | null | string) => string | void
   }

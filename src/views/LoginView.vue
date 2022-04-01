@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import AntForm from '@/components/AntForm.vue'
-import type {FormItem} from '@/types/ant';
-import {useRequest} from '@/utils/http/core';
-import {error, success} from '@/utils/message';
-import {useRouter} from 'vue-router';
-import {useStorage} from '@/utils/store';
+import AntForm from '@/utils/ant/AntForm.vue'
+import type {FormItem} from '@/utils/types/ant'
 
 const title = import.meta.env.VITE_APP_TITLE
 const router = useRouter()
