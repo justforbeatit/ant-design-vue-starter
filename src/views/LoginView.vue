@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import AntForm from '@/utils/ant/AntForm.vue'
 import type {FormItem} from '@/utils/types/ant'
 
 const title = import.meta.env.VITE_APP_TITLE
+const copyright = import.meta.env.VITE_APP_COPYRIGHT
 const router = useRouter()
 
 const items: FormItem[] = [{
@@ -58,7 +58,10 @@ const login = async (payload: JsonData) => {
 
 <template>
   <div id="container">
-    <header><label>{{ title }}</label></header>
+    <header>
+      <ant-logo width="60px" height="60px" />
+      <label>{{ title }}</label>
+    </header>
     <main>
       <ant-form
         :label-col="{ span: 0 }"
@@ -88,7 +91,7 @@ const login = async (payload: JsonData) => {
     </main>
   </div>
   <footer>
-    <a-typography-text type="secondary">&copy;2022版权所有</a-typography-text>
+    <a-typography-text type="secondary" v-if="copyright">&copy;{{ copyright }}</a-typography-text>
   </footer>
 </template>
 
@@ -122,7 +125,6 @@ main {
 
 footer {
   height: 4rem;
-  font-size: 0.8rem;
   color: #ccc;
   position: absolute;
   width: 100%;

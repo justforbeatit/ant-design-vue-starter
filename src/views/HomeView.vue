@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const title = import.meta.env.VITE_APP_TITLE
 const theme = import.meta.env.VITE_APP_THEME
+const copyright = import.meta.env.VITE_APP_COPYRIGHT
+
 const container = ref(null)
 const collapsed = ref(false)
 const selectedKeys = ref(['1'])
@@ -34,8 +36,8 @@ const onTabChanged = (key: string) => {
       :theme="theme"
     >
       <div class="logo">
-        <span v-if="!collapsed">{{ title }}</span>
-        <span v-else>LG</span>
+        <span v-if="!collapsed"><ant-logo />{{ title }}</span>
+        <span v-else ><ant-logo /></span>
       </div>
       <a-menu :theme="theme" mode="inline" v-model:selectedKeys="selectedKeys">
         <a-menu-item key="1">
@@ -118,8 +120,7 @@ const onTabChanged = (key: string) => {
       </a-layout-header>
       <a-layout-content>
         <div :style="{ paddingTop: '0.5rem', minHeight: '90vh', background: '#fff'}">
-          <a-tabs
-            :tabBarStyle="{ paddingLeft: '1rem' }"
+          <a-tabs :tabBarStyle="{ paddingLeft: '1rem' }"
             v-model:activiteKey="activiteKey"
             type="editable-card"
             @change="onTabChanged"
@@ -133,7 +134,7 @@ const onTabChanged = (key: string) => {
         </div>
       </a-layout-content>
       <a-layout-footer style="text-align: center">
-        &copy2022 北京万悦信息科技有限公司
+        <a-typography-text type="secondary" v-if="copyright">&copy;{{ copyright }}</a-typography-text>
       </a-layout-footer>
     </a-layout>
   </a-layout>
@@ -145,7 +146,7 @@ const onTabChanged = (key: string) => {
   line-height: 64px;
   text-align: center;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #fff;
 }
 .trigger {

@@ -96,6 +96,7 @@ nextTick(() => {
           :placeholder="item?.placeholder ? item.placeholder : item?.label ? `请输入${item.placeholder}` : '' "
           :size="item.size as FormItemSize || 'default'"
           v-model:value="(state as any)[item.name]"
+          autocomplete
         >
           <template #prefix v-if="item.prefix && item.prefix.type === 'icon'">
             <LockOutlined v-if="item.prefix?.value === 'LockOutlined'" class="icon-gray" />
