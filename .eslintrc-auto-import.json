@@ -56,6 +56,7 @@
     "useSlots": true,
     "useState": true,
     "useStorage": true,
+    "useToggle": true,
     "vueuseStorage": true,
     "warning": true,
     "watch": true,
