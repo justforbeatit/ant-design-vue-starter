@@ -73,7 +73,7 @@ const login = async (payload: JsonData) => {
         @on-validated="login"
         enterable
       >
-        <template #custom ="{ item, state }">
+        <template #custom="{ item, state }">
           <a-row v-if="item.name === 'captcha'">
             <a-col :span="16">
               <a-input :size="item.size" :placeholder="item.placeholder" v-model:value="state[item.name]">

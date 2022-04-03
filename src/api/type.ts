@@ -6,5 +6,8 @@ export interface ApiRequestMethods {
   users: {
     query: () => PromiseResponse
     queryRow: (data: JsonData) => PromiseResponse
-  }
+  },
+  menus: {
+    query: () => PromiseResponse
+  },
 }

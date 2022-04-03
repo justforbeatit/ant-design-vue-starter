@@ -1,16 +1,18 @@
 <script setup lang="ts">
+import type {MenuItem} from '@/utils/types/ant'
+
 const title = import.meta.env.VITE_APP_TITLE
 const theme = import.meta.env.VITE_APP_THEME
-const copyright = import.meta.env.VITE_APP_COPYRIGHT
+const copyright = import.meta.env?.VITE_APP_COPYRIGHT
 
 const container = ref(null)
 const collapsed = ref(false)
-const selectedKeys = ref(['1'])
+const selectedKeys = ref([1])
 const activiteKey = ref('1')
+const menus = ref<MenuItem[]>()
 
 const panes = ref([
-  { title: 'Workspace1', content: 'Content of Tab 1', key: '1' },
-  { title: 'Workspace2', content: 'Content of Tab 2', key: '2' },
+  { title: '工作台', key: '1' },
 ])
 
 const toggleSider = useToggle(collapsed)
@@ -23,6 +25,10 @@ const onTabChanged = (key: string) => {
   activiteKey.value = key
 }
 
+onMounted(async () => {
+  const { data }= await useRequest().menus.query()
+  menus.value = data
+})
 </script>
 
 <template>
@@ -36,55 +42,31 @@ const onTabChanged = (key: string) => {
       :theme="theme"
     >
       <div class="logo">
-        <span v-if="!collapsed"><ant-logo />{{ title }}</span>
-        <span v-else ><ant-logo /></span>
+        <span>
+          <ant-logo />
+          <template v-if="!collapsed">{{ title }}</template>
+        </span>
       </div>
       <a-menu :theme="theme" mode="inline" v-model:selectedKeys="selectedKeys">
-        <a-menu-item key="1">
-          <UserOutlined />
-          <span class="nav-text">菜单一</span>
-        </a-menu-item>
-        <a-sub-menu key="2">
-          <template #title>
-            <span slot="title">
-              <SettingOutlined />
-              <span class="nav-text">菜单二</span>
-            </span>
+        <template v-for="menu in menus" :key="menu.key">
+          <a-menu-item v-if="!menu.children" :key="menu.id">
+            <ant-icon v-if="menu.icon" :is="menu.icon" />
+            <span class="nav-text">{{ menu.name }}</span>
+          </a-menu-item>
+          <template v-else>
+            <a-sub-menu :key="menu.id">
+              <template #title>
+                <span slot="title">
+                  <ant-icon v-if="menu.icon" :is="menu.icon" />
+                  <span class="nav-text">{{ menu.name }}</span>
+                </span>
+              </template>
+              <a-menu-item v-for="submenu in menu.children" :key="submenu.id">
+                <span class="nav-text">{{ submenu.name }}</span>
+              </a-menu-item>
+            </a-sub-menu>
           </template>
-          <a-menu-item key="2-1">
-            <span class="nav-text">菜单二01</span>
-          </a-menu-item>
-          <a-menu-item key="2-2">
-            <span class="nav-text">菜单二02</span>
-          </a-menu-item>
-          <a-menu-item key="2-3">
-            <span class="nav-text">菜单二03</span>
-          </a-menu-item>
-        </a-sub-menu>
-        <a-menu-item key="3">
-          <UploadOutlined />
-          <span class="nav-text">菜单三</span>
-        </a-menu-item>
-        <a-menu-item key="4">
-          <BarChartOutlined />
-          <span class="nav-text">菜单四</span>
-        </a-menu-item>
-        <a-menu-item key="5">
-          <AppstoreOutlined />
-          <span class="nav-text">菜单五</span>
-        </a-menu-item>
-        <a-menu-item key="6">
-          <TeamOutlined />
-          <span class="nav-text">菜单六</span>
-        </a-menu-item>
-        <a-menu-item key="7">
-          <ShopOutlined />
-          <span class="nav-text">菜单七</span>
-        </a-menu-item>
-        <a-menu-item key="8">
-          <CloudOutlined />
-          <span class="nav-text">菜单八</span>
-        </a-menu-item>
+        </template>
       </a-menu>
     </a-layout-sider>
     <a-layout :style="{ marginLeft: collapsed ? '48px' : '200px' }">
@@ -119,7 +101,7 @@ const onTabChanged = (key: string) => {
         </div>
       </a-layout-header>
       <a-layout-content>
-        <div :style="{ paddingTop: '0.5rem', minHeight: '90vh', background: '#fff'}">
+        <div :style="{ paddingTop: '0.5rem', background: '#fff'}">
           <a-tabs :tabBarStyle="{ paddingLeft: '1rem' }"
             v-model:activiteKey="activiteKey"
             type="editable-card"
@@ -128,7 +110,11 @@ const onTabChanged = (key: string) => {
             hideAdd
           >
             <a-tab-pane v-for="pane in panes" :key="pane.key" :tab="pane.title">
-              <template v-if="pane.key === activiteKey">{{ pane.content }}</template>
+              <template v-if="pane.key === activiteKey">
+                <div id="content">
+                  <router-view />
+                </div>
+              </template>
             </a-tab-pane>
           </a-tabs>
         </div>
@@ -177,7 +163,10 @@ const onTabChanged = (key: string) => {
 .layout-header-actions {
   height: 100%;
   margin-right: 24px;
-  display: flex;
-  align-items: center;
+  line-height: 48px;
+}
+#content {
+  height: 100vh;
+  background: #f0f2f5;
 }
 </style>

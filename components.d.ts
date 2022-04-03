@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AButton: typeof import('ant-design-vue/es')['Button']
+    ACard: typeof import('ant-design-vue/es')['Card']
     ACol: typeof import('ant-design-vue/es')['Col']
     ADropdown: typeof import('ant-design-vue/es')['Dropdown']
     AForm: typeof import('ant-design-vue/es')['Form']
@@ -22,6 +23,8 @@ declare module 'vue' {
     AntdTable: typeof import('./src/components/antd/AntdTable.vue')['default']
     AntdUpload: typeof import('./src/components/antd/AntdUpload.vue')['default']
     AntForm: typeof import('./src/components/AntForm.vue')['default']
+    AntIcon: typeof import('./src/components/AntIcon.vue')['default']
+    AntIocn: typeof import('./src/components/AntIocn.vue')['default']
     AntLayout: typeof import('./src/components/AntLayout.vue')['default']
     AntLogo: typeof import('./src/components/AntLogo.vue')['default']
     AntTable: typeof import('./src/components/AntTable.vue')['default']
@@ -39,6 +42,7 @@ declare module 'vue' {
     EditOutlined: typeof import('@ant-design/icons-vue')['EditOutlined']
     FullscreenOutlined: typeof import('@ant-design/icons-vue')['FullscreenOutlined']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    HomeOutlined: typeof import('@ant-design/icons-vue')['HomeOutlined']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']

@@ -24,3 +24,11 @@ export interface FormItemButton {
   block?: boolean,
   enterable?: boolean,
 }
+
+export interface MenuItem {
+  id: string | number,
+  name: string,
+  route?: string,
+  icon?: string,
+  children?: Array<MenuItem>,
+}

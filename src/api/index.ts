@@ -1,4 +1,4 @@
-import type {ApiConfigOptions} from "@/utils/http/types";
+import type { ApiConfigOptions } from "@/utils/types/http"
 
 export default <ApiConfigOptions>{
   auth: {
@@ -7,5 +7,8 @@ export default <ApiConfigOptions>{
   users: {
     query: { url: '/api/users', method: 'get' },
     queryRow: { url: '/api/users/{id}', method: 'get' }
-  }
+  },
+  menus: {
+    query: { url: '/api/menus', method: 'get' },
+  },
 }
