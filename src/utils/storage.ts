@@ -12,17 +12,3 @@ export function useStorage() {
     }
   })
 }
-
-export function useState() {
-  return new Proxy({state: {}}, {
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
-    get(target: any, prop: string) {
-      return (value: undefined | null | string = undefined): string | void => {
-        if (value === undefined) {
-          return target.state[prop]?.value
-        }
-        target.state[prop] = ref(value)
-      }
-    }
-  })
-}

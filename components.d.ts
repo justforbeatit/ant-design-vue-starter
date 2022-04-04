@@ -23,6 +23,8 @@ declare module 'vue' {
     AntdTable: typeof import('./src/components/antd/AntdTable.vue')['default']
     AntdUpload: typeof import('./src/components/antd/AntdUpload.vue')['default']
     AntForm: typeof import('./src/components/AntForm.vue')['default']
+    AntFormItem: typeof import('./src/components/AntFormItem.vue')['default']
+    AntFormSearch: typeof import('./src/components/AntFormSearch.vue')['default']
     AntIcon: typeof import('./src/components/AntIcon.vue')['default']
     AntIocn: typeof import('./src/components/AntIocn.vue')['default']
     AntLayout: typeof import('./src/components/AntLayout.vue')['default']

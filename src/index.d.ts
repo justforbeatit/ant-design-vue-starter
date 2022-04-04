@@ -1,5 +1,5 @@
 import { ApiRequestMethods } from './api/type'
-import { useStorage } from '@/utils/storage'
+import { useStorage } from '@/utils/store'
 
 declare global {
   type Json<T> = {
@@ -13,7 +13,7 @@ declare module '@/utils/http/core' {
   export function useRequest(): ApiRequestMethods
 }
 
-declare module '@/utils/store' {
+declare module '@/utils/storage' {
   export function useStorage(): {
     token: (value?: undefined | null | string) => string | void
   }

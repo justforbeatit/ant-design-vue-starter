@@ -30,9 +30,8 @@ export default function() {
           '@/utils/http/core': [
             'useRequest'
           ],
-          '@/utils/store': [
+          '@/utils/storage': [
             'useStorage',
-            'useState'
           ],
           '@/utils/message': [
             'success',

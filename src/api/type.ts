@@ -3,11 +3,7 @@ export interface ApiRequestMethods {
     login: (data: JsonData) => PromiseResponse,
     logout: (data: JsonData) => PromiseResponse,
   },
-  users: {
-    query: () => PromiseResponse
-    queryRow: (data: JsonData) => PromiseResponse
-  },
-  menus: {
+  menu: {
     query: () => PromiseResponse
   },
 }

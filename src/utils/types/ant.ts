@@ -22,11 +22,11 @@ export interface FormItemButton {
   size?: FormItemSize,
   disabled?: boolean,
   block?: boolean,
-  enterable?: boolean,
 }
 
 export interface MenuItem {
   id: string | number,
+  pid: string | number,
   name: string,
   route?: string,
   icon?: string,

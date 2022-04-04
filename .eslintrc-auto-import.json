@@ -54,7 +54,6 @@
     "useRoute": true,
     "useRouter": true,
     "useSlots": true,
-    "useState": true,
     "useStorage": true,
     "useToggle": true,
     "vueuseStorage": true,
