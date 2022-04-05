@@ -6,6 +6,7 @@ export const useMenuStore = defineStore('menu', {
       collapsed: false,
       selected: [],
       opened: [],
+      current: { name: '', route: '' },
       data: []
     }
   },
@@ -16,6 +17,9 @@ export const useMenuStore = defineStore('menu', {
     },
     toggle() {
       this.collapsed = !this.collapsed
+    },
+    setCurrent(name: string, route: string) {
+      this.current = { name, route }
     },
   }
 })

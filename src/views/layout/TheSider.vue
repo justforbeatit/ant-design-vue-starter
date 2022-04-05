@@ -3,14 +3,14 @@ import { useMenuStore } from '@/store/menu'
 
 const theme = import.meta.env.VITE_APP_THEME
 const title = import.meta.env.VITE_APP_TITLE
-const menuState = useMenuStore()
+const { collapsed } = storeToRefs(useMenuStore())
 </script>
 
 <template>
   <a-layout-sider
     collapsible
     :collapsedWidth="48"
-    v-model:collapsed="menuState.collapsed"
+    v-model:collapsed="collapsed"
     :trigger="null"
     :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }"
     :theme="theme"
@@ -18,7 +18,7 @@ const menuState = useMenuStore()
     <div class="logo">
       <span>
         <slot name="logo"></slot>
-        <template v-if="!menuState.collapsed">{{ title }}</template>
+        <template v-if="!collapsed">{{ title }}</template>
       </span>
     </div>
     <slot name="menu"></slot>

@@ -6,7 +6,7 @@ import TheContent from './layout/TheContent.vue'
 import TheFooter from './layout/TheFooter.vue'
 import { useMenuStore } from '@/store/menu'
 
-const menuState = useMenuStore()
+const { collapsed } = storeToRefs(useMenuStore())
 </script>
 
 <template>
@@ -15,7 +15,7 @@ const menuState = useMenuStore()
       <template #logo><ant-logo /></template>
       <template #menu><the-menu /></template>
     </the-sider>
-    <a-layout class="layout-main" :style="{ marginLeft: menuState.collapsed ? '48px' : '200px' }">
+    <a-layout class="layout-main" :style="{ marginLeft: collapsed ? '48px' : '200px' }">
       <the-header />
       <the-content />
       <the-footer />

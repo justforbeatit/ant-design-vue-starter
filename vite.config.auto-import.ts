@@ -27,6 +27,9 @@ export default function() {
             'StorageSerializers',
             'useEventListener',
           ],
+          'pinia': [
+            'storeToRefs'
+          ],
           '@/utils/http/core': [
             'useRequest'
           ],

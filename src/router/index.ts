@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import autoload from '@/utils/router'
+import progress from '@/utils/progress'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +19,14 @@ const router = createRouter({
       component: () => import('@/views/LoginView.vue')
     },
   ]
+})
+
+router.beforeEach((to, from) => {
+  progress.start()
+})
+
+router.afterEach(() => {
+  progress.done()
 })
 
 export default router

@@ -39,6 +39,7 @@
     "shallowReadonly": true,
     "shallowRef": true,
     "StorageSerializers": true,
+    "storeToRefs": true,
     "success": true,
     "toRaw": true,
     "toRef": true,

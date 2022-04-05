@@ -1,14 +1,31 @@
 <script setup lang="ts">
-const activiteKey = ref('1')
-const panes = ref([
-  { title: '工作台', key: '1' },
-])
+import { useMenuStore } from '@/store/menu'
 
-const onTabEdited = () => ({})
+const router = useRouter()
+const activeKey = ref()
+const panes = ref<Array<{key: string, title: string}>>([])
+const { current: currentMenu } = storeToRefs(useMenuStore())
 
-const onTabChanged = (key: string) => {
-  activiteKey.value = key
+const onTabEdited = (targetKey: string | MouseEvent, action: string) => {
+  if (action === 'remove') {
+    panes.value = panes.value.filter(pane => pane.key !== targetKey)
+    const { key } = panes.value.at(-1)!
+    tabChangeTo(key)
+  }
 }
+
+const tabChangeTo = (key: string) => {
+  activeKey.value = key
+  router.push({ name: key })
+}
+
+watch(currentMenu, ({ name: title, route: key }) => {
+  if (!key) return
+  if (!panes.value.find(pane => pane.key === key)) {
+    panes.value.push({ key, title })
+  }
+  activeKey.value = key
+})
 </script>
 
 <template>
@@ -16,14 +33,19 @@ const onTabChanged = (key: string) => {
     <div :style="{ paddingTop: '0.5rem', background: '#fff'}">
       <a-tabs
         :tabBarStyle="{ paddingLeft: '1rem' }"
-        v-model:activiteKey="activiteKey"
+        v-model:activeKey="activeKey"
         type="editable-card"
-        @change="onTabChanged"
+        @change="tabChangeTo"
         @edit="onTabEdited"
         hideAdd
       >
-        <a-tab-pane v-for="pane in panes" :key="pane.key" :tab="pane.title">
-          <template v-if="pane.key === activiteKey">
+        <a-tab-pane
+          v-for="(pane, index) in panes"
+          :key="pane.key"
+          :tab="pane.title"
+          :closable="index !== 0"
+        >
+          <template v-if="pane.key === activeKey">
             <div id="content">
               <router-view />
             </div>
