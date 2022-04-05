@@ -1,3 +1,5 @@
+
+import type {MenuItem} from '@/utils/types/ant'
 import { defineStore } from 'pinia'
 
 export const useMenuStore = defineStore('menu', {
@@ -6,7 +8,7 @@ export const useMenuStore = defineStore('menu', {
       collapsed: false,
       selected: [],
       opened: [],
-      current: { name: '', route: '' },
+      current: {},
       data: []
     }
   },
@@ -18,8 +20,8 @@ export const useMenuStore = defineStore('menu', {
     toggle() {
       this.collapsed = !this.collapsed
     },
-    setCurrent(name: string, route: string) {
-      this.current = { name, route }
+    setCurrent(menu: MenuItem) {
+      this.current = menu
     },
   }
 })

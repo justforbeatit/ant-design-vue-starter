@@ -11,12 +11,12 @@ menuState.initialize().then(() => {
   const firstChild = parent?.children?.[0]
   if (!firstChild) {
     menuState.selected = <any>[parent.route]
-    menuState.setCurrent(parent.name, <string>parent.route)
+    menuState.setCurrent(parent)
     router.push(parent.route!)
   } else {
     menuState.opened = <any>[parent.id]
     menuState.selected = <any>[firstChild.route]
-    menuState.setCurrent(firstChild.name, <string>firstChild.route)
+    menuState.setCurrent(firstChild)
     router.push(firstChild.route!)
   }
 })
@@ -48,10 +48,10 @@ const findByRoute = (route: string) => {
 }
 
 const onSelected = (selectKeys: JsonData) => {
-  const { name, route, pid }= findByRoute(selectKeys.key) as MenuItem
-  (pid === 0) && (menuState.opened = [])
-  menuState.setCurrent(name, route)
-  router.push(route)
+  const menu = findByRoute(selectKeys.key) as MenuItem
+  (menu.pid === 0) && (menuState.opened = [])
+  menuState.setCurrent(menu)
+  router.push(menu.route)
 }
 </script>
 
