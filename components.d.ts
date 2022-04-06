@@ -20,6 +20,8 @@ declare module 'vue' {
     ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider']
     AMenu: typeof import('ant-design-vue/es')['Menu']
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
+    AntBreadcrumb: typeof import('./src/components/AntBreadcrumb.vue')['default']
+    AntBreadCrumb: typeof import('./src/components/AntBreadCrumb.vue')['default']
     AntdForm: typeof import('./src/components/antd/AntdForm.vue')['default']
     AntdTable: typeof import('./src/components/antd/AntdTable.vue')['default']
     AntdUpload: typeof import('./src/components/antd/AntdUpload.vue')['default']
