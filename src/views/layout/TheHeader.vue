@@ -2,8 +2,19 @@
 import { useMenuStore } from '@/store/menu'
 
 const container = ref(null)
+const router = useRouter()
 const menuState = useMenuStore()
-const { toggle: toggleFullscreen } = useFullscreen(container.value)
+const { isFullscreen, toggle: toggleFullscreen } = useFullscreen(container.value)
+
+const logout = () => {
+  sure('确定退出登录？').then(async () => {
+    const { ok } = await useRequest().auth.logout()
+    if (ok) {
+      useStorage().token(null)
+      router.push({ name: 'auth.login'})
+    }
+  })
+}
 </script>
 
 <template>
@@ -13,10 +24,8 @@ const { toggle: toggleFullscreen } = useFullscreen(container.value)
       <MenuFoldOutlined v-else class="trigger" @click="menuState.toggle" />
     </div>
     <div class="layout-header-actions">
-      <FullscreenOutlined
-        @click="toggleFullscreen"
-        style="margin-right: 1rem;font-size: 1rem;cursor: pointer;"
-      />
+      <FullscreenOutlined v-if="!isFullscreen" @click="toggleFullscreen" class="fullscreen" />
+      <FullscreenExitOutlined v-else @click="toggleFullscreen" class="fullscreen" />
       <a-dropdown placement="bottomRight">
         <span>
           <UserOutlined /> 管理员
@@ -30,7 +39,7 @@ const { toggle: toggleFullscreen } = useFullscreen(container.value)
             </a-menu-item>
             <a-menu-item>
               <LogoutOutlined />
-              <span>退出登录</span>
+              <span @click="logout">退出登录</span>
             </a-menu-item>
           </a-menu>
         </template>
@@ -69,5 +78,10 @@ const { toggle: toggleFullscreen } = useFullscreen(container.value)
 }
 .trigger:hover {
   color: #1890ff;
+}
+.fullscreen {
+  margin-right: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
 }
 </style>
