@@ -3,7 +3,11 @@
 </script>
 
 <template>
-  <h1>这是用户</h1>
+  <ant-layout>
+    <a-card>
+      <p>这是用户</p>
+    </a-card>
+  </ant-layout>
 </template>
 
 <style scoped>

@@ -3,7 +3,11 @@
 </script>
 
 <template>
-  这是角色
+  <ant-layout>
+    <a-card>
+      <p>这是角色</p>
+    </a-card>
+  </ant-layout>
 </template>
 
 <style scoped>
