@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useMenuStore } from '@/store/menu'
 
-const router = useRouter()
 const activeKey = ref()
 const panes = ref<Array<{key: string, title: string}>>([])
-const { current: currentMenu } = storeToRefs(useMenuStore())
+const menu = useMenuStore()
+const router = useRouter()
+const { current: currentMenu } = storeToRefs(menu)
 
 const onTabEdited = (targetKey: string | MouseEvent, action: string) => {
   if (action === 'remove') {
@@ -15,11 +16,12 @@ const onTabEdited = (targetKey: string | MouseEvent, action: string) => {
 }
 
 const tabChangeTo = (key: string) => {
+  menu.select(key)
   activeKey.value = key
   router.push({ name: key })
 }
 
-watch(currentMenu, ({ name: title, route: key }) => {
+watch(currentMenu, ({ name: title, route: key }: any) => {
   if (!key) return
   if (!panes.value.find(pane => pane.key === key)) {
     panes.value.push({ key, title })
