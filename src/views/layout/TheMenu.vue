@@ -3,55 +3,29 @@ import type {MenuItem} from '@/utils/types/ant'
 import { useMenuStore } from '@/store/menu'
 
 const theme = import.meta.env.VITE_APP_THEME
-const menuState = useMenuStore()
 const router = useRouter()
+const menu = useMenuStore()
+const { selected, opened, data: menus } = storeToRefs(menu)
 
-menuState.initialize().then(() => {
-  const parent = (menuState.data[0] as MenuItem)
+menu.initialize().then(() => {
+  const parent = (menu.data[0] as MenuItem)
   const firstChild = parent?.children?.[0]
-  if (!firstChild) {
-    menuState.selected = <any>[parent.route]
-    menuState.setCurrent(parent)
-    router.push(parent.route!)
-  } else {
-    menuState.opened = <any>[parent.id]
-    menuState.selected = <any>[firstChild.route]
-    menuState.setCurrent(firstChild)
-    router.push(firstChild.route!)
-  }
+  const route = firstChild?.route ?? parent.route
+
+  menu.select(route)
+  router.push(route)
 })
 
-const onOpenChanged = (openKeys: string[] | number[]) => {
+const onOpened = (openKeys: string[] | number[]) => {
+  menu.opened = []
   if (openKeys.length > 0) {
-    const lastIndex = openKeys.length - 1
-    menuState.opened = <any>[openKeys[lastIndex]]
-  } else {
-    menuState.opened = []
+    menu.opened = <any>[openKeys.at(-1)]
   }
 }
 
-const findByRoute = (route: string) => {
-  let result: MenuItem | undefined
-  menuState.data.forEach((item: MenuItem) => {
-    if (item.route === route) {
-      result = item
-      return false
-    }
-    item.children?.find((child: MenuItem) => {
-      if (child.route === route) {
-        result = child
-        return false
-      }
-    })
-  })
-  return result!
-}
-
-const onSelected = (selectKeys: JsonData) => {
-  const menu = findByRoute(selectKeys.key) as MenuItem
-  (menu.pid === 0) && (menuState.opened = [])
-  menuState.setCurrent(menu)
-  router.push(menu.route)
+const onSelected = ({ key: route }: JsonData) => {
+  menu.select(route)
+  router.push(route)
 }
 </script>
 
@@ -59,12 +33,12 @@ const onSelected = (selectKeys: JsonData) => {
   <a-menu
     :theme="theme"
     mode="inline"
-    v-model:selectedKeys="menuState.selected"
-    :openKeys="menuState.opened"
-    @openChange="onOpenChanged"
+    v-model:selectedKeys="selected"
+    :openKeys="opened"
+    @openChange="onOpened"
     @select="onSelected"
   >
-    <template v-for="menu in menuState.data as MenuItem[]" :key="menu.id">
+    <template v-for="menu in menus as MenuItem[]" :key="menu.id">
       <a-menu-item v-if="!menu.children" :key="`${menu.route ?? menu.id}`">
         <ant-icon v-if="menu.icon" :is="menu.icon" />
         <span class="nav-text">{{ menu.name }}</span>
