@@ -42,6 +42,7 @@ declare global {
   const StorageSerializers: typeof import('@vueuse/core')['StorageSerializers']
   const storeToRefs: typeof import('pinia')['storeToRefs']
   const success: typeof import('@/utils/message')['success']
+  const sure: typeof import('@/utils/modal')['sure']
   const toRaw: typeof import('vue')['toRaw']
   const toRef: typeof import('vue')['toRef']
   const toRefs: typeof import('vue')['toRefs']

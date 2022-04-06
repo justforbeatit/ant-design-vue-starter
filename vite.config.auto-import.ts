@@ -41,6 +41,9 @@ export default function() {
             'error',
             'warning'
           ],
+          '@/utils/modal': [
+            'sure'
+          ]
         }
       ],
       eslintrc: {

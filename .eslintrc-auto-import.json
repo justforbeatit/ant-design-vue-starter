@@ -41,6 +41,7 @@
     "StorageSerializers": true,
     "storeToRefs": true,
     "success": true,
+    "sure": true,
     "toRaw": true,
     "toRef": true,
     "toRefs": true,

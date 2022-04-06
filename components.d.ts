@@ -43,6 +43,7 @@ declare module 'vue' {
     CloudOutlined: typeof import('@ant-design/icons-vue')['CloudOutlined']
     DownOutlined: typeof import('@ant-design/icons-vue')['DownOutlined']
     EditOutlined: typeof import('@ant-design/icons-vue')['EditOutlined']
+    FullscreenExitOutlined: typeof import('@ant-design/icons-vue')['FullscreenExitOutlined']
     FullscreenOutlined: typeof import('@ant-design/icons-vue')['FullscreenOutlined']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     HomeOutlined: typeof import('@ant-design/icons-vue')['HomeOutlined']
