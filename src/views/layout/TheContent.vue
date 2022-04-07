@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {Ref} from 'vue'
-import type {MenuItem} from '@/utils/types/ant';
+import type {MenuItem} from '@/utils/types/ant'
 import { useMenuStore } from '@/store/menu'
 
 const activeKey = ref()
@@ -18,7 +18,6 @@ const onTabEdited = (targetKey: string | MouseEvent, action: string) => {
 }
 
 const tabChangeTo = (key: string) => {
-  menu.select(key)
   activeKey.value = key
   router.push({ name: key })
 }

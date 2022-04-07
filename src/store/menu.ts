@@ -39,7 +39,7 @@ export const useMenuStore = defineStore('menu', {
       })
       return result!
     },
-    select(route: string) {
+    active(route: string) {
       const { parent, child } = this.find(route)
       this.selected = <any>[child!.route]
       this.opened = parent ? <any>[parent!.id] : []

@@ -6,7 +6,7 @@ const { parent, current } = storeToRefs(useMenuStore())
 
 const routes = computed(() => {
   const _ = [
-    { path: 'home', breadcrumbName: '首页' },
+    { path: 'dashboard', breadcrumbName: '首页' },
   ]
   parent.value && _.push({
     path: (parent.value as MenuItem)?.children?.[0]?.route!,

@@ -12,7 +12,7 @@ menu.initialize().then(() => {
   const firstChild = parent?.children?.[0]
   const route = firstChild?.route ?? parent.route
 
-  menu.select(route)
+  menu.active(route)
   router.push(route)
 })
 
@@ -23,10 +23,9 @@ const onOpened = (openKeys: string[] | number[]) => {
   }
 }
 
-const onSelected = ({ key: route }: JsonData) => {
-  menu.select(route)
-  router.push(route)
-}
+const onSelected = ({ key: route }: JsonData) => router.push(route)
+
+watch(() => router.currentRoute.value, ({ name }) => menu.active(<string>name))
 </script>
 
 <template>
