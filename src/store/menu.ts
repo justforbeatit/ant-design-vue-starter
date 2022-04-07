@@ -12,6 +12,12 @@ export const useMenuStore = defineStore('menu', {
       data: []
     }
   },
+  getters: {
+    first: state => {
+      const parent = (state.data[0] as MenuItem)
+      return parent?.children?.[0] || parent
+    }
+  },
   actions: {
     async initialize() {
       const { data }= await useRequest().menu.query()

@@ -2,11 +2,11 @@
 import type {MenuItem} from '@/utils/types/ant';
 import { useMenuStore } from '@/store/menu'
 
-const { parent, current } = storeToRefs(useMenuStore())
+const { parent, first, current } = storeToRefs(useMenuStore())
 
 const routes = computed(() => {
   const _ = [
-    { path: 'dashboard', breadcrumbName: '首页' },
+    { path: first.value.route, breadcrumbName: '首页' },
   ]
   parent.value && _.push({
     path: (parent.value as MenuItem)?.children?.[0]?.route!,

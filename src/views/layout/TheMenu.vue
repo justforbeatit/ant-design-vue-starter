@@ -5,13 +5,10 @@ import { useMenuStore } from '@/store/menu'
 const theme = import.meta.env.VITE_APP_THEME
 const router = useRouter()
 const menu = useMenuStore()
-const { selected, opened, data: menus } = storeToRefs(menu)
+const { first, selected, opened, data: menus } = storeToRefs(menu)
 
 menu.initialize().then(() => {
-  const parent = (menu.data[0] as MenuItem)
-  const firstChild = parent?.children?.[0]
-  const route = firstChild?.route ?? parent.route
-
+  const { route } = first.value
   menu.active(route)
   router.push(route)
 })
