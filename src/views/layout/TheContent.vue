@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type {Ref} from 'vue'
+import type {MenuItem} from '@/utils/types/ant';
 import { useMenuStore } from '@/store/menu'
 
 const activeKey = ref()
@@ -21,7 +23,7 @@ const tabChangeTo = (key: string) => {
   router.push({ name: key })
 }
 
-watch(currentMenu, ({ name: title, route: key }: any) => {
+watch(() => (currentMenu as Ref<MenuItem>).value, ({ name: title, route: key }) => {
   if (!key) return
   if (!panes.value.find(pane => pane.key === key)) {
     panes.value.push({ key, title })
