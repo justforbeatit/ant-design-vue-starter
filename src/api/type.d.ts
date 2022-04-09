@@ -6,3 +6,4 @@ interface MenuItem {
   icon: string,
   children?: Array<MenuItem>,
 }
+
