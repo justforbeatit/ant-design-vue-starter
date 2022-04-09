@@ -10,7 +10,7 @@ interface MenuItem {
   pid: string | number,
   name: string,
   route: string,
-  icon: string,
+  icon: keyof typeof import('@ant-design/icons-vue'),
   children?: Array<MenuItem>,
 }
 

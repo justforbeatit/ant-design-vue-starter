@@ -6,8 +6,9 @@ export interface ApiConfig {
   }
 }
 
-export interface ApiResponse<T = []> {
-  ok: boolean,
+type ApiResponseBase = { ok: boolean }
+
+export interface ApiResponse<T = []> extends ApiResponseBase {
   code: string | number,
   msg: string,
   data: T

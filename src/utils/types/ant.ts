@@ -14,6 +14,8 @@ export interface FormItem {
     type: 'string' | 'icon',
     value: string
   },
+  required?: boolean,
+  verify?: () => {}
 }
 
 export interface FormItemButton {
