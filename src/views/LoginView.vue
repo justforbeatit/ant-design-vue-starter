@@ -45,12 +45,12 @@ const rules = {
   ],
 }
 
-const login = async (payload: JsonData) => {
-  const { ok, msg, data } = await useRequest().auth.login(payload)
+const login = async (payload: LoginInfo) => {
+  const { ok, msg, data: { token } } = await useRequest().auth.login(payload)
   if (!ok) {
     return error(msg)
   }
-  useStorage().token(data.token)
+  useStorage().token(token)
   success('登录成功')
   router.push({ name: 'home' })
 }
@@ -95,7 +95,7 @@ const login = async (payload: JsonData) => {
   </footer>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 #container {
   width: 30rem;
   height: 20rem;
@@ -104,33 +104,29 @@ const login = async (payload: JsonData) => {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-}
-
-header {
-  height: 20%;
-  font-size: 1.2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-header label {
-  font-size: 1.4rem;
-}
-
-main {
-  height: 80%;
-  padding: 1rem;
-}
-
-footer {
-  height: 4rem;
-  color: #ccc;
-  position: absolute;
-  width: 100%;
-  bottom: 1px;
-  text-align: center;
-  line-height: 4rem;
-  font-size: 1rem;
+  header {
+    height: 20%;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    label {
+      font-size: 1.4rem;
+    }
+  }
+  main {
+    height: 80%;
+    padding: 1rem;
+  }
+  footer {
+    height: 4rem;
+    color: #ccc;
+    position: absolute;
+    width: 100%;
+    bottom: 1px;
+    text-align: center;
+    line-height: 4rem;
+    font-size: 1rem;
+  }
 }
 </style>
