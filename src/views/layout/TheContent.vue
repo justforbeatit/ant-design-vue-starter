@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type {Ref} from 'vue'
-import type {MenuItem} from '@/utils/types/ant'
 import { useMenuStore } from '@/store/menu'
 
 const activeKey = ref()

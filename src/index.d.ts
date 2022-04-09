@@ -6,7 +6,6 @@ declare global {
     [prop: string | number]: T
   }
   type JsonData = Json<any>
-  type PromiseResponse = Promise<JsonData>
 }
 
 declare module '@/utils/http/core' {

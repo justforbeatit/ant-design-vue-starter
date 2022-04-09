@@ -1,11 +1,11 @@
-import type { ApiResponseReturn } from "@/utils/types/http"
+import type { ApiResponse } from "@/utils/types/http"
 
 export interface ApiRequestMethods {
   auth: {
-    login: (data: JsonData) => Promise<ApiResponseReturn>,
-    logout: () => Promise<ApiResponseReturn>,
+    login: (data: JsonData) => Promise<ApiResponse<{ token: string }>>,
+    logout: () => Promise<ApiResponse>,
   },
   menu: {
-    query: () => Promise<ApiResponseReturn>
+    query: () => Promise<ApiResponse<MenuItem[]>>
   },
 }

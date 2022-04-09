@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type {MenuItem} from '@/utils/types/ant';
 import { useMenuStore } from '@/store/menu'
 
 const { parent, first, current } = storeToRefs(useMenuStore())

@@ -1,13 +1,14 @@
 export type AllowedHttpMethods = 'get' | 'post' | 'put' | 'delete'
 
-export interface ApiConfigOptions {
+export interface ApiConfig {
   [prop: string]: {
     [prop: string]: { url: string, method: AllowedHttpMethods }
   }
 }
 
-export interface ApiResponseReturn {
+export interface ApiResponse<T = []> {
+  ok: boolean,
   code: string | number,
   msg: string,
-  data: JsonData | Array<JsonData>
+  data: T
 }

@@ -1,4 +1,3 @@
-import type {MenuItem} from '@/utils/types/ant'
 import { defineStore } from 'pinia'
 
 export const useMenuStore = defineStore('menu', {
