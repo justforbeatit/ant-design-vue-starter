@@ -9,7 +9,7 @@ export const useMenuStore = defineStore('menu', {
       opened: [] as (number | string)[],
       parent: {} as MenuItem | undefined,
       current: {},
-      data: []
+      data: [] as MenuItem[],
     }
   },
   getters: {
@@ -21,7 +21,7 @@ export const useMenuStore = defineStore('menu', {
   actions: {
     async initialize() {
       const { data }= await useRequest().menu.query()
-      this.data = data
+      this.data = data as MenuItem[]
     },
     toggle() {
       this.collapsed = !this.collapsed
