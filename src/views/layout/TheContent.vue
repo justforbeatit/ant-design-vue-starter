@@ -21,7 +21,9 @@ const tabChangeTo = (key: string) => {
   router.push({ name: key })
 }
 
-watch(() => (currentMenu as Ref<MenuItem>).value, ({ name: title, route: key }) => {
+watch(() => (currentMenu as Ref<MenuItem>).value || {
+  name: undefined, route: undefined
+}, ({ name: title, route: key }) => {
   if (!key) return
   if (!panes.value.find(pane => pane.key === key)) {
     panes.value.push({ key, title })

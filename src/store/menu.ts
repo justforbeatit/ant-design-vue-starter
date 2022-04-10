@@ -4,10 +4,10 @@ export const useMenuStore = defineStore('menu', {
   state: () => {
     return {
       collapsed: false,
-      selected: [] as string[],
+      selected: [] as string[] | undefined,
       opened: [] as (number | string)[],
       parent: {} as MenuItem | undefined,
-      current: {},
+      current: {} as MenuItem,
       data: [] as MenuItem[],
     }
   },
@@ -46,7 +46,7 @@ export const useMenuStore = defineStore('menu', {
     },
     active(route: string) {
       const { parent, child } = this.find(route)
-      this.selected = [child!.route]
+      this.selected = child?.route ? [child.route] : undefined
       this.opened = parent ? [parent!.id] : []
       this.parent = parent
       this.current = child!
