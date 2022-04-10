@@ -1,22 +1,21 @@
 <script setup lang="ts">
-import { Form } from 'ant-design-vue'
 import type { FormItem, FormItemSize, FormItemButton, FormItemButtonType, FormItemRule } from '@/utils/types/ant'
+import type { ApiResponse } from "@/utils/types/http"
 
 const props = withDefaults(defineProps<
   {
     items: Array<FormItem>,
-    values: JsonData,
+    values?: JsonData | undefined,
     rules?: FormItemRule,
     labelCol?: { span: number },
     wrapperCol?: { span: number },
     button?: FormItemButton | null,
-    submit?: (payload: JsonData) => PromiseResponse,
+    submit?: (payload: JsonData) => Promise<ApiResponse<JsonData>>,
     jumpTo?: { name: string, params?: JsonData } | null,
     enterable?: boolean,
   }
 >(), {
-    rules: () => ({}),
-    values: () => ({}),
+    values: undefined,
     labelCol: () => ({ span: 4 }),
     wrapperCol: () => ({ span: 20 }),
     button: () => ({
@@ -35,30 +34,27 @@ const emits = defineEmits<
   }
 >()
 
-const state = ref(props.values)
-const rules = ref(props.rules)
+const values = {}
+props.items.every(_ => Object.defineProperty(values, _.name, { value: _.value }))
+
+const state = ref(props.values || values)
 const loading = ref(false)
 const router = useRouter()
-const { validate, validateInfos } = Form.useForm(state, rules)
 
 const triggerSubmit = () => {
   const { button, submit, jumpTo } = props
-  validate().then(() => {
-    loading.value = true
-    setTimeout(async () => {
-      emits('onValidated', toRaw(state.value))
-      if (submit) {
-        const { ok, msg } = await submit(toRaw(state.value))
-        if (!ok) {
-          return error(msg)
-        }
-        success(msg ?? `${button?.text || ''}成功`)
-        jumpTo && router.push(jumpTo)
+  loading.value = true
+  setTimeout(async () => {
+    emits('onValidated', toRaw(state.value))
+    if (submit) {
+      const { ok, msg } = await submit(toRaw(state.value))
+      if (!ok) {
+        return error(msg)
       }
-    }, 2000)
-  }).catch(() => {
-    loading.value = false
-  })
+      success(msg ?? `${button?.text || ''}成功`)
+      jumpTo && router.push(jumpTo)
+    }
+  }, 2000)
 }
 
 defineExpose<{
@@ -73,17 +69,28 @@ nextTick(() => {
 </script>
 
 <template>
-  <a-form :labelCol="labelCol" :wrapperCol="wrapperCol">
+  <a-form
+    autocomplete="off"
+    name="ant-form"
+    :model="state"
+    :labelCol="labelCol"
+    :wrapperCol="wrapperCol"
+    @finish="triggerSubmit"
+  >
     <template v-if="items?.length > 0">
       <a-form-item
         v-for="(item, index) in items"
         :key="index"
+        :name="item.name"
         :label="item?.label || ''"
-        v-bind="validateInfos[item.name]"
+        :rules="item.required !== false
+          ? [{ required: true, message: item?.placeholder }, ...(item.rules as FormItemRule || []) ]
+          : []
+        "
       >
         <a-input
           v-if="item.type === 'input'"
-          :placeholder="item?.placeholder ? item.placeholder : item?.label ? `请输入${item.placeholder}` : '' "
+          :placeholder="item?.placeholder ? item.placeholder : `请输入${item?.label}`"
           :size="item.size as FormItemSize || 'default'"
           v-model:value="(state as any)[item.name]"
         >
@@ -108,11 +115,11 @@ nextTick(() => {
     <template v-if="button">
       <a-form-item>
         <a-button
+          html-type="submit"
           :type="(button as FormItemButton).type as FormItemButtonType"
           :size="(button as FormItemButton).size as FormItemSize"
           :block="(button as FormItemButton).block"
           :loading="loading"
-          @click="triggerSubmit"
         >
           {{(button as FormItemButton).text}}
         </a-button>

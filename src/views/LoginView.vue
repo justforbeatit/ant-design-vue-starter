@@ -10,40 +10,27 @@ const items: FormItem[] = [{
   name: 'username',
   placeholder: '请输入用户名',
   size: 'large',
-  prefix: { type: 'icon', value: 'UserOutlined' }
+  prefix: { type: 'icon', value: 'UserOutlined' },
+  rules: [
+    { min: 4, message: '用户名至少 4 个字符' },
+    { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须是英文、数字或下划线组成' },
+  ]
 }, {
   type: 'password',
   name: 'password',
   placeholder: '请输入密码',
   size: 'large',
-  prefix: { type: 'icon', value: 'LockOutlined' }
+  prefix: { type: 'icon', value: 'LockOutlined' },
+  rules: [
+    { min: 6, message: '密码至少 6 个字符' },
+  ]
 }, {
   type: 'custom',
   name: 'captcha',
   placeholder: '请输入验证码',
   size: 'large',
+  required: true,
 }]
-
-const values = {
-  username: '',
-  password: '',
-  captcha: '',
-}
-
-const rules = {
-  username: [
-    { required: true, message: '请输入用户名' },
-    { min: 4, message: '用户名至少 4 个字符' },
-    { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须是英文、数字或下划线组成' },
-  ],
-  password: [
-    { required: true, message: '请输入密码' },
-    { min: 4, message: '密码至少 4 个字符' },
-  ],
-  captcha: [
-    { required: true, message: '请输入验证码' },
-  ],
-}
 
 const login = async (payload: LoginInfo) => {
   const { ok, msg, data: { token } } = await useRequest().auth.login(payload)
@@ -67,8 +54,6 @@ const login = async (payload: LoginInfo) => {
         :label-col="{ span: 0 }"
         :wrapper-col="{ span: 24 }"
         :items="items"
-        :values="values"
-        :rules="rules"
         :button="{ text: '登录', type: 'primary', size: 'large', block: true}"
         @on-validated="login"
         enterable
@@ -118,15 +103,15 @@ const login = async (payload: LoginInfo) => {
     height: 80%;
     padding: 1rem;
   }
-  footer {
-    height: 4rem;
-    color: #ccc;
-    position: absolute;
-    width: 100%;
-    bottom: 1px;
-    text-align: center;
-    line-height: 4rem;
-    font-size: 1rem;
-  }
+}
+footer {
+  height: 4rem;
+  color: #ccc;
+  position: absolute;
+  width: 100%;
+  bottom: 1px;
+  text-align: center;
+  line-height: 4rem;
+  font-size: 1rem;
 }
 </style>

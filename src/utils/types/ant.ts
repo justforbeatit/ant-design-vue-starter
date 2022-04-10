@@ -1,13 +1,14 @@
 export type FormItemType = 'input' | 'select' | 'textarea' | 'checkbox' | 'radio' | 'password' | 'custom'
 export type FormItemSize = 'small' | 'default' | 'large'
 export type FormItemButtonType = 'primary' | 'dashed' | 'danger' | 'link'
-export type FormItemRule = Json<Array<Json<string | number | boolean | RegExp | CallableFunction | undefined>>>
 export type FormItemValue = Json<string | number | undefined | Array<string | number | undefined>>
+export type FormItemRule = Array<Json<string | number | boolean | RegExp | CallableFunction | undefined>>
 
 export interface FormItem {
   type: FormItemType,
   name: string,
   label?: string,
+  value?: string | number | undefined,
   placeholder?: string,
   size?: FormItemSize,
   prefix?: {
@@ -15,7 +16,7 @@ export interface FormItem {
     value: string
   },
   required?: boolean,
-  verify?: () => {}
+  rules?: FormItemRule,
 }
 
 export interface FormItemButton {
