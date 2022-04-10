@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type {FormItem} from '@/utils/types/ant'
-
 const title = import.meta.env.VITE_APP_TITLE
 const copyright = import.meta.env.VITE_APP_COPYRIGHT
 const router = useRouter()
@@ -29,8 +27,13 @@ const items: FormItem[] = [{
   name: 'captcha',
   placeholder: '请输入验证码',
   size: 'large',
-  required: true,
 }]
+
+const values = {
+  username: '',
+  password: '',
+  captcha: '',
+}
 
 const login = async (payload: LoginInfo) => {
   const { ok, msg, data: { token } } = await useRequest().auth.login(payload)
@@ -54,8 +57,9 @@ const login = async (payload: LoginInfo) => {
         :label-col="{ span: 0 }"
         :wrapper-col="{ span: 24 }"
         :items="items"
+        :values="values"
         :button="{ text: '登录', type: 'primary', size: 'large', block: true}"
-        @on-validated="login"
+        @on-finished="login"
         enterable
       >
         <template #custom="{ item, state }">

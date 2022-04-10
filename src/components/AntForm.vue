@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import type { FormItem, FormItemSize, FormItemButton, FormItemButtonType, FormItemRule } from '@/utils/types/ant'
+import type { FormItemSize, FormItemButton, FormItemButtonType, FormItemRule } from '@/utils/types/ant'
 import type { ApiResponse } from "@/utils/types/http"
 
 const props = withDefaults(defineProps<
   {
     items: Array<FormItem>,
-    values?: JsonData | undefined,
+    values: JsonData,
     rules?: FormItemRule,
     labelCol?: { span: number },
     wrapperCol?: { span: number },
     button?: FormItemButton | null,
     submit?: (payload: JsonData) => Promise<ApiResponse<JsonData>>,
     jumpTo?: { name: string, params?: JsonData } | null,
-    enterable?: boolean,
   }
 >(), {
     values: undefined,
@@ -25,27 +24,23 @@ const props = withDefaults(defineProps<
       disabled: false,
       block: false,
     }),
-    enterable: false,
 })
 
 const emits = defineEmits<
   {
-    (e: 'onValidated', payload: JsonData): void,
+    (e: 'on-finished', payload: JsonData): void,
   }
 >()
 
-const values = {}
-props.items.every(_ => Object.defineProperty(values, _.name, { value: _.value }))
-
-const state = ref(props.values || values)
+const { values, button, submit, jumpTo } = props
+const state = ref(values)
 const loading = ref(false)
 const router = useRouter()
 
 const triggerSubmit = () => {
-  const { button, submit, jumpTo } = props
   loading.value = true
   setTimeout(async () => {
-    emits('onValidated', toRaw(state.value))
+    emits('on-finished', toRaw(state.value))
     if (submit) {
       const { ok, msg } = await submit(toRaw(state.value))
       if (!ok) {
@@ -56,16 +51,6 @@ const triggerSubmit = () => {
     }
   }, 2000)
 }
-
-defineExpose<{
-  triggerSubmit: () => void,
-}>()
-
-nextTick(() => {
-  if (props.enterable) {
-    useEventListener('keyup', (e: KeyboardEvent) => (e.code === 'Enter') && triggerSubmit())
-  }
-})
 </script>
 
 <template>
@@ -92,7 +77,7 @@ nextTick(() => {
           v-if="item.type === 'input'"
           :placeholder="item?.placeholder ? item.placeholder : `请输入${item?.label}`"
           :size="item.size as FormItemSize || 'default'"
-          v-model:value="(state as any)[item.name]"
+          v-model:value="state[item.name]"
         >
           <template #prefix v-if="item.prefix && item.prefix.type === 'icon'">
             <UserOutlined v-if="item.prefix?.value === 'UserOutlined'" class="icon-gray" />
@@ -102,7 +87,7 @@ nextTick(() => {
           v-else-if="item.type === 'password'"
           :placeholder="item?.placeholder ? item.placeholder : item?.label ? `请输入${item.placeholder}` : '' "
           :size="item.size as FormItemSize || 'default'"
-          v-model:value="(state as any)[item.name]"
+          v-model:value="state[item.name]"
           autocomplete
         >
           <template #prefix v-if="item.prefix && item.prefix.type === 'icon'">

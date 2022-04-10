@@ -13,4 +13,3 @@ interface MenuItem {
   icon: keyof typeof import('@ant-design/icons-vue'),
   children?: Array<MenuItem>,
 }
-

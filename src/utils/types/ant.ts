@@ -8,7 +8,6 @@ export interface FormItem {
   type: FormItemType,
   name: string,
   label?: string,
-  value?: string | number | undefined,
   placeholder?: string,
   size?: FormItemSize,
   prefix?: {

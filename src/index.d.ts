@@ -1,4 +1,5 @@
-import { ApiRequestMethods } from './api/type'
+import type { ApiRequestMethods } from './api/type'
+import type { FormItem } from '@/utils/types/ant'
 import { useStorage } from '@/utils/store'
 
 declare global {
@@ -6,6 +7,7 @@ declare global {
     [prop: string | number]: T
   }
   type JsonData = Json<any>
+  type FormItem = FormItem
 }
 
 declare module '@/utils/http/core' {
