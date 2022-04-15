@@ -1,4 +1,4 @@
-import type {ApiResponseReturn} from "@/utils/types/http"
+import type {ApiResponse} from "@/utils/types/http"
 import type {AfterFetchContext, OnFetchErrorContext} from "@vueuse/core"
 import {useStorage} from "../storage"
 
@@ -10,7 +10,7 @@ export function useHeaders() {
   return { Authorization: `Bearer ${useStorage().token()}` }
 }
 
-export function asResponseOk(response: ApiResponseReturn): boolean {
+export function asResponseOk(response: ApiResponse): boolean {
   return response?.code === 0
 }
 

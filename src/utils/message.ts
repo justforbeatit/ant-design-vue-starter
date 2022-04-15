@@ -1,5 +1,5 @@
-import 'ant-design-vue/es/message/style/index.css'
 import { message } from 'ant-design-vue'
+import 'ant-design-vue/es/message/style/index.css'
 
 const createMessage = (): typeof message => {
   message.config({

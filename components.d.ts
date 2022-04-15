@@ -2,7 +2,7 @@
 // We suggest you to commit this file into source control
 // Read more: https://github.com/vuejs/vue-next/pull/3399
 
-declare module 'vue' {
+declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ABreadcrumb: typeof import('ant-design-vue/es')['Breadcrumb']
     AButton: typeof import('ant-design-vue/es')['Button']
@@ -61,6 +61,8 @@ declare module 'vue' {
     MenuFoldOutlined: typeof import('@ant-design/icons-vue')['MenuFoldOutlined']
     MenuUnfoldOutlined: typeof import('@ant-design/icons-vue')['MenuUnfoldOutlined']
     MeunUnfoldOutlined: typeof import('@ant-design/icons-vue')['MeunUnfoldOutlined']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
     SafetyOutlined: typeof import('@ant-design/icons-vue')['SafetyOutlined']
     SettingOutlined: typeof import('@ant-design/icons-vue')['SettingOutlined']
     ShopOutlined: typeof import('@ant-design/icons-vue')['ShopOutlined']
