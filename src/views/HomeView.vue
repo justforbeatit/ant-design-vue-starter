@@ -16,7 +16,7 @@ const { collapsed } = storeToRefs(useMenuStore())
       <template #logo><ant-logo /></template>
       <template #menu><the-menu /></template>
     </the-sider>
-    <a-layout :style="{ marginLeft: collapsed ? '48px' : '200px' }">
+    <a-layout :class="collapsed ? 'layout-shrink' : 'layout-spread'">
       <the-header />
       <a-config-provider :locate="zhCN">
         <the-content />
@@ -25,3 +25,14 @@ const { collapsed } = storeToRefs(useMenuStore())
     </a-layout>
   </a-layout>
 </template>
+
+<style scoped lang="less">
+.layout-spread {
+  margin-left: 200px;
+  transition: margin-left 0.2s;
+}
+.layout-shrink {
+  margin-left: 48px;
+  transition: margin-left 0.2s;
+}
+</style>

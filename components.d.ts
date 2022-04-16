@@ -31,6 +31,7 @@ declare module '@vue/runtime-core' {
     AntFormItem: typeof import('./src/components/AntFormItem.vue')['default']
     AntFormSearch: typeof import('./src/components/AntFormSearch.vue')['default']
     AntIcon: typeof import('./src/components/AntIcon.vue')['default']
+    AntInput: typeof import('./src/components/AntInput.vue')['default']
     AntIocn: typeof import('./src/components/AntIocn.vue')['default']
     AntLayout: typeof import('./src/components/AntLayout.vue')['default']
     AntLogo: typeof import('./src/components/AntLogo.vue')['default']
