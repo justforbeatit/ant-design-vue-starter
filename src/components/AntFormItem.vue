@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import type {FormItemSelectOption, FormItemType} from '@/utils/types/ant'
-import type {MaybeRef} from '@vueuse/shared';
+import type {Ref} from 'vue'
+import type {FormItemRule, FormItemSelectOption, FormItemSize, FormItemType} from '@/utils/types/ant'
 
 const props = withDefaults(defineProps<{
   is: FormItemType,
   name: string,
   label?: string,
+  size?: FormItemSize
   modelValue?: string | undefined,
-  options?: MaybeRef<FormItemSelectOption[]>,
+  options?: Ref<FormItemSelectOption[]>,
+  rules?: FormItemRule,
+  prefixIcon?: string,
 }>(), {
   is: 'input',
   label: '',
@@ -37,7 +40,13 @@ const currentComponent = defineAsyncComponent(async () => {
       :value="modelValue"
       :placeholder="componentPlaceholder"
       :options="options"
+      :size="size as FormItemSize || 'default'"
+      :rules="rules"
       @input="$emit('update:modelValue', $event.target.value)"
-    />
+    >
+      <template #prefix>
+        <ant-icon :is="prefixIcon" />
+      </template>
+    </component>
   </a-form-item>
 </template>

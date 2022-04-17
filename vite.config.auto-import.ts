@@ -27,7 +27,6 @@ export default function() {
             'useToggle',
             ['useStorage', 'vueuseStorage'],
             'StorageSerializers',
-            'useEventListener',
           ],
           'pinia': [
             'storeToRefs'

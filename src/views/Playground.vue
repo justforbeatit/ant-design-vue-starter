@@ -80,6 +80,7 @@ onMounted(async () => {
               :label="item.label"
               :name="item.name"
               :options="options"
+              prefixIcon="UserOutlined"
               v-model="state[item.name]"
             />
 

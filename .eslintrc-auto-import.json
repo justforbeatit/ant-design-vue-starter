@@ -50,7 +50,6 @@
     "useAttrs": true,
     "useCssModule": true,
     "useCssVars": true,
-    "useEventListener": true,
     "useFullscreen": true,
     "useRequest": true,
     "useRoute": true,
