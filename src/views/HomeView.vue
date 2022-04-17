@@ -29,10 +29,10 @@ const { collapsed } = storeToRefs(useMenuStore())
 <style scoped lang="less">
 .layout-spread {
   margin-left: 200px;
-  transition: margin-left 0.2s;
+  transition: margin-left 0.1s;
 }
 .layout-shrink {
   margin-left: 48px;
-  transition: margin-left 0.2s;
+  transition: margin-left 0.1s;
 }
 </style>
