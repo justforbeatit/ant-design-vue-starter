@@ -7,7 +7,8 @@ declare global {
     [prop: string | number]: T
   }
   type JsonData = Json<any>
-  type FormItem = FormItem
+  type AntComponent = keyof typeof import('ant-design-vue/lib/index')
+  type AntIcon = keyof typeof import('@ant-design/icons-vue')
 }
 
 declare module '@/utils/http/core' {

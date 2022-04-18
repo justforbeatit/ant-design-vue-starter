@@ -1,50 +1,63 @@
 <script setup lang="ts">
 import type {Ref} from 'vue'
-import type {FormItemRule, FormItemSelectOption, FormItemSize, FormItemType} from '@/utils/types/ant'
+import type {FormItemRule, FormItemSelectOption, FormItemSize} from '@/utils/types/ant'
 
 const props = withDefaults(defineProps<{
-  is: FormItemType,
+  is: AntComponent,
   name: string,
   label?: string,
   size?: FormItemSize
   modelValue?: string | undefined,
   options?: Ref<FormItemSelectOption[]>,
   rules?: FormItemRule,
-  prefixIcon?: string,
+  prefixIcon?: string | undefined,
 }>(), {
-  is: 'input',
+  is: 'Input',
   label: '',
-  modelValue: undefined
+  prefixIcon: undefined
 })
 
-const componentType = computed(() => props.is.replace(/^\S/, s => s.toUpperCase()))
+const emits = defineEmits<{
+  (e: 'update:modelValue', value: string | number): void,
+  (e: 'change', value: string | number): void
+}>()
 
-const componentPlaceholder = computed(() => {
-  return `${props.is === 'input' ? '请输入' : '请选择'}${props.label}`
-})
+const importComponentStyle = (component: AntComponent) => {
+  if (component === 'Input') {
+    import('ant-design-vue/lib/input/style/index.css')
+  } else if (component === 'Select') {
+    import('ant-design-vue/lib/select/style/index.css')
+  } else if (component === 'DatePicker') {
+    import('ant-design-vue/lib/date-picker/style/index.css')
+  }
+}
 
 const currentComponent = defineAsyncComponent(async () => {
-  return import('ant-design-vue').then(module => {
-    return module[componentType.value as keyof typeof import('ant-design-vue/lib/index')]
-  })
+  const { is: component } = props
+  importComponentStyle(component)
+  return import('ant-design-vue').then(module => module[<AntComponent>component])
 })
+
+const change = (value: string | number) => {
+  emits('update:modelValue', value)
+  emits('change', value)
+}
 </script>
 
 <template>
-  <a-form-item
-    :name="name"
-    :label="label"
-  >
+  <a-form-item :name="name" :label="label">
     <component
       :is="currentComponent"
       :value="modelValue"
-      :placeholder="componentPlaceholder"
+      :placeholder="`请${is === 'Input' ? '输入' : '选择'}${props.label}`"
       :options="options"
       :size="size as FormItemSize || 'default'"
       :rules="rules"
+      :style="{ width: '100%' }"
       @input="$emit('update:modelValue', $event.target.value)"
+      @change="change"
     >
-      <template #prefix>
+      <template #prefix v-if="prefixIcon">
         <ant-icon :is="prefixIcon" />
       </template>
     </component>

@@ -1,4 +1,3 @@
-export type FormItemType = 'input' | 'select' | 'textarea' | 'checkbox' | 'radio' | 'password' | 'custom'
 export type FormItemSize = 'small' | 'default' | 'large'
 export type FormItemButtonType = 'primary' | 'dashed' | 'danger' | 'link'
 export type FormItemValue = Json<string | number | undefined | Array<string | number | undefined>>
@@ -9,15 +8,12 @@ export type FormItemSelectOption = Json<{
 }>
 
 export interface FormItem {
-  type: FormItemType,
+  component: AntComponent,
   name: string,
   label?: string,
   placeholder?: string,
   size?: FormItemSize,
-  prefix?: {
-    type: 'string' | 'icon',
-    value: string
-  },
+  prefixIcon?: AntIcon
   required?: boolean,
   rules?: FormItemRule,
   options?: () => Array<FormItemSelectOption> | Array<FormItemSelectOption>,
