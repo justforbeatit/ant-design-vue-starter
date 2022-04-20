@@ -1,29 +1,31 @@
 <script setup lang="ts">
+import type {FormItem} from '@/utils/types/ant'
+
 const title = import.meta.env.VITE_APP_TITLE
 const copyright = import.meta.env.VITE_APP_COPYRIGHT
 const router = useRouter()
 
 const items: FormItem[] = [{
-  type: 'input',
+  type: 'Input',
   name: 'username',
   placeholder: '请输入用户名',
   size: 'large',
-  prefix: { type: 'icon', value: 'UserOutlined' },
+  prefixIcon: 'UserOutlined',
   rules: [
     { min: 4, message: '用户名至少 4 个字符' },
     { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须是英文、数字或下划线组成' },
   ]
 }, {
-  type: 'password',
+  type: 'InputPassword',
   name: 'password',
   placeholder: '请输入密码',
   size: 'large',
-  prefix: { type: 'icon', value: 'LockOutlined' },
+  prefixIcon: 'LockOutlined',
   rules: [
     { min: 6, message: '密码至少 6 个字符' },
   ]
 }, {
-  type: 'custom',
+  type: 'Custom',
   name: 'captcha',
   placeholder: '请输入验证码',
   size: 'large',
@@ -60,7 +62,6 @@ const login = async (payload: LoginInfo) => {
         :values="values"
         :button="{ text: '登录', type: 'primary', size: 'large', block: true}"
         @on-finished="login"
-        enterable
       >
         <template #custom="{ item, state }">
           <a-row v-if="item.name === 'captcha'">

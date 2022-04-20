@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FormItemSize, FormItemButton, FormItemButtonType, FormItemRule } from '@/utils/types/ant'
+import type { FormItem, FormItemButton, FormItemRule } from '@/utils/types/ant'
 import type { ApiResponse } from "@/utils/types/http"
 
 const props = withDefaults(defineProps<
@@ -55,54 +55,43 @@ const triggerSubmit = () => {
 
 <template>
   <a-form
-    autocomplete="off"
     name="ant-form"
     :model="state"
     :labelCol="labelCol"
     :wrapperCol="wrapperCol"
     @finish="triggerSubmit"
   >
-    <template v-if="items?.length > 0">
-      <a-form-item
-        v-for="(item, index) in items"
-        :key="index"
+    <template v-for="item in items" :key="item.name">
+      <a-form-item v-if="item.type === 'Custom'"
         :name="item.name"
-        :label="item?.label || ''"
+        :label="item.label"
         :rules="item.required !== false
           ? [{ required: true, message: item?.placeholder }, ...(item.rules as FormItemRule || []) ]
           : []
         "
       >
-        <a-input
-          v-if="item.type === 'input'"
-          :placeholder="item?.placeholder ? item.placeholder : `请输入${item?.label}`"
-          :size="item.size as FormItemSize || 'default'"
-          v-model:value="state[item.name]"
-        >
-          <template #prefix v-if="item.prefix && item.prefix.type === 'icon'">
-            <UserOutlined v-if="item.prefix?.value === 'UserOutlined'" class="icon-gray" />
-          </template>
-        </a-input>
-        <a-input-password
-          v-else-if="item.type === 'password'"
-          :placeholder="item?.placeholder ? item.placeholder : item?.label ? `请输入${item.placeholder}` : '' "
-          :size="item.size as FormItemSize || 'default'"
-          v-model:value="state[item.name]"
-          autocomplete
-        >
-          <template #prefix v-if="item.prefix && item.prefix.type === 'icon'">
-            <LockOutlined v-if="item.prefix?.value === 'LockOutlined'" class="icon-gray" />
-          </template>
-        </a-input-password>
-        <slot name="custom" v-if="item.type === 'custom'" :item="item" :state="state"></slot>
+        <slot name="custom" :item="item" :state="state"></slot>
       </a-form-item>
+      <ant-form-item v-else
+        v-model="state[item.name]"
+        :is="item.type"
+        :name="item.name"
+        :label="item?.label || ''"
+        :placeholder="item.placeholder"
+        :autocomplete="item?.autocomplete"
+        :prefixIcon="item.prefixIcon"
+        :rules="item.required !== false
+          ? [{ required: true, message: item?.placeholder }, ...(item.rules as FormItemRule || []) ]
+          : []
+        "
+      />
     </template>
     <template v-if="button">
       <a-form-item>
         <a-button
           html-type="submit"
-          :type="(button as FormItemButton).type as FormItemButtonType"
-          :size="(button as FormItemButton).size as FormItemSize"
+          :type="(button as FormItemButton).type"
+          :size="(button as FormItemButton).size"
           :block="(button as FormItemButton).block"
           :loading="loading"
         >
@@ -112,9 +101,3 @@ const triggerSubmit = () => {
     </template>
   </a-form>
 </template>
-
-<style scoped>
-.icon-gray {
-  color: #ccc;
-}
-</style>

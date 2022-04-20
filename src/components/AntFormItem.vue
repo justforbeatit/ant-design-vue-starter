@@ -6,14 +6,16 @@ const props = withDefaults(defineProps<{
   is: AntComponent,
   name: string,
   label?: string,
+  placeholder?: string,
   size?: FormItemSize
   modelValue?: string | undefined,
   options?: Ref<FormItemSelectOption[]>,
   rules?: FormItemRule,
+  autocomplete?: boolean,
   prefixIcon?: string | undefined,
 }>(), {
-  is: 'Input',
   label: '',
+  autocomplete: false,
   prefixIcon: undefined
 })
 
@@ -23,7 +25,7 @@ const emits = defineEmits<{
 }>()
 
 const importComponentStyle = (component: AntComponent) => {
-  if (component === 'Input') {
+  if (component.startsWith('Input')) {
     import('ant-design-vue/lib/input/style/index.css')
   } else if (component === 'Select') {
     import('ant-design-vue/lib/select/style/index.css')
@@ -45,21 +47,31 @@ const change = (value: string | number) => {
 </script>
 
 <template>
-  <a-form-item :name="name" :label="label">
+  <a-form-item
+    :name="name"
+    :label="label"
+    :rules="rules"
+  >
     <component
       :is="currentComponent"
       :value="modelValue"
-      :placeholder="`请${is === 'Input' ? '输入' : '选择'}${props.label}`"
+      :placeholder="`请${is.startsWith('Input') ? '输入' : '选择'}${placeholder ? placeholder : label}`"
       :options="options"
       :size="size as FormItemSize || 'default'"
-      :rules="rules"
       :style="{ width: '100%' }"
+      :autocomplete="autocomplete ? 'on' : 'off'"
       @input="$emit('update:modelValue', $event.target.value)"
       @change="change"
     >
       <template #prefix v-if="prefixIcon">
-        <ant-icon :is="prefixIcon" />
+        <ant-icon :is="prefixIcon" class="icon-gray" />
       </template>
     </component>
   </a-form-item>
 </template>
+
+<style scoped>
+.icon-gray {
+  color: #ccc;
+}
+</style>

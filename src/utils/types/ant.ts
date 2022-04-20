@@ -8,13 +8,14 @@ export type FormItemSelectOption = Json<{
 }>
 
 export interface FormItem {
-  component: AntComponent,
+  type: AntComponent | 'Custom'
   name: string,
   label?: string,
   placeholder?: string,
   size?: FormItemSize,
   prefixIcon?: AntIcon
   required?: boolean,
+  autocomplete? : boolean,
   rules?: FormItemRule,
   options?: () => Array<FormItemSelectOption> | Array<FormItemSelectOption>,
 }
