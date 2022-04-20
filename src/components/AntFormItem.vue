@@ -44,6 +44,17 @@ const change = (value: string | number) => {
   emits('update:modelValue', value)
   emits('change', value)
 }
+
+watch(() => props.options, (value) => {
+  console.info(value)
+})
+
+watchEffect(() => {
+  if (props.options) {
+    console.info(props.options)
+  }
+})
+
 </script>
 
 <template>

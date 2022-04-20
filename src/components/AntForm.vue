@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { FormItem, FormItemButton, FormItemRule } from '@/utils/types/ant'
+import type { FormItem, FormItemButton, FormItemRule, FormItemSelectOption } from '@/utils/types/ant'
 import type { ApiResponse } from "@/utils/types/http"
 
-const props = withDefaults(defineProps<
+const { values, options, button, submit, jumpTo } = withDefaults(defineProps<
   {
     items: Array<FormItem>,
     values: JsonData,
+    options?: FormItemSelectOption[],
     rules?: FormItemRule,
     labelCol?: { span: number },
     wrapperCol?: { span: number },
@@ -32,7 +33,6 @@ const emits = defineEmits<
   }
 >()
 
-const { values, button, submit, jumpTo } = props
 const state = ref(values)
 const loading = ref(false)
 const router = useRouter()
@@ -80,6 +80,7 @@ const triggerSubmit = () => {
         :placeholder="item.placeholder"
         :autocomplete="item?.autocomplete"
         :prefixIcon="item.prefixIcon"
+        :options="options"
         :rules="item.required !== false
           ? [{ required: true, message: item?.placeholder }, ...(item.rules as FormItemRule || []) ]
           : []
