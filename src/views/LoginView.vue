@@ -31,12 +31,6 @@ const items: FormItem[] = [{
   size: 'large',
 }]
 
-const values = {
-  username: '',
-  password: '',
-  captcha: '',
-}
-
 const login = async (payload: LoginInfo) => {
   const { ok, msg, data: { token } } = await useRequest().auth.login(payload)
   if (!ok) {
@@ -59,7 +53,6 @@ const login = async (payload: LoginInfo) => {
         :label-col="{ span: 0 }"
         :wrapper-col="{ span: 24 }"
         :items="items"
-        :values="values"
         :button="{ text: '登录', type: 'primary', size: 'large', block: true}"
         @on-finished="login"
       >

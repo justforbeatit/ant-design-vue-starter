@@ -5,7 +5,7 @@ import type { ApiResponse } from "@/utils/types/http"
 const { values, button, submit, jumpTo } = withDefaults(defineProps<
   {
     items: Array<FormItem>,
-    values: JsonData,
+    values?: JsonData,
     rules?: FormItemRule,
     labelCol?: { span: number },
     wrapperCol?: { span: number },
@@ -14,7 +14,7 @@ const { values, button, submit, jumpTo } = withDefaults(defineProps<
     jumpTo?: { name: string, params?: JsonData } | null,
   }
 >(), {
-    values: undefined,
+    values: () => ({}),
     labelCol: () => ({ span: 4 }),
     wrapperCol: () => ({ span: 20 }),
     button: () => ({

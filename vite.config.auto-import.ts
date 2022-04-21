@@ -9,7 +9,7 @@ export default function() {
       dirs: ['src/components'],
       resolvers: [
         AntDesignVueResolver(),
-        ((name: string)  => {
+        ((name: string) => {
           if (name.endsWith('Outlined')) {
             return { importName: name, path: '@ant-design/icons-vue' }
           }

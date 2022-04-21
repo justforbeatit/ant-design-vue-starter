@@ -3,10 +3,11 @@ import type { FormItem } from '@/utils/types/ant'
 
 const { items, values } = withDefaults(defineProps<{
   items: FormItem[],
-  values: JsonData
+  values?: JsonData
   labelCol?: { span: number },
 }>(), {
   labelCol: () => ({ span: 4 }),
+  values: () => ({})
 })
 
 const state = ref(values)

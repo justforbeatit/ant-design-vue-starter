@@ -47,6 +47,7 @@ const items: FormItem[] = [
   }
 ]
 
+  /*
 const values = {
   username: '',
   age: '',
@@ -54,6 +55,7 @@ const values = {
   role_id: undefined,
   birthday: dayjs('1990-01-01'),
 }
+  */
 
 const search = (params: JsonData) => {
   console.log( params )
@@ -85,7 +87,6 @@ onMounted(async () => {
     <ant-search-form
       :label-col="{ span: 6 }"
       :items="items"
-      :values="values"
       @on-search="search"
     >
       <template #custom="{ item, state }">
