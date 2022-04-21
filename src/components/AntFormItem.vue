@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import type {Ref} from 'vue'
 import type {FormItemRule, FormItemSelectOption, FormItemSize} from '@/utils/types/ant'
 
-const props = withDefaults(defineProps<{
+const { is: component, name, options } = withDefaults(defineProps<{
   is: AntComponent,
   name: string,
   label?: string,
   placeholder?: string,
   size?: FormItemSize
-  modelValue?: string | undefined,
-  options?: Ref<FormItemSelectOption[]>,
+  modelValue?: string | Object,
+  options?: () => Promise<Array<FormItemSelectOption>>,
   rules?: FormItemRule,
   autocomplete?: boolean,
   prefixIcon?: string | undefined,
@@ -18,6 +17,8 @@ const props = withDefaults(defineProps<{
   autocomplete: false,
   prefixIcon: undefined
 })
+
+const collection = ref<{[name: string]: FormItemSelectOption[]}>({})
 
 const emits = defineEmits<{
   (e: 'update:modelValue', value: string | number): void,
@@ -35,7 +36,6 @@ const importComponentStyle = (component: AntComponent) => {
 }
 
 const currentComponent = defineAsyncComponent(async () => {
-  const { is: component } = props
   importComponentStyle(component)
   return import('ant-design-vue').then(module => module[<AntComponent>component])
 })
@@ -45,16 +45,11 @@ const change = (value: string | number) => {
   emits('change', value)
 }
 
-watch(() => props.options, (value) => {
-  console.info(value)
-})
-
-watchEffect(() => {
-  if (props.options) {
-    console.info(props.options)
+onMounted(async () => {
+  if (options && !collection.value[name]) {
+    collection.value[name] = await options()
   }
 })
-
 </script>
 
 <template>
@@ -66,8 +61,8 @@ watchEffect(() => {
     <component
       :is="currentComponent"
       :value="modelValue"
+      :options="collection[name] || []"
       :placeholder="`请${is.startsWith('Input') ? '输入' : '选择'}${placeholder ? placeholder : label}`"
-      :options="options"
       :size="size as FormItemSize || 'default'"
       :style="{ width: '100%' }"
       :autocomplete="autocomplete ? 'on' : 'off'"

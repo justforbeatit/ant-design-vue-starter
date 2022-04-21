@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type {FormItem, FormItemSelectOption} from '@/utils/types/ant'
+import type { FormItem, FormItemSelectOption } from '@/utils/types/ant'
+import dayjs from 'dayjs'
 
 const options = ref<FormItemSelectOption>()
 
@@ -16,20 +17,34 @@ const items: FormItem[] = [
   },
   {
     type: 'Input',
-    label: '手机号',
+    label: '用户手机号',
     name: 'phone',
   },
   {
-    type: 'Custom',
+    type: 'Select',
     label: '角色',
     name: 'role_id',
+    options: () => Promise.resolve([
+      {
+        label: '管理员',
+        value: '1',
+      },
+      {
+        label: '普通用户',
+        value: '2',
+      },
+    ])
   },
   {
     type: 'DatePicker',
     label: '生日',
     name: 'birthday',
-    size: 'large',
   },
+  {
+    type: 'Custom',
+    label: '爱好',
+    name: 'hobby',
+  }
 ]
 
 const values = {
@@ -37,25 +52,26 @@ const values = {
   age: '',
   phone: '',
   role_id: undefined,
+  birthday: dayjs('1990-01-01'),
 }
 
 onMounted(async () => {
-  const roles = await new Promise(resolve => {
+  const hobby = await new Promise(resolve => {
     setTimeout(() => {
       const _ = [
         {
-          label: '管理员',
+          label: '吃饭',
           value: '1',
         },
         {
-          label: '普通用户',
+          label: '睡觉',
           value: '2',
         },
       ]
       resolve(_)
     }, 1)
   })
-  options.value = roles as FormItemSelectOption
+  options.value = hobby as FormItemSelectOption
 })
 
 </script>
@@ -63,15 +79,15 @@ onMounted(async () => {
 <template>
   <div style="width: 80%; margin: 30px auto;">
     <ant-search-form
+      :label-col="{ span: 6 }"
       :items="items"
       :values="values"
-      :options="options"
     >
       <template #custom="{ item, state }">
-        <a-select v-if="item.name === 'role_id'"
+        <a-select v-if="item.name === 'hobby'"
           :options="options"
           v-model:value="state[item.name]"
-          placeholder="请选择角色"
+          placeholder="请选择爱好"
         />
       </template>
     </ant-search-form>
