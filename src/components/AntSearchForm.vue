@@ -11,8 +11,22 @@ const { items, values } = withDefaults(defineProps<{
 
 const state = ref(values)
 
+const shouldFormatItems = computed(() => {
+  return items.filter(({ type }: FormItem) => [
+      'DatePicker', 'RangePicker'
+    ].includes(type)).map(_ => _.name)
+})
+
+const emits = defineEmits<{
+  (e: 'on-search', values: JsonData): void
+}>()
+
 const search = () => {
-  console.info(state.value.birthday.format('YYYY-MM-DD'))
+  const data = Object.entries(state.value).filter(_ => _[1]).reduce((_, [k, v]) => {
+    _[k] = shouldFormatItems.value.includes(k) ? v.format('YYYY-MM-DD') : v
+    return _
+  }, {} as JsonData)
+  emits('on-search', data)
 }
 </script>
 
@@ -39,7 +53,9 @@ const search = () => {
       </a-col>
       <a-col :span="3">
         <a-form-item>
-          <a-button type="primary" @click="search"><SearchOutlined style="font-size: large;"/></a-button>
+          <a-button type="primary" @click="search">
+            <SearchOutlined style="font-size: large;"/>
+          </a-button>
         </a-form-item>
       </a-col>
     </a-row>

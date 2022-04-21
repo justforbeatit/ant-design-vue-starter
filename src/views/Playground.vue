@@ -55,6 +55,10 @@ const values = {
   birthday: dayjs('1990-01-01'),
 }
 
+const search = (params: JsonData) => {
+  console.log( params )
+}
+
 onMounted(async () => {
   const hobby = await new Promise(resolve => {
     setTimeout(() => {
@@ -82,6 +86,7 @@ onMounted(async () => {
       :label-col="{ span: 6 }"
       :items="items"
       :values="values"
+      @on-search="search"
     >
       <template #custom="{ item, state }">
         <a-select v-if="item.name === 'hobby'"
