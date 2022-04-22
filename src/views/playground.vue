@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FormItem, FormItemSelectOption } from '@/utils/types/ant'
+import type { FormItem, FormItemSelectOption } from '@/types/ant'
 import dayjs from 'dayjs'
 
 const options = ref<FormItemSelectOption>()

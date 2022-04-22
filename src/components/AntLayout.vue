@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<{
 // @ts-ignore
 const breadcrumb = defineAsyncComponent(() => {
   if (props.withBreadcrumb) {
-    return import('@/views/layout/TheBreadcrumb.vue')
+    return import('@/views/layouts/TheBreadcrumb.vue')
   }
 })
 </script>

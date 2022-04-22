@@ -11,7 +11,7 @@ const logout = () => {
     const { ok } = await useRequest().auth.logout()
     if (ok) {
       useStorage().token(null)
-      router.push({ name: 'auth.login'})
+      router.push({ name: 'auth-login'})
     }
   })
 }

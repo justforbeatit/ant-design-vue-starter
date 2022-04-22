@@ -1,4 +1,4 @@
-import type { ApiResponse } from "@/utils/types/http"
+import type { ApiResponse } from "@/utils/http/core"
 
 export interface ApiRequestMethods {
   auth: {

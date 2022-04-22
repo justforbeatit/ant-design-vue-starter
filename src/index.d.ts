@@ -1,5 +1,4 @@
 import type { ApiRequestMethods } from './api/type'
-import type { FormItem } from '@/utils/types/ant'
 import { useStorage } from '@/utils/store'
 
 declare global {

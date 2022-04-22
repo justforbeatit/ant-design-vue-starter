@@ -2,8 +2,23 @@ import type { AfterFetchContext, OnFetchErrorContext } from "@vueuse/core";
 import {
   useHeaders, asResponseOk, useBaseUrl, asUnauthorized, onUnauthorized, asServerError, onServerError
 } from '@/utils/http'
-import type {AllowedHttpMethods} from "@/utils/types/http";
 import apis from '@/api'
+
+type ApiResponseBase = { ok: boolean }
+
+export type AllowedHttpMethods = 'get' | 'post' | 'put' | 'delete'
+
+export interface ApiConfig {
+  [prop: string]: {
+    [prop: string]: { url: string, method: AllowedHttpMethods }
+  }
+}
+
+export interface ApiResponse<T = []> extends ApiResponseBase {
+  code: string | number,
+  msg: string,
+  data: T
+}
 
 const httpClient = (url: string, method: AllowedHttpMethods, data: JsonData = {}) => {
   return new Promise((resolve: CallableFunction) => {

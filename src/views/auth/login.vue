@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import logo from '@/composables/logo'
-import type {FormItem} from '@/utils/types/ant'
+import type { FormItem } from '@/types/ant'
 
 const title = import.meta.env.VITE_APP_TITLE
 const copyright = import.meta.env.VITE_APP_COPYRIGHT
@@ -39,7 +39,7 @@ const login = async (payload: LoginInfo) => {
   }
   useStorage().token(token)
   success('登录成功')
-  router.push({ name: 'home' })
+  router.push({ name: 'index' })
 }
 </script>
 
@@ -114,3 +114,4 @@ footer {
   font-size: 1rem;
 }
 </style>
+

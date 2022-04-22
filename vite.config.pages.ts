@@ -5,6 +5,9 @@ export default function() {
   return [
     Pages({
       importMode: 'async',
+      dirs: [
+        { dir: 'src/views', baseRoute: '' }
+      ],
       exclude: [resolve(__dirname, './src/pages/layouts/*.vue')],
       extendRoute(route) {
         if (['auth-login', 'index'].includes(route.name)) {
