@@ -2,12 +2,14 @@ import { fileURLToPath, URL } from 'url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import autoImport from './vite.config.auto-import'
+import pages from './vite.config.pages'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    ...autoImport()
+    ...autoImport(),
+    ...pages(),
   ],
   resolve: {
     alias: {

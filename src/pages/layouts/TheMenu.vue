@@ -8,9 +8,9 @@ const menu = useMenuStore()
 const { first, selected, opened, data: menus } = storeToRefs(menu)
 
 menu.initialize().then(() => {
-  const { route } = first.value
-  menu.active(route)
-  router.push(route)
+  const { route: name } = first.value
+  menu.active(name)
+  router.push({ name })
 })
 
 const onOpened = (openKeys: string[] | number[]) => {
@@ -20,7 +20,7 @@ const onOpened = (openKeys: string[] | number[]) => {
   }
 }
 
-const onSelected = ({ key: route }: JsonData) => router.push(route)
+const onSelected = ({ key: name }: JsonData) => router.push({ name })
 
 watch(() => router.currentRoute.value, ({ name }) => menu.active(<string>name))
 </script>
