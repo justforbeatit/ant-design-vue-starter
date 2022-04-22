@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type {FormItemRule, FormItemSelectOption, FormItemSize} from '@/utils/types/ant'
+import icon from '@/composables/icon'
 
 const { is: component, name, options } = withDefaults(defineProps<{
   is: AntComponent,
@@ -11,11 +12,10 @@ const { is: component, name, options } = withDefaults(defineProps<{
   options?: () => Promise<Array<FormItemSelectOption>>,
   rules?: FormItemRule,
   autocomplete?: boolean,
-  prefixIcon?: string | undefined,
+  prefixIcon?: string,
 }>(), {
   label: '',
   autocomplete: false,
-  prefixIcon: undefined
 })
 
 const collection = ref<{[name: string]: FormItemSelectOption[]}>({})
@@ -70,7 +70,7 @@ onMounted(async () => {
       @change="change"
     >
       <template #prefix v-if="prefixIcon">
-        <ant-icon :is="prefixIcon" class="icon-gray" />
+        <icon :is="prefixIcon as string" class="icon-gray" />
       </template>
     </component>
   </a-form-item>
