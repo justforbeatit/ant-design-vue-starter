@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import icon from '@/composables/icon'
 import { useMenuStore } from '@/store/menu'
 
 const theme = import.meta.env.VITE_APP_THEME
@@ -35,7 +36,7 @@ watch(() => router.currentRoute.value, ({ name }) => menu.active(<string>name))
   >
     <template v-for="menu in menus as MenuItem[]" :key="menu.id">
       <a-menu-item v-if="!menu.children" :key="`${menu.route ?? menu.id}`">
-        <ant-icon v-if="menu.icon" :is="menu.icon" />
+        <icon v-if="menu.icon" :is="menu.icon" />
         <span class="nav-text">{{ menu.name }}</span>
       </a-menu-item>
       <template v-else>

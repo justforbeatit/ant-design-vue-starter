@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import logo from '@/composables/logo'
 import type {FormItem} from '@/utils/types/ant'
 
 const title = import.meta.env.VITE_APP_TITLE
@@ -45,7 +46,7 @@ const login = async (payload: LoginInfo) => {
 <template>
   <div id="container">
     <header>
-      <ant-logo width="60px" height="60px" />
+      <logo width="60px" height="60px" />
       <label>{{ title }}</label>
     </header>
     <main>
