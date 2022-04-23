@@ -19,7 +19,7 @@ const { collapsed } = storeToRefs(useMenuStore())
     </the-sider>
     <a-layout :class="collapsed ? 'layout-shrink' : 'layout-spread'">
       <the-header />
-      <a-config-provider :locate="zhCN">
+      <a-config-provider :locale="zhCN">
         <the-content />
       </a-config-provider>
       <the-footer />
