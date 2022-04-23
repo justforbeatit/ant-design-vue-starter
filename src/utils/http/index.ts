@@ -22,10 +22,10 @@ export function asServerError(response: OnFetchErrorContext): boolean {
   return response.data === null
 }
 
-export function onUnauthorized(): void {
+export function onUnauthorized(this: typeof window): void {
   useStorage().token(null)
   warning("会话已失效，请重新登录")
-  window.location.assign(`${useBaseUrl()}/auth/login`)
+  this.location.assign(`${useBaseUrl()}/auth/login`)
 }
 
 export function onServerError(): void {
