@@ -1,14 +1,23 @@
 import { defineStore } from 'pinia'
 
+interface MenuState {
+  collapsed: boolean,
+  selected: Array<string> | undefined,
+  opened: Array<number | string>
+  parent: MenuItem | undefined,
+  current: MenuItem,
+  data: Array<MenuItem>
+}
+
 export const useMenuStore = defineStore('menu', {
-  state: () => {
+  state: (): MenuState => {
     return {
       collapsed: false,
-      selected: [] as string[] | undefined,
-      opened: [] as (number | string)[],
-      parent: {} as MenuItem | undefined,
+      selected: [],
+      opened: [],
+      parent: undefined,
       current: {} as MenuItem,
-      data: [] as MenuItem[],
+      data: [],
     }
   },
   getters: {

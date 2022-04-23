@@ -1,16 +1,11 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
+import breadcrumb from '@/composables/breadcrumb'
+
+const { withBreadcrumb } = withDefaults(defineProps<{
   headerStyle?: {}
   withBreadcrumb?: boolean
 }>(), {
   withBreadcrumb: true
-})
-
-// @ts-ignore
-const breadcrumb = defineAsyncComponent(() => {
-  if (props.withBreadcrumb) {
-    return import('@/views/layouts/TheBreadcrumb.vue')
-  }
 })
 </script>
 

@@ -1,12 +1,12 @@
 import type {ApiResponse} from "@/utils/http/core"
 import type {AfterFetchContext, OnFetchErrorContext} from "@vueuse/core"
-import {useStorage} from "../storage"
+import { useStorage } from "../storage"
 
 export function useBaseUrl(): string {
   return import.meta.env.VITE_APP_URL
 }
 
-export function useHeaders() {
+export function useHeaders(): Record<string, string | number> {
   return { Authorization: `Bearer ${useStorage().token()}` }
 }
 
