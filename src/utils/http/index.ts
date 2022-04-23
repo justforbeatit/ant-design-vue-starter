@@ -1,4 +1,4 @@
-import type {ApiResponse} from "@/utils/types/http"
+import type {ApiResponse} from "@/utils/http/core"
 import type {AfterFetchContext, OnFetchErrorContext} from "@vueuse/core"
 import {useStorage} from "../storage"
 
