@@ -6,7 +6,7 @@ export function useBaseUrl(): string {
   return import.meta.env.VITE_APP_URL
 }
 
-export function useHeaders(): Record<string, string | number> {
+export function useHeaders() {
   return { Authorization: `Bearer ${useStorage().token()}` }
 }
 

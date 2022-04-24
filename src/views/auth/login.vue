@@ -2,9 +2,8 @@
 import logo from '@/composables/logo'
 import type { FormItem } from '@/types/ant'
 
-const title = import.meta.env.VITE_APP_TITLE
-const copyright = import.meta.env.VITE_APP_COPYRIGHT
 const router = useRouter()
+const { VITE_APP_TITLE, VITE_APP_COPYRIGHT } = import.meta.env
 
 const items: FormItem[] = [{
   type: 'Input',
@@ -47,7 +46,7 @@ const login = async (payload: LoginInfo) => {
   <div id="container">
     <header>
       <logo width="60px" height="60px" />
-      <label>{{ title }}</label>
+      <label>{{ VITE_APP_TITLE }}</label>
     </header>
     <main>
       <ant-form
@@ -75,7 +74,9 @@ const login = async (payload: LoginInfo) => {
     </main>
   </div>
   <footer>
-    <a-typography-text type="secondary" v-if="copyright">&copy;{{ copyright }}</a-typography-text>
+    <a-typography-text type="secondary" v-if="VITE_APP_COPYRIGHT">
+      &copy;{{ VITE_APP_COPYRIGHT }}
+    </a-typography-text>
   </footer>
 </template>
 
