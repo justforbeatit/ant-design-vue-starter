@@ -1,4 +1,4 @@
-import type { ApiRequestMethods } from './api/type'
+import type { ApiRequestMethods } from './api/interface'
 import { useStorage } from '@/utils/store'
 
 declare global {
