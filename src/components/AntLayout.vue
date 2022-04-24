@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import breadcrumb from '@/composables/breadcrumb'
+import zhCN from 'ant-design-vue/es/locale/zh_CN'
 
-const { withBreadcrumb } = withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   headerStyle?: {}
   withBreadcrumb?: boolean
 }>(), {
@@ -10,15 +11,16 @@ const { withBreadcrumb } = withDefaults(defineProps<{
 </script>
 
 <template>
-  <header :style="headerStyle">
-    <breadcrumb v-if="withBreadcrumb" />
-    <slot name="header"></slot>
-  </header>
-  <main>
-    <div :style="{ margin: '1rem 1rem' }">
-      <slot></slot>
-    </div>
-  </main>
+  <a-config-provider :locale="zhCN">
+    <header :style="headerStyle">
+      <breadcrumb />
+    </header>
+    <main>
+      <div :style="{ margin: '1rem 1rem' }">
+        <slot></slot>
+      </div>
+    </main>
+  </a-config-provider>
 </template>
 
 <style scoped>

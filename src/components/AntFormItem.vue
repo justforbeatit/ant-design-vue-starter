@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type {FormItemRule, FormItemSelectOption, FormItemSize} from '@/types/ant'
 import icon from '@/composables/icon'
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
 
 const { is: component, name, options } = withDefaults(defineProps<{
   is: AntComponent,
@@ -18,6 +20,7 @@ const { is: component, name, options } = withDefaults(defineProps<{
   autocomplete: false,
 })
 
+const hasSettedLocale = ref(false)
 const collection = ref<{[name: string]: FormItemSelectOption[]}>({})
 
 const emits = defineEmits<{
@@ -44,6 +47,13 @@ const change = (value: string | number) => {
   emits('update:modelValue', value)
   emits('change', value)
 }
+
+watchEffect(() => {
+  if (!hasSettedLocale.value && ['DatePicker', 'RangePicker'].includes(component)) {
+    dayjs.locale('zh-cn')
+    hasSettedLocale.value = true
+  }
+})
 
 onMounted(async () => {
   if (options && !collection.value[name]) {

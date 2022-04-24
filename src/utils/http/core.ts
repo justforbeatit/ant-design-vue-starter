@@ -8,19 +8,21 @@ type ApiResponseBase = { ok: boolean }
 
 export type AllowedHttpMethods = 'get' | 'post' | 'put' | 'delete'
 
+export type PaginationResult = { total: number, data: JsonData[]}
+
 export interface ApiConfig {
   [prop: string]: {
     [prop: string]: { url: string, method: AllowedHttpMethods }
   }
 }
 
-export interface ApiResponse<T = []> extends ApiResponseBase {
+export interface ApiResponse<T = PaginationResult> extends ApiResponseBase {
   code: string | number,
   msg: string,
-  data: T
+  data: T,
 }
 
-const httpClient = (url: string, method: AllowedHttpMethods, data: JsonData = {}) => {
+export function httpClient(url: string, method: AllowedHttpMethods, data: JsonData = {}) {
   return new Promise((resolve: CallableFunction) => {
     createFetch({
       baseUrl: useBaseUrl(),

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FormItem, FormItemSelectOption } from '@/types/ant'
 import type { TableColumnType } from 'ant-design-vue'
+import MyTable from './table.vue'
 
 const items: FormItem[] = [
   {
@@ -85,7 +86,6 @@ const columns: TableColumnType[] = [
     title: '创建时间',
     key: 'created_at',
     dataIndex: 'created_at',
-    width: 180,
   },
 ];
 
@@ -114,7 +114,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <ant-table
+  <my-table
     :columns="columns"
     :data-fetch="dataFetch"
     :search-items="items"
@@ -127,7 +127,6 @@ onMounted(async () => {
       />
     </template>
     <template #actions>
-      <a-divider type="vertical" />
       <a-button type="primary" size="small">
         编辑
       </a-button>
@@ -136,5 +135,9 @@ onMounted(async () => {
         删除
       </a-button>
     </template>
-  </ant-table>
+  </my-table>
 </template>
+
+<style scoped>
+/* code... */
+</style>

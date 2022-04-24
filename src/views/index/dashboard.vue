@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <ant-layout :with-breadcrumb="false">
+  <ant-layout :with-breadcrumb="true">
     <template #header>
       <div class="header">
         <div class="item-l">

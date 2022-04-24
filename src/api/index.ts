@@ -1,4 +1,4 @@
-import type { ApiConfig } from "@/utils/types/http"
+import type { ApiConfig } from "@/utils/http/core"
 
 export default <ApiConfig>{
   auth: {
@@ -8,4 +8,7 @@ export default <ApiConfig>{
   menu: {
     query: { url: '/api/menus', method: 'get'},
   },
+  coupon: {
+    query: { url: '/api/coupons', method: 'get'},
+  }
 }

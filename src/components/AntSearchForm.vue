@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FormItem } from '@/utils/types/ant'
+import type { FormItem } from '@/types/ant'
 
 const { items, values } = withDefaults(defineProps<{
   items: FormItem[],

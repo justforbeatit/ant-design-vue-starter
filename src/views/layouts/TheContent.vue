@@ -59,7 +59,7 @@ watch(() => (currentMenu as Ref<MenuItem>).value || {
 
 <style scoped>
 #content {
-  height: 100vh;
+  min-height: 100vh;
   background: #f0f2f5;
 }
 </style>

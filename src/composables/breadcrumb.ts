@@ -30,7 +30,7 @@ export default defineComponent({
           if (routes.value.indexOf(route) === routes.value.length - 1) {
             return h('span', route.breadcrumbName)
           } else {
-            return h(routerLink, { to: { name: route.path } }, route.breadcrumbName)
+            return h(routerLink, { to: { name: route.path } }, () => route.breadcrumbName)
           }
         }
       }

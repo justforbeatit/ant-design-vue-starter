@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import logo from '@/composables/logo'
 import TheSider from './layouts/TheSider.vue'
 import TheMenu from './layouts/TheMenu.vue'
@@ -19,9 +18,7 @@ const { collapsed } = storeToRefs(useMenuStore())
     </the-sider>
     <a-layout :class="collapsed ? 'layout-shrink' : 'layout-spread'">
       <the-header />
-      <a-config-provider :locale="zhCN">
-        <the-content />
-      </a-config-provider>
+      <the-content />
       <the-footer />
     </a-layout>
   </a-layout>
