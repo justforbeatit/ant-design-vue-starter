@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { FormItem, FormItemSelectOption } from '@/types/ant'
 import type { TableColumnType } from 'ant-design-vue'
-import MyTable from './table.vue'
 
 const items: FormItem[] = [
   {
@@ -114,10 +113,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <my-table
+  <ant-table
     :columns="columns"
     :data-fetch="dataFetch"
     :search-items="items"
+    :has-breadcrumb="false"
   >
     <template #searchItemCustom="{ item, state }">
       <a-select v-if="item.name === 'hobby'"
@@ -125,6 +125,12 @@ onMounted(async () => {
         v-model:value="state[item.name]"
         placeholder="请选择爱好"
       />
+    </template>
+    <template #title>卡券列表</template>
+    <template #toolbars>
+      <a-button type="primary">
+        导出
+      </a-button>
     </template>
     <template #actions>
       <a-button type="primary" size="small">
@@ -135,7 +141,7 @@ onMounted(async () => {
         删除
       </a-button>
     </template>
-  </my-table>
+  </ant-table>
 </template>
 
 <style scoped>

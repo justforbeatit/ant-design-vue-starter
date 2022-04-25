@@ -10,12 +10,17 @@ type Pagination = {
   total: number
 }
 
-const { columns, dataFetch, actionsColumnWidth } = defineProps<{
+const {
+  columns, dataFetch, actionsColumnWidth, hasBreadcrumb
+} = withDefaults(defineProps<{
   columns: TableColumnType[],
   dataFetch: (params: JsonData) => Promise<ApiResponse<PaginationResult>>,
   searchItems?: FormItem[],
   actionsColumnWidth?: number
-}>()
+  hasBreadcrumb?: boolean,
+}>(), {
+  hasBreadcrumb: true,
+})
 
 const dataSource = ref()
 const pagination = ref<Pagination>({
@@ -25,8 +30,10 @@ const pagination = ref<Pagination>({
 })
 
 const loading = ref(false)
-const actions = useSlots().actions
+const { toolbars, actions } = useSlots()
 const { current: menu } = storeToRefs(useMenuStore())
+
+console.info(useSlots())
 
 const _actionsColumnWidth = computed(() => {
   if (actionsColumnWidth) return actionsColumnWidth
@@ -57,7 +64,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <ant-layout :with-breadcrumb="false">
+  <ant-layout :has-breadcrumb="hasBreadcrumb">
     <a-card :bordered="false">
       <ant-search-form
         v-if="searchItems?.length > 0"
@@ -71,9 +78,11 @@ onMounted(() => {
       </ant-search-form>
     </a-card>
     <a-card :bordered="false" :style="{ marginTop: '1rem' }">
-      <template #title>{{ menu.name }}</template>
-      <template #extra>
-        <ReloadOutlined style="font-size: 1.1rem; cursor: pointer; margin-right: 2rem;"/>
+      <template #title v-if="toolbars">
+        <slot name="title">{{ menu.name }}</slot>
+      </template>
+      <template #extra v-if="toolbars">
+        <slot name="toolbars"></slot>
       </template>
       <a-table
         :columns="columns"
@@ -97,3 +106,13 @@ onMounted(() => {
     </a-card>
   </ant-layout>
 </template>
+
+<style>
+ .ant-card-head {
+   border-bottom: 0;
+   padding: 0 24px;
+   height: 48px;
+   line-height: 48px;
+   margin-bottom: 0;
+ }
+</style>

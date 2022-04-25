@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import breadcrumb from '@/composables/breadcrumb'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
+
+const { hasBreadcrumb } = withDefaults(defineProps<{
+  hasBreadcrumb: boolean
+}>(), {
+  hasBreadcrumb: true
+})
 </script>
 
 <template>
   <a-config-provider :locale="zhCN">
     <header>
-      <slot name="header"><breadcrumb /></slot>
+      <slot name="header">
+        <breadcrumb v-if="hasBreadcrumb" />
+      </slot>
     </header>
     <main>
       <div :style="{ margin: '1rem 1rem' }">

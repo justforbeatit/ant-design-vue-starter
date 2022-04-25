@@ -126,6 +126,11 @@ onMounted(async () => {
         placeholder="请选择爱好"
       />
     </template>
+    <template #toolbars>
+      <a-button type="primary">
+        导出
+      </a-button>
+    </template>
     <template #actions>
       <a-divider type="vertical" />
       <a-button type="primary" size="small">

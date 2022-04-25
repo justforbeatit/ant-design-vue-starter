@@ -9,7 +9,7 @@ export default defineComponent({
 
     const routes = computed(() => {
       const breadcrumb = [
-        { path: first.value.route, breadcrumbName: '首页' },
+        { path: first.value?.route, breadcrumbName: '首页' },
       ]
       parent.value && breadcrumb.push({
         path: (parent.value as MenuItem)?.children?.[0]?.route!,
