@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import type { RouteRecordRaw } from 'vue-router'
 import Pages from 'vite-plugin-pages'
 
 export default function() {
@@ -8,9 +8,9 @@ export default function() {
       dirs: [
         { dir: 'src/views', baseRoute: '' }
       ],
-      exclude: [resolve(__dirname, './src/pages/layouts/*.vue')],
-      extendRoute(route) {
-        if (['auth-login', 'index'].includes(route.name)) {
+      extendRoute(route: RouteRecordRaw) {
+        route.name = (route.name! as string).toLowerCase()
+        if (['auth-login', 'index'].includes(<string>route.name)) {
           return route
         }
         return { ...route, meta: { auth: true } }
