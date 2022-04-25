@@ -35,11 +35,11 @@ const logout = () => {
           <a-menu>
             <a-menu-item>
               <EditOutlined />
-              <span>修改密码</span>
+              <span> 修改密码</span>
             </a-menu-item>
             <a-menu-item>
               <LogoutOutlined />
-              <span @click="logout">退出登录</span>
+              <span @click="logout"> 退出登录</span>
             </a-menu-item>
           </a-menu>
         </template>
@@ -69,12 +69,15 @@ const logout = () => {
   height: 100%;
   margin-right: 24px;
   line-height: 48px;
+  font-size: 1rem;
 }
 .trigger {
-  font-size: 1.2rem;
-  padding: 0 24px;
+  font-size: 20px;
   cursor: pointer;
   transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
 }
 .trigger:hover {
   color: #1890ff;
@@ -83,5 +86,6 @@ const logout = () => {
   margin-right: 1rem;
   font-size: 1rem;
   cursor: pointer;
+  line-height: 48px;
 }
 </style>

@@ -18,6 +18,15 @@ export default defineComponent({
       }
     })
 
+    const media = window.matchMedia('(max-width: 960px)')
+    media.addEventListener('change', () => {
+      if (media.matches) {
+        collapsed.value = true
+      } else {
+        collapsed.value = false
+      }
+    })
+
     return () => h(Layout, {}, () => [
       h(
         TheSider,
