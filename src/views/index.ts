@@ -1,10 +1,10 @@
 import { Layout } from "ant-design-vue"
 import logo from '@/composables/logo'
-import TheSider from './layouts/TheSider.vue'
-import TheMenu from './layouts/TheMenu.vue'
-import TheHeader from './layouts/TheHeader.vue'
-import TheContent from './layouts/TheContent.vue'
-import TheFooter from './layouts/TheFooter.vue'
+import TheSider from '@/layouts/TheSider.vue'
+import TheMenu from '@/layouts/TheMenu.vue'
+import TheHeader from '@/layouts/TheHeader.vue'
+import TheContent from '@/layouts/TheContent.vue'
+import TheFooter from '@/layouts/TheFooter.vue'
 import { useMenuStore } from '@/store/menu'
 
 export default defineComponent({
