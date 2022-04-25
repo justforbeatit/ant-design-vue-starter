@@ -1,19 +1,12 @@
 <script setup lang="ts">
 import breadcrumb from '@/composables/breadcrumb'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
-
-const props = withDefaults(defineProps<{
-  headerStyle?: {}
-  withBreadcrumb?: boolean
-}>(), {
-  withBreadcrumb: true
-})
 </script>
 
 <template>
   <a-config-provider :locale="zhCN">
-    <header :style="headerStyle">
-      <breadcrumb />
+    <header>
+      <slot name="header"><breadcrumb /></slot>
     </header>
     <main>
       <div :style="{ margin: '1rem 1rem' }">
@@ -26,7 +19,7 @@ const props = withDefaults(defineProps<{
 <style scoped>
 header {
   margin-top: 0.5rem;
-  min-height: 40px;
   background-color: #fff;
+  min-height: 40px;
 }
 </style>
