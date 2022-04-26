@@ -16,7 +16,7 @@ export default defineComponent({
         breadcrumbName: (parent.value as MenuItem).name
       })
       current.value && breadcrumb.push({
-        path: (current.value as MenuItem).route,
+        path: '',
         breadcrumbName: (current.value as MenuItem).name
       })
       return breadcrumb

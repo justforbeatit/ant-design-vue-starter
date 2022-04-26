@@ -1,4 +1,8 @@
 <script setup lang="ts">
+onMounted(() => {
+  console.info('This is users')
+
+})
 </script>
 
 <template>

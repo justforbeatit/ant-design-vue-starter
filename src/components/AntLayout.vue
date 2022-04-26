@@ -5,7 +5,7 @@ import zhCN from 'ant-design-vue/es/locale/zh_CN'
 const { hasBreadcrumb } = withDefaults(defineProps<{
   hasBreadcrumb?: boolean
 }>(), {
-  hasBreadcrumb: false
+  hasBreadcrumb: true
 })
 </script>
 

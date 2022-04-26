@@ -45,20 +45,21 @@ watch(() => (currentMenu as Ref<MenuItem>).value || {
           :key="pane.key"
           :tab="pane.title"
           :closable="index !== 0"
-        >
-          <template v-if="pane.key === activeKey">
-            <div id="content">
-              <router-view />
-            </div>
-          </template>
-        </a-tab-pane>
+        />
       </a-tabs>
+      <div class="tab-content">
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
+      </div>
     </div>
   </a-layout-content>
 </template>
 
 <style scoped>
-#content {
+.tab-content {
   min-height: 100vh;
   background: #f0f2f5;
 }
