@@ -18,7 +18,7 @@ const shouldFormatItems = computed(() => {
     ].includes(type)).map(_ => _.name)
 })
 
-const emits = defineEmits<{
+const emit = defineEmits<{
   (e: 'on-search', values: JsonData): void
 }>()
 
@@ -27,7 +27,7 @@ const search = () => {
     _[k] = shouldFormatItems.value.includes(k) ? v.format('YYYY-MM-DD') : v
     return _
   }, {} as JsonData)
-  emits('on-search', data)
+  emit('on-search', data)
 }
 </script>
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import '@/assets/login.less'
 import logo from '@/composables/logo'
 import type { FormItem } from '@/types/ant'
 
@@ -49,7 +50,7 @@ const login = async (payload: LoginInfo) => {
 </script>
 
 <template>
-  <div id="container">
+  <div class="login-container">
     <header>
       <logo width="60px" height="60px" />
       <label>{{ VITE_APP_TITLE }}</label>
@@ -59,25 +60,18 @@ const login = async (payload: LoginInfo) => {
         :label-col="{ span: 0 }"
         :wrapper-col="{ span: 24 }"
         :items="items"
-        :button="{ text: '登录', type: 'primary', size: 'large', block: true}"
-        @on-finished="login"
+        @on-submit="login"
       >
-        <template #custom>
-          <!--
-          <a-row v-if="item.name === 'captcha'">
-            <a-col :span="16">
-              <a-input :size="item.size" :placeholder="item.placeholder" v-model:value="state[item.name]">
-                <template #prefix>
-                  <SafetyOutlined style="color: #ccc;"/>
-                </template>
-              </a-input>
-            </a-col>
-            <a-col :span="7" :offset="1">
-              <img src="https://n5gm.wanyuenet.com/captcha/math?i23UYInH" style="height: 100%;width: 100%;">
-            </a-col>
-          </a-row>
-          -->
-          <img src="https://n5gm.wanyuenet.com/captcha/math?i23UYInH" style="height: 100%;width: 100%;">
+        <template #custom="{ item }">
+          <img v-if="item.name === 'captchaimg'"
+            src="https://n5gm.wanyuenet.com/captcha/math?i23UYInH"
+            style="height: 100%;width: 100%;"
+          >
+        </template>
+        <template #button="{ loading }">
+          <a-button html-type="submit" type="primary" size="large" block :loading="loading">
+            登录
+          </a-button>
         </template>
       </ant-form>
     </main>
@@ -88,39 +82,3 @@ const login = async (payload: LoginInfo) => {
     </a-typography-text>
   </footer>
 </template>
-
-<style scoped lang="less">
-#container {
-  width: 30rem;
-  height: 20rem;
-  margin: 0 auto;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  header {
-    height: 20%;
-    font-size: 1.2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    label {
-      font-size: 1.4rem;
-    }
-  }
-  main {
-    height: 80%;
-    padding: 1rem;
-  }
-}
-footer {
-  height: 4rem;
-  color: #ccc;
-  position: absolute;
-  width: 100%;
-  bottom: 1px;
-  text-align: center;
-  line-height: 4rem;
-  font-size: 1rem;
-}
-</style>

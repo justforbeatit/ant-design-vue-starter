@@ -26,9 +26,9 @@ const { values, button, submit, jumpTo } = withDefaults(defineProps<
     }),
 })
 
-const emits = defineEmits<
+const emit = defineEmits<
   {
-    (e: 'on-finished', payload: JsonData): void,
+    (e: 'on-submit', payload: JsonData): void,
   }
 >()
 
@@ -43,7 +43,7 @@ const isMultipleItems = (_: FormItem | FormItem[]): boolean => {
 const triggerSubmit = () => {
   loading.value = true
   setTimeout(async () => {
-    emits('on-finished', toRaw(state.value))
+    emit('on-submit', toRaw(state.value))
     if (submit) {
       const { ok, msg } = await submit(toRaw(state.value))
       if (!ok) {
@@ -64,44 +64,45 @@ const triggerSubmit = () => {
     :wrapperCol="wrapperCol"
     @finish="triggerSubmit"
   >
-    <template v-for="_ in items">
-      <a-row :gutter="24">
-        <a-col
-          v-for="(item, index) in (isMultipleItems(_) ? _ : [_])"
-          :key="index"
-          :span="(item as FormItem)?.wrapperCol?.span || 24"
-          :offset="(item as FormItem)?.wrapperCol?.offset || 0"
+    <a-row :gutter="24" v-for="(_, index) in items" :key="index">
+      <a-col
+        v-for="(item, index) in (isMultipleItems(_) ? _ : [_])"
+        :key="index"
+        :span="(item as FormItem)?.wrapperCol?.span || 24"
+        :offset="(item as FormItem)?.wrapperCol?.offset || 0"
+      >
+        <a-form-item v-if="(item as FormItem).type === 'Custom'"
+          :name="(item as FormItem).name"
+          :label="(item as FormItem).label"
+          :rules="(item as FormItem).rules as FormItemRule || []"
         >
-          <a-form-item v-if="(item as FormItem).type === 'Custom'"
-            :name="(item as FormItem).name"
-            :label="(item as FormItem).label"
-            :rules="(item as FormItem).rules as FormItemRule || []"
-          >
-            <slot name="custom" :item="item" :state="state"></slot>
-          </a-form-item>
-          <ant-form-item v-else
-            v-model="state[(item as FormItem).name]"
-            :is="(item as FormItem).type"
-            :name="(item as FormItem).name"
-            :label="(item as FormItem)?.label || ''"
-            :placeholder="(item as FormItem).placeholder"
-            :autocomplete="(item as FormItem)?.autocomplete"
-            :size="(item as FormItem)?.size || 'default'"
-            :prefixIcon="(item as FormItem).prefixIcon"
-            :options="(item as FormItem).options"
-            :rules="(item as FormItem).required !== false
-              ? [{
-                required: true,
-                message: (item as FormItem)?.placeholder
-              }, ...((item as FormItem).rules as FormItemRule || [])]
-              : []
-            "
-          />
-        </a-col>
-      </a-row>
-    </template>
-    <template v-if="button">
-      <a-form-item>
+          <slot name="custom" :item="item" :state="state"></slot>
+        </a-form-item>
+        <ant-form-item v-else
+          v-model="state[(item as FormItem).name]"
+          :is="(item as FormItem).type"
+          :name="(item as FormItem).name"
+          :label="(item as FormItem)?.label || ''"
+          :placeholder="(item as FormItem).placeholder"
+          :autocomplete="(item as FormItem)?.autocomplete"
+          :size="(item as FormItem)?.size || 'default'"
+          :prefixIcon="(item as FormItem).prefixIcon"
+          :options="(item as FormItem).options"
+          :rules="(item as FormItem).required !== false
+            ? [{
+              required: true,
+              message: (item as FormItem)?.placeholder
+                ? (item as FormItem).placeholder
+                : `请${(item as FormItem).type.startsWith('Input')
+                  ? '输入' : '选择'}${(item as FormItem).label}`
+            }, ...((item as FormItem).rules as FormItemRule || [])]
+            : []
+          "
+        />
+      </a-col>
+    </a-row>
+    <a-form-item>
+      <slot name="button" :loading="loading">
         <a-button
           html-type="submit"
           :type="(button as FormItemButton).type"
@@ -111,7 +112,7 @@ const triggerSubmit = () => {
         >
           {{(button as FormItemButton).text}}
         </a-button>
-      </a-form-item>
-    </template>
+      </slot>
+    </a-form-item>
   </a-form>
 </template>

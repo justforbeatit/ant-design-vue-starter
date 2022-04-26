@@ -21,9 +21,9 @@ const { is: component, name, options } = withDefaults(defineProps<{
 })
 
 const hasSettedLocale = ref(false)
-const collection = ref<{[name: string]: FormItemSelectOption[]}>({})
+const selection = ref<{[name: string]: FormItemSelectOption[]}>({})
 
-const emits = defineEmits<{
+const emit = defineEmits<{
   (e: 'update:modelValue', value: string | number): void,
   (e: 'change', value: string | number): void
 }>()
@@ -44,8 +44,8 @@ const currentComponent = defineAsyncComponent(async () => {
 })
 
 const change = (value: string | number) => {
-  emits('update:modelValue', value)
-  emits('change', value)
+  emit('update:modelValue', value)
+  emit('change', value)
 }
 
 watchEffect(() => {
@@ -56,8 +56,8 @@ watchEffect(() => {
 })
 
 onMounted(async () => {
-  if (options && !collection.value[name]) {
-    collection.value[name] = await options()
+  if (options && !selection.value[name]) {
+    selection.value[name] = await options()
   }
 })
 </script>
@@ -71,8 +71,10 @@ onMounted(async () => {
     <component
       :is="currentComponent"
       :value="modelValue"
-      :options="collection[name] || []"
-      :placeholder="`请${is.startsWith('Input') ? '输入' : '选择'}${placeholder ? placeholder : label}`"
+      :options="selection[name] || []"
+      :placeholder="placeholder ? placeholder
+        : `请${component.startsWith('Input') ? '输入' : '选择'}${label}`
+      "
       :size="size as FormItemSize || 'default'"
       :style="{ width: '100%' }"
       :autocomplete="autocomplete ? 'on' : 'off'"
