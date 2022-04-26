@@ -1,19 +1,13 @@
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
-import type {ComponentResolverFunction} from 'unplugin-vue-components/types'
 
 export default function() {
   return [
     Components({
       dirs: ['src/components'],
       resolvers: [
-        AntDesignVueResolver(),
-        ((name: string) => {
-          if (name.endsWith('Outlined')) {
-            return { importName: name, path: '@ant-design/icons-vue' }
-          }
-        }) as ComponentResolverFunction
+        AntDesignVueResolver({ resolveIcons: true }),
       ]
     }),
     AutoImport({

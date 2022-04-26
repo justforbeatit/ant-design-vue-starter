@@ -46,8 +46,17 @@ declare module '@vue/runtime-core' {
     ATimePicker: typeof import('ant-design-vue/es')['TimePicker']
     ATransfer: typeof import('ant-design-vue/es')['Transfer']
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
+    DownOutlined: typeof import('@ant-design/icons-vue')['DownOutlined']
+    EditOutlined: typeof import('@ant-design/icons-vue')['EditOutlined']
+    FullscreenExitOutlined: typeof import('@ant-design/icons-vue')['FullscreenExitOutlined']
+    FullscreenOutlined: typeof import('@ant-design/icons-vue')['FullscreenOutlined']
+    LogoutOutlined: typeof import('@ant-design/icons-vue')['LogoutOutlined']
+    MenuFoldOutlined: typeof import('@ant-design/icons-vue')['MenuFoldOutlined']
+    MenuUnfoldOutlined: typeof import('@ant-design/icons-vue')['MenuUnfoldOutlined']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SafetyOutlined: typeof import('@ant-design/icons-vue')['SafetyOutlined']
+    UserOutlined: typeof import('@ant-design/icons-vue')['UserOutlined']
   }
 }
 
