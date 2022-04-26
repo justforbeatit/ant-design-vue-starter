@@ -5,7 +5,7 @@ import type { FormItem } from '@/types/ant'
 const router = useRouter()
 const { VITE_APP_TITLE, VITE_APP_COPYRIGHT } = import.meta.env
 
-const items: FormItem[] = [{
+const items: Array<FormItem | FormItem[]> = [{
   type: 'Input',
   name: 'username',
   placeholder: '请输入用户名',
@@ -24,12 +24,18 @@ const items: FormItem[] = [{
   rules: [
     { min: 6, message: '密码至少 6 个字符' },
   ]
-}, {
-  type: 'Custom',
+}, [{
+  type: 'Input',
   name: 'captcha',
   placeholder: '请输入验证码',
   size: 'large',
-}]
+  prefixIcon: 'SafetyOutlined',
+  wrapperCol: { span: 16 },
+}, {
+  type: 'Custom',
+  name: 'captchaimg',
+  wrapperCol: { span: 8 },
+}]]
 
 const login = async (payload: LoginInfo) => {
   const { ok, msg, data: { token } } = await useRequest().auth.login(payload)
@@ -56,7 +62,8 @@ const login = async (payload: LoginInfo) => {
         :button="{ text: '登录', type: 'primary', size: 'large', block: true}"
         @on-finished="login"
       >
-        <template #custom="{ item, state }">
+        <template #custom>
+          <!--
           <a-row v-if="item.name === 'captcha'">
             <a-col :span="16">
               <a-input :size="item.size" :placeholder="item.placeholder" v-model:value="state[item.name]">
@@ -69,6 +76,8 @@ const login = async (payload: LoginInfo) => {
               <img src="https://n5gm.wanyuenet.com/captcha/math?i23UYInH" style="height: 100%;width: 100%;">
             </a-col>
           </a-row>
+          -->
+          <img src="https://n5gm.wanyuenet.com/captcha/math?i23UYInH" style="height: 100%;width: 100%;">
         </template>
       </ant-form>
     </main>

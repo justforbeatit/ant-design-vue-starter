@@ -18,6 +18,7 @@ export interface FormItem {
   autocomplete? : boolean,
   rules?: FormItemRule,
   options?: () => Promise<Array<FormItemSelectOption>>,
+  wrapperCol?: { span: number | Object, offset?: number },
 }
 
 export interface FormItemButton {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { FormItem, FormItemButton, FormItemRule } from '@/utils/types/ant'
-import type { ApiResponse } from "@/utils/types/http"
+import type { FormItem, FormItemButton, FormItemRule } from '@/types/ant'
+import type { ApiResponse } from "@/utils/http/core"
 
 const { values, button, submit, jumpTo } = withDefaults(defineProps<
   {
@@ -36,6 +36,10 @@ const state = ref(values)
 const loading = ref(false)
 const router = useRouter()
 
+const isMultipleItems = (_: FormItem | FormItem[]): boolean => {
+  return Object.prototype.toString.call(_) === '[object Array]'
+}
+
 const triggerSubmit = () => {
   loading.value = true
   setTimeout(async () => {
@@ -60,31 +64,41 @@ const triggerSubmit = () => {
     :wrapperCol="wrapperCol"
     @finish="triggerSubmit"
   >
-    <template v-for="item in items" :key="item.name">
-      <a-form-item v-if="item.type === 'Custom'"
-        :name="item.name"
-        :label="item.label"
-        :rules="item.required !== false
-          ? [{ required: true, message: item?.placeholder }, ...(item.rules as FormItemRule || []) ]
-          : []
-        "
-      >
-        <slot name="custom" :item="item" :state="state"></slot>
-      </a-form-item>
-      <ant-form-item v-else
-        v-model="state[item.name]"
-        :is="item.type"
-        :name="item.name"
-        :label="item?.label || ''"
-        :placeholder="item.placeholder"
-        :autocomplete="item?.autocomplete"
-        :prefixIcon="item.prefixIcon"
-        :options="item.options"
-        :rules="item.required !== false
-          ? [{ required: true, message: item?.placeholder }, ...(item.rules as FormItemRule || []) ]
-          : []
-        "
-      />
+    <template v-for="_ in items">
+      <a-row :gutter="24">
+        <a-col
+          v-for="(item, index) in (isMultipleItems(_) ? _ : [_])"
+          :key="index"
+          :span="(item as FormItem)?.wrapperCol?.span || 24"
+          :offset="(item as FormItem)?.wrapperCol?.offset || 0"
+        >
+          <a-form-item v-if="(item as FormItem).type === 'Custom'"
+            :name="(item as FormItem).name"
+            :label="(item as FormItem).label"
+            :rules="(item as FormItem).rules as FormItemRule || []"
+          >
+            <slot name="custom" :item="item" :state="state"></slot>
+          </a-form-item>
+          <ant-form-item v-else
+            v-model="state[(item as FormItem).name]"
+            :is="(item as FormItem).type"
+            :name="(item as FormItem).name"
+            :label="(item as FormItem)?.label || ''"
+            :placeholder="(item as FormItem).placeholder"
+            :autocomplete="(item as FormItem)?.autocomplete"
+            :size="(item as FormItem)?.size || 'default'"
+            :prefixIcon="(item as FormItem).prefixIcon"
+            :options="(item as FormItem).options"
+            :rules="(item as FormItem).required !== false
+              ? [{
+                required: true,
+                message: (item as FormItem)?.placeholder
+              }, ...((item as FormItem).rules as FormItemRule || [])]
+              : []
+            "
+          />
+        </a-col>
+      </a-row>
     </template>
     <template v-if="button">
       <a-form-item>
