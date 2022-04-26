@@ -3,9 +3,9 @@ import breadcrumb from '@/composables/breadcrumb'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 
 const { hasBreadcrumb } = withDefaults(defineProps<{
-  hasBreadcrumb: boolean
+  hasBreadcrumb?: boolean
 }>(), {
-  hasBreadcrumb: true
+  hasBreadcrumb: false
 })
 </script>
 
