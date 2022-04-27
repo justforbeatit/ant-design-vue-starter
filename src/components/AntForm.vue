@@ -36,8 +36,9 @@ const state = ref(values)
 const loading = ref(false)
 const router = useRouter()
 
-const isMultipleItems = (_: FormItem | FormItem[]): boolean => {
-  return Object.prototype.toString.call(_) === '[object Array]'
+const itemsToArray = (_: FormItem | FormItem[]): FormItem[] => {
+  if (Object.prototype.toString.call(_) === '[object Array]') return _ as FormItem[]
+  return [<FormItem>_]
 }
 
 const triggerSubmit = () => {
@@ -66,9 +67,9 @@ const triggerSubmit = () => {
   >
     <a-row :gutter="24" v-for="(_, index) in items" :key="index">
       <a-col
-        v-for="(item, index) in (isMultipleItems(_) ? _ : [_])"
+        v-for="(item, index) in itemsToArray(_) as Array<FormItem>"
         :key="index"
-        :span="(item as FormItem)?.wrapperCol?.span || 24"
+        :span="(item as FormItem)?.wrapperCol?.span || (24 / itemsToArray(_).length)"
         :offset="(item as FormItem)?.wrapperCol?.offset || 0"
       >
         <a-form-item v-if="(item as FormItem).type === 'Custom'"
