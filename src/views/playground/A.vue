@@ -1,11 +1,9 @@
 <script setup lang="ts">
-onMounted(() => {
-  console.info('mounted A')
-})
+// code...
 </script>
 
 <template>
-  <h1>This is a !</h1>
+  <h1>111</h1>
 </template>
 
 <style scoped>

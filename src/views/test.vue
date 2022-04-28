@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FormItem, FormItemSelectOption } from '@/types/ant'
 import type { TableColumnType } from 'ant-design-vue'
+import CouponForm from './components/coupon/Form.vue'
 
 const items: FormItem[] = [
   {
@@ -128,9 +129,9 @@ onMounted(async () => {
     </template>
     <template #title>卡券列表</template>
     <template #toolbars>
-      <a-button type="primary">
-        导出
-      </a-button>
+      <ant-drawer title="添加卡券">
+        <coupon-form />
+      </ant-drawer>
     </template>
     <template #actions>
       <a-button type="primary" size="small">

@@ -1,139 +1,148 @@
 <template>
-  <a-button type="primary" @click="showDrawer">
-    <template #icon><PlusOutlined /></template>
-    New account
-  </a-button>
-  <a-drawer
-    title="Create a new account"
-    :width="720"
-    :visible="visible"
-    :body-style="{ paddingBottom: '80px' }"
-    :footer-style="{ textAlign: 'right' }"
-    @close="onClose"
+  <a-list
+    :data-source="[
+      {
+        name: 'Lily',
+      },
+      {
+        name: 'Lily',
+      },
+    ]"
+    bordered
   >
-    <a-form :model="form" :rules="rules" layout="vertical">
-      <a-row :gutter="16">
-        <a-col :span="12">
-          <a-form-item label="Name" name="name">
-            <a-input v-model:value="form.name" placeholder="Please enter user name" />
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label="Url" name="url">
-            <a-input
-              v-model:value="form.url"
-              style="width: 100%"
-              addon-before="http://"
-              addon-after=".com"
-              placeholder="please enter url"
-            />
-          </a-form-item>
-        </a-col>
-      </a-row>
-      <a-row :gutter="16">
-        <a-col :span="12">
-          <a-form-item label="Owner" name="owner">
-            <a-select v-model:value="form.owner" placeholder="Please a-s an owner">
-              <a-select-option value="xiao">Xiaoxiao Fu</a-select-option>
-              <a-select-option value="mao">Maomao Zhou</a-select-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label="Type" name="type">
-            <a-select v-model:value="form.type" placeholder="Please choose the type">
-              <a-select-option value="private">Private</a-select-option>
-              <a-select-option value="public">Public</a-select-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-      </a-row>
-      <a-row :gutter="16">
-        <a-col :span="12">
-          <a-form-item label="Approver" name="approver">
-            <a-select v-model:value="form.approver" placeholder="Please choose the approver">
-              <a-select-option value="jack">Jack Ma</a-select-option>
-              <a-select-option value="tom">Tom Liu</a-select-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label="DateTime" name="dateTime">
-            <a-date-picker
-              v-model:value="form.dateTime"
-              style="width: 100%"
-              :get-popup-container="(trigger: any) => trigger.parentElement"
-            />
-          </a-form-item>
-        </a-col>
-      </a-row>
-      <a-row :gutter="16">
-        <a-col :span="24">
-          <a-form-item label="Description" name="description">
-            <a-textarea
-              v-model:value="form.description"
-              :rows="4"
-              placeholder="please enter url description"
-            />
-          </a-form-item>
-        </a-col>
-      </a-row>
-    </a-form>
-    <template #extra>
-      <a-space>
-        <a-button @click="onClose">Cancel</a-button>
-        <a-button type="primary" @click="onClose">Submit</a-button>
-      </a-space>
+    <template #renderItem="{ item }">
+      <a-list-item :key="`a-${item.id}`">
+        <template #actions><a @click="showDrawer">View Profile</a></template>
+        <a-list-item-meta description="Progresser XTech">
+          <template #title>
+            <a href="https://www.antdv.com/">{{ item.name }}</a>
+          </template>
+          <template #avatar>
+            <a-avatar src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png" />
+          </template>
+        </a-list-item-meta>
+      </a-list-item>
     </template>
+  </a-list>
+  <a-drawer width="640" placement="right" :closable="false" :visible="visible" @close="onClose">
+    <p :style="[pStyle, pStyle2]">User Profile</p>
+    <p :style="pStyle">Personal</p>
+    <a-row>
+      <a-col :span="12">
+        <description-item title="Full Name" content="Lily" />
+      </a-col>
+      <a-col :span="12">
+        <description-item title="Account" content="AntDesign@example.com" />
+      </a-col>
+    </a-row>
+    <a-row>
+      <a-col :span="12">
+        <description-item title="City" content="HangZhou" />
+      </a-col>
+      <a-col :span="12">
+        <description-item title="Country" content="China🇨🇳" />
+      </a-col>
+    </a-row>
+    <a-row>
+      <a-col :span="12">
+        <description-item title="Birthday" content="February 2,1900" />
+      </a-col>
+      <a-col :span="12">
+        <description-item title="Website" content="-" />
+      </a-col>
+    </a-row>
+    <a-row>
+      <a-col :span="12">
+        <description-item
+          title="Message"
+          content="Make things as simple as possible but no simpler."
+        />
+      </a-col>
+    </a-row>
+    <a-divider />
+    <p :style="pStyle">Company</p>
+    <a-row>
+      <a-col :span="12">
+        <description-item title="Position" content="Programmer" />
+      </a-col>
+      <a-col :span="12">
+        <description-item title="Responsibilities" content="Coding" />
+      </a-col>
+    </a-row>
+    <a-row>
+      <a-col :span="12">
+        <description-item title="Department" content="XTech" />
+      </a-col>
+      <a-col :span="12">
+        <description-item title="Supervisor">
+          <template #content><a>Lin</a></template>
+        </description-item>
+      </a-col>
+    </a-row>
+    <a-row>
+      <a-col :span="24">
+        <description-item
+          title="Skills"
+          content="C / C + +, data structures, software engineering, operating systems, computer networks, databases, compiler theory, computer architecture, Microcomputer Principle and Interface Technology, Computer English, Java, ASP, etc."
+        />
+      </a-col>
+    </a-row>
+    <a-divider />
+    <p :style="pStyle">Contacts</p>
+    <a-row>
+      <a-col :span="12">
+        <description-item title="Email" content="ant-design-vue@example.com" />
+      </a-col>
+      <a-col :span="12">
+        <description-item title="Phone Number" content="+86 181 0000 0000" />
+      </a-col>
+    </a-row>
+    <a-row>
+      <a-col :span="24">
+        <description-item title="Github">
+          <template #content>
+            <a href="https://github.com/vueComponent/ant-design-vue">
+              github.com/vueComponent/ant-design-vue
+            </a>
+          </template>
+        </description-item>
+      </a-col>
+    </a-row>
   </a-drawer>
 </template>
 <script lang="ts">
-import { PlusOutlined } from '@ant-design/icons-vue';
-import { defineComponent, reactive, ref } from 'vue';
-import type { Rule } from 'ant-design-vue/es/form';
+import descriptionItem from './descriptionItem/index.vue';
+import { defineComponent, ref } from 'vue';
 export default defineComponent({
   components: {
-    PlusOutlined,
+    descriptionItem,
   },
   setup() {
-    const form = reactive({
-      name: '',
-      url: '',
-      owner: '',
-      type: '',
-      approver: '',
-      dateTime: null,
-      description: '',
-    });
-
-    const rules: Record<string, Rule[]> = {
-      name: [{ required: true, message: 'Please enter user name' }],
-      url: [{ required: true, message: 'please enter url' }],
-      owner: [{ required: true, message: 'Please select an owner' }],
-      type: [{ required: true, message: 'Please choose the type' }],
-      approver: [{ required: true, message: 'Please choose the approver' }],
-      dateTime: [{ required: true, message: 'Please choose the dateTime', type: 'object' }],
-      description: [{ required: true, message: 'Please enter url description' }],
-    };
-
     const visible = ref<boolean>(false);
+    const pStyle = {
+      fontSize: '16px',
+      color: 'rgba(0,0,0,0.85)',
+      lineHeight: '24px',
+      display: 'block',
+      marginBottom: '16px',
+    };
+    const pStyle2 = {
+      marginBottom: '24px',
+    };
 
     const showDrawer = () => {
       visible.value = true;
     };
-
     const onClose = () => {
       visible.value = false;
     };
     return {
-      form,
-      rules,
       visible,
+      pStyle,
+      pStyle2,
       showDrawer,
       onClose,
     };
   },
 });
 </script>
-
-
