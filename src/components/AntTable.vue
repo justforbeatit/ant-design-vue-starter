@@ -67,7 +67,7 @@ onMounted(() => {
   <ant-layout :has-breadcrumb="hasBreadcrumb">
     <a-card :bordered="false">
       <ant-search-form
-        v-if="searchItems?.length > 0"
+        v-if="searchItems"
         :label-col="{ span: 6 }"
         :items="searchItems"
         @on-search="onSearch"

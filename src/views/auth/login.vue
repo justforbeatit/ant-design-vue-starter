@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import '@/assets/login.less'
 import logo from '@/composables/logo'
-import CLOUDS from 'vanta/src/vanta.clouds'
 import type { FormItem } from '@/types/ant'
 
-const router = useRouter()
-const vanta = ref(null)
 const { VITE_APP_TITLE, VITE_APP_COPYRIGHT } = import.meta.env
+const router = useRouter()
 
 const items: Array<FormItem | FormItem[]> = [{
   type: 'Input',
@@ -49,18 +47,10 @@ const login = async (payload: LoginInfo) => {
   success('登录成功')
   router.push({ name: 'index' })
 }
-
-nextTick(() => {
-  CLOUDS({
-    el: vanta.value,
-    minHeight: window.innerHeight,
-    minWidth: window.innerWidth,
-  })
-})
 </script>
 
 <template>
-  <div ref="vanta" class="login-container">
+  <div class="login-container">
     <div class="login-content">
       <header>
         <logo width="60px" height="60px" />
@@ -94,18 +84,3 @@ nextTick(() => {
     </footer>
   </div>
 </template>
-
-<style>
-.login-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #f0f2f5;
-}
-</style>

@@ -16,7 +16,7 @@ menu.initialize().then(() => {
 const onOpened = (openKeys: string[] | number[]) => {
   menu.opened = []
   if (openKeys.length > 0) {
-    menu.opened = [<number>openKeys.at(-1)]
+    menu.opened = [<number>openKeys[openKeys.length - 1]]
   }
 }
 

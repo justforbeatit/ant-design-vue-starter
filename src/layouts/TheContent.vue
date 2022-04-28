@@ -13,7 +13,7 @@ const tabChangeTo = (name: string) => router.push({ name })
 const onTabEdited = (targetKey: string | MouseEvent, action: string) => {
   if (action === 'remove') {
     panes.value = panes.value.filter(pane => pane.key !== targetKey)
-    const { key } = panes.value.at(-1)!
+    const { key } = panes.value[panes.value.length -1]!
     tabChangeTo(key)
   }
 }
