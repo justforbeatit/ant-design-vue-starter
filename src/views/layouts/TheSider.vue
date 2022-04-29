@@ -8,11 +8,12 @@ const { collapsed } = storeToRefs(useMenuStore())
 
 <template>
   <a-layout-sider
+    class="menu-sider"
     collapsible
     :collapsedWidth="48"
+    :width="collapsed ? 48 : 208"
     v-model:collapsed="collapsed"
     :trigger="null"
-    :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }"
     :theme="theme"
   >
     <div class="logo">
@@ -25,13 +26,21 @@ const { collapsed } = storeToRefs(useMenuStore())
   </a-layout-sider>
 </template>
 
-<style scoped>
-.logo {
-  height: 64px;
-  line-height: 64px;
-  text-align: center;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #fff;
+<style scoped lang="less">
+.menu-sider {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  height: 100%;
+  box-shadow:  0 8px 0 rgb(29 35 41 / 5%);
+  .logo {
+    height: 64px;
+    line-height: 64px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+  }
 }
 </style>
