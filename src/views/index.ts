@@ -14,6 +14,7 @@ export default defineComponent({
     const style = computed(() => {
       return {
         marginLeft: collapsed.value ? '48px' : '208px',
+        transition: 'all 0.2s'
       }
     })
 

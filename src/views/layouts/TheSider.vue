@@ -34,6 +34,7 @@ const { collapsed } = storeToRefs(useMenuStore())
   z-index: 10;
   height: 100%;
   box-shadow:  0 8px 0 rgb(29 35 41 / 5%);
+  transition: all 0.2s;
   .logo {
     height: 64px;
     line-height: 64px;
