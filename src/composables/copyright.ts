@@ -14,7 +14,7 @@ export default defineComponent({
     return () => {
       return h(
         'p',
-        { style: { color: 'gray' } },
+        { style: { color: 'rgba(0,0,0,.45)', fontSize: '14px' } },
         copyright.value
       )
     }

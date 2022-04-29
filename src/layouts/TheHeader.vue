@@ -27,10 +27,13 @@ const logout = () => {
       <FullscreenOutlined v-if="!isFullscreen" @click="toggleFullscreen" class="fullscreen" />
       <FullscreenExitOutlined v-else @click="toggleFullscreen" class="fullscreen" />
       <a-dropdown placement="bottomRight">
-        <span>
-          <UserOutlined /> 管理员
+        <div style="display: inline-block;">
+          <a-avatar style="background-color: #1890ff" size="small">
+            <template #icon><UserOutlined /></template>
+          </a-avatar>
+          <span style="padding: 0.3rem;cursor: pointer;">管理员</span>
           <DownOutlined style="cursor: pointer;" />
-        </span>
+        </div>
         <template #overlay>
           <a-menu>
             <a-menu-item>
