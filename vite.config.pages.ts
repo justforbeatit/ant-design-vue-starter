@@ -9,7 +9,10 @@ export default function() {
       dirs: [
         { dir: 'src/views', baseRoute: '' }
       ],
-      exclude: [resolve(__dirname, 'src/views/components/**/*')],
+      exclude: [
+        resolve(__dirname, 'src/views/components/**/*'),
+        resolve(__dirname, 'src/views/layouts/*.vue')
+      ],
       extendRoute(route: RouteRecordRaw) {
         route.name = (route.name! as string).toLowerCase()
         if (['auth-login', 'index'].includes(<string>route.name)) {
