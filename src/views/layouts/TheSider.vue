@@ -17,7 +17,7 @@ const { collapsed } = storeToRefs(useMenuStore())
     :theme="theme"
   >
     <div class="logo">
-      <span>
+      <span style="font-weight: 600;">
         <slot name="logo"></slot>
         <template v-if="!collapsed">{{ title }}</template>
       </span>
