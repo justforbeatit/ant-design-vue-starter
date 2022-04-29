@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import '@/assets/login.less'
 import logo from '@/composables/logo'
+import copyright from '@/composables/copyright'
 import type { FormItem } from '@/types/ant'
 
-const { VITE_APP_TITLE, VITE_APP_COPYRIGHT } = import.meta.env
+const { VITE_APP_TITLE } = import.meta.env
 const router = useRouter()
 
 const items: Array<FormItem | FormItem[]> = [{
@@ -78,9 +79,7 @@ const login = async (payload: LoginInfo) => {
       </main>
     </div>
     <footer>
-      <a-typography-text type="secondary" v-if="VITE_APP_COPYRIGHT">
-        &copy;{{ VITE_APP_COPYRIGHT }}
-      </a-typography-text>
+      <copyright />
     </footer>
   </div>
 </template>
