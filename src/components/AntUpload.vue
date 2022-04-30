@@ -2,9 +2,10 @@
 import type { UploadFile } from 'ant-design-vue'
 
 const { file, maxCount } = withDefaults(defineProps<{
-  file: string | Array<string>,
+  file?: string | Array<string>,
   maxCount?: number
 }>(), {
+  file: () => [],
   maxCount: 1
 })
 
@@ -20,7 +21,13 @@ const finalFileList = computed(() => {
   return uploadedFiles.value.length > 1 ? uploadedFiles.value : uploadedFiles.value[0]
 })
 
-const upload = (uploaded: { file: UploadFile, fileList: UploadFile[] }) => {
+const beforeUpload = () => {
+  if (uploadedFiles.value.length === maxCount) {
+    return warning(`最多上传${maxCount}个文件`)
+  }
+}
+
+const onUpload = (uploaded: { file: UploadFile, fileList: UploadFile[] }) => {
   const { status, response } = uploaded.file
   if (status === 'error') {
     return error('上传失败')
@@ -30,7 +37,7 @@ const upload = (uploaded: { file: UploadFile, fileList: UploadFile[] }) => {
   }
 }
 
-const remove = ({ url }: UploadFile, { remove }: { remove: CallableFunction}) => {
+const onRemove = ({ url }: UploadFile, { remove }: { remove: CallableFunction}) => {
   remove()
   const index = uploadedFiles.value.findIndex((file: string) => file === url)
   uploadedFiles.value.splice(index, 1)
@@ -38,6 +45,7 @@ const remove = ({ url }: UploadFile, { remove }: { remove: CallableFunction}) =>
 }
 
 onMounted(() => {
+  if (!file) return
   if (Object.prototype.toString.call(file) === '[object Array]') {
     fileList.value = (file as string[]).map(url => {
       uploadedFiles.value.push(url)
@@ -52,11 +60,13 @@ onMounted(() => {
 
 <template>
   <a-upload
+    list-type="picture-card"
+    accept="image/*"
     v-model:file-list="fileList"
     :action="action"
     :maxCount="maxCount"
-    list-type="picture-card"
-    @change="upload"
+    :beforeUpload="beforeUpload"
+    @change="onUpload"
   >
     <div v-if="fileList && fileList.length < 8">
       <plus-outlined />
@@ -67,7 +77,7 @@ onMounted(() => {
         <template #previewMask>
           <a-space>
             <eye-outlined :style="{ fontSize: '1rem' }" />
-            <delete-outlined @click="remove(file, actions)" :style="{ fontSize: '1rem' }" />
+            <delete-outlined @click="onRemove(file, actions)" :style="{ fontSize: '1rem' }" />
           </a-space>
         </template>
       </a-image>
