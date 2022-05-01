@@ -65,8 +65,9 @@ export function useRequest(): JsonData {
             const parseUrl = (url: string): string => {
               Object.entries(data).forEach(item => {
                 const [key, value] = item
-                if (url.includes(key)) {
-                  url = url.replace(key, <string>value);
+                const replacement = `{${key}}`
+                if (url.includes(replacement)) {
+                  url = url.replace(replacement, <string>value);
                 } else {
                   params.add(`${key}=${value}`)
                 }
