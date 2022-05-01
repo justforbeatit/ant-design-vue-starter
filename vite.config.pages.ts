@@ -11,6 +11,7 @@ export default function() {
       ],
       exclude: [
         resolve(__dirname, 'src/views/components/**/*'),
+        resolve(__dirname, 'src/views/components/*.vue'),
         resolve(__dirname, 'src/views/layouts/*.vue')
       ],
       extendRoute(route: RouteRecordRaw) {

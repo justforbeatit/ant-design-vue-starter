@@ -1,20 +1,16 @@
 <script setup lang="ts">
-/*
-const fileList = [
-  'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?v1',
-  'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?v2',
-  'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?v3',
-  'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?v4',
-]
-  */
+import Region from './components/Region.vue'
 
-const uploadDone = (fileUrl: string | Array<string>) => {
-  console.info(fileUrl)
+const selected = ref(['北京市', '市辖区', '东城区'])
+
+const onChange = (value: number[]) => {
+  console.info(value)
 }
 
 </script>
+
 <template>
-  <div class="clearfix" style="margin-top: 100px">
-    <ant-upload :maxCount="5" @uploadDone="uploadDone" />
+  <div style="margin: 100px">
+    <region :selected="selected"  @change="onChange"/>
   </div>
 </template>

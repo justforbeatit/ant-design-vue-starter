@@ -10,5 +10,9 @@ export default <ApiConfig>{
   },
   coupon: {
     query: { url: '/api/coupons', method: 'get'},
+  },
+  common: {
+    provinces: { url: 'api/provinces', method: 'get'},
+    areas: { url: 'api/areas/{pid}', method: 'get'},
   }
 }

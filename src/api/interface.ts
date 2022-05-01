@@ -1,4 +1,5 @@
 import type { ApiResponse } from "@/utils/http/core"
+import type { CascaderProps } from "ant-design-vue/lib/vc-cascader"
 
 export interface ApiRequestMethods {
   auth: {
@@ -10,5 +11,9 @@ export interface ApiRequestMethods {
   },
   coupon: {
     query: (params: JsonData) => Promise<ApiResponse>,
+  },
+  common: {
+    provinces: () => Promise<ApiResponse<CascaderProps['options'][]>>,
+    areas: (params: { pid: number | string }) => Promise<ApiResponse<CascaderProps['options'][]>>,
   }
 }
