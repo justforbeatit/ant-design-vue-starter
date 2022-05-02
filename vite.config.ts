@@ -10,6 +10,13 @@ export default defineConfig(({ mode }) => {
   const base = mode !== 'production' ? '/' : '/admin/'
   return {
     base,
+    build: {
+      chunkSizeWarningLimit: 1500
+    },
+    rollupOptions: {
+      output: {
+      }
+    },
     plugins: [
       vue(),
       ...autoImport(),
