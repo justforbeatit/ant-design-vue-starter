@@ -11,10 +11,8 @@
   "dependencies": {
     "@vueuse/core": "^8.2.0",
     "ant-design-vue": "3.2.2",
-    "makeit-captcha": "^1.2.5",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.13",
-    "vanta": "^0.5.22",
     "vue": "^3.2.31",
     "vue-router": "^4.0.12"
   },
