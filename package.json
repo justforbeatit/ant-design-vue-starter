@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@vueuse/core": "^8.2.0",
+    "@wangeditor/editor": "^5.0.1",
+    "@wangeditor/editor-for-vue": "^5.1.11",
     "ant-design-vue": "3.2.2",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.13",
@@ -32,6 +34,7 @@
     "unplugin-auto-import": "^0.7.1",
     "unplugin-vue-components": "^0.19.3",
     "vite": "^2.9.6",
+    "vite-plugin-compression": "^0.5.1",
     "vite-plugin-pages": "^0.23.0",
     "vue-tsc": "^0.34.11"
   }

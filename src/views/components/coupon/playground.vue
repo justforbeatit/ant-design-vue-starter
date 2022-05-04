@@ -1,13 +1,6 @@
 <template>
   <a-layout>
-    <a-layout-sider
-      v-model:collapsed="collapsed"
-      :trigger="null"
-      collapsible
-      class="sider"
-      :collapsedWidth="48"
-      :width="collapsed ? 48 : 208"
-    >
+    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible class="sider">
       <div class="logo">
         <logo />
         <template v-if="!collapsed">xxx后台管理系统</template>
@@ -116,20 +109,19 @@ export default defineComponent({
   top: 0;
   left: 0;
   height: 100vh;
-  box-shadow:  0 8px 0 rgb(29 35 41 / 5%);
-  transition: all 0.2s;
 
-  .logo {
-    height: 32px;
-    //background: rgba(255, 255, 255, 0.3);
-    margin: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    font-weight: 600;
-    color: #fff;
-  }
+}
+
+.logo {
+  height: 32px;
+  //background: rgba(255, 255, 255, 0.3);
+  margin: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-weight: 600;
+  color: #fff;
 }
 
 .site-layout-background {

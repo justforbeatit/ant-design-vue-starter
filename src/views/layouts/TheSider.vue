@@ -17,10 +17,8 @@ const { collapsed } = storeToRefs(useMenuStore())
     :theme="theme"
   >
     <div class="logo">
-      <span style="font-weight: 600;">
-        <slot name="logo"></slot>
-        <template v-if="!collapsed">{{ title }}</template>
-      </span>
+      <slot name="logo"></slot>
+      <template v-if="!collapsed">{{ title }}</template>
     </div>
     <slot name="menu"></slot>
   </a-layout-sider>
@@ -36,9 +34,12 @@ const { collapsed } = storeToRefs(useMenuStore())
   box-shadow:  0 8px 0 rgb(29 35 41 / 5%);
   transition: all 0.2s;
   .logo {
-    height: 64px;
-    line-height: 64px;
-    text-align: center;
+    height: 32px;
+    margin: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
     font-weight: 700;
     font-size: 1.1rem;
     color: #fff;

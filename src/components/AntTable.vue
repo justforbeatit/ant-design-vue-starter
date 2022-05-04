@@ -10,6 +10,11 @@ type Pagination = {
   total: number
 }
 
+type RowSelection = {
+  checkStrictly: boolean,
+  onChange: (selectedRowKeys: Array<string | number>, selectedRows: Array<JsonData>) => void,
+}
+
 const {
   columns, dataFetch, actionsColumnWidth, hasBreadcrumb
 } = withDefaults(defineProps<{
@@ -18,6 +23,7 @@ const {
   searchItems?: FormItem[],
   actionsColumnWidth?: number
   hasBreadcrumb?: boolean,
+  rowSelection?: RowSelection
 }>(), {
   hasBreadcrumb: true,
 })
@@ -32,8 +38,6 @@ const pagination = ref<Pagination>({
 const loading = ref(false)
 const { toolbars, actions } = useSlots()
 const { current: menu } = storeToRefs(useMenuStore())
-
-console.info(useSlots())
 
 const _actionsColumnWidth = computed(() => {
   if (actionsColumnWidth) return actionsColumnWidth
@@ -93,6 +97,7 @@ onMounted(() => {
           pageSize: pagination.pageSize,
           showTotal: (total: number) => `共 ${total} 条`,
         }"
+        :row-selection="rowSelection"
         @change="onPageChanged"
         bordered
       >

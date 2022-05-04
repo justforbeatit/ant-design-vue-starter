@@ -32,7 +32,7 @@ export default defineComponent({
         TheSider,
         {},
         {
-          logo: () => h(logo, { height: '35px', width: '35px' }),
+          logo: () => h(logo, { height: '30px', width: '30px' }),
           menu: () => h(TheMenu)
         }
       ),

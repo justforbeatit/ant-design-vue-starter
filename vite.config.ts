@@ -3,6 +3,7 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import autoImport from './vite.config.auto-import'
 import pages from './vite.config.pages'
+import viteCompression from 'vite-plugin-compression'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -21,6 +22,7 @@ export default defineConfig(({ mode }) => {
       vue(),
       ...autoImport(),
       ...pages(),
+      viteCompression()
     ],
     resolve: {
       alias: {
