@@ -7,7 +7,10 @@ export function useBaseUrl(): string {
 }
 
 export function useHeaders() {
-  return { Authorization: `Bearer ${useStorage().token()}` }
+  return {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    Authorization: `Bearer ${useStorage().token()}`,
+  }
 }
 
 export function asResponseOk(response: ApiResponse): boolean {
