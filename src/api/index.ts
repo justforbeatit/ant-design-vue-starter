@@ -1,6 +1,6 @@
 import type { ApiConfig } from "@/utils/http/core"
 
-export default <ApiConfig>{
+export default <ApiConfig> {
   auth: {
     login: { url: '/api/auth/login', method: 'post'},
     logout: { url: '/api/auth/logout', method: 'post'},
