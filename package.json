@@ -12,7 +12,7 @@
     "@vueuse/core": "^8.2.0",
     "@wangeditor/editor": "^5.0.1",
     "@wangeditor/editor-for-vue": "^5.1.11",
-    "ant-design-vue": "3.2.2",
+    "ant-design-vue": "^3.2.3",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.13",
     "vue": "3.2.33",
