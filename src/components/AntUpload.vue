@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { UploadFile } from 'ant-design-vue'
+import { authorization } from '@/utils/http'
 
 const { file, maxCount } = withDefaults(defineProps<{
   file?: string | Array<string>,
@@ -66,6 +67,7 @@ onMounted(() => {
     :action="action"
     :maxCount="maxCount"
     :beforeUpload="beforeUpload"
+    :headers="{ ...authorization() }"
     @change="onUpload"
   >
     <div v-if="fileList && fileList.length < 8">

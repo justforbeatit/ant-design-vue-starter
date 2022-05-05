@@ -1,6 +1,6 @@
 import type { AfterFetchContext, BeforeFetchContext, OnFetchErrorContext } from "@vueuse/core";
 import {
-  useHeaders, asResponseOk, useBaseUrl, asUnauthorized, onUnauthorized, asServerError, onServerError
+  authorization, asResponseOk, useBaseUrl, asUnauthorized, onUnauthorized, asServerError, onServerError
 } from '@/utils/http'
 import apis from '@/api'
 
@@ -28,7 +28,15 @@ export function httpClient(url: string, method: AllowedHttpMethods, data: JsonDa
       baseUrl: useBaseUrl(),
       options: {
         beforeFetch({ options }: BeforeFetchContext) {
-          return { options: {...options, headers: useHeaders()} }
+          return {
+            options: {
+              ...options,
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                ...authorization()
+              }
+            }
+          }
         },
         afterFetch(ctx: AfterFetchContext) {
           if (asUnauthorized(ctx)) {

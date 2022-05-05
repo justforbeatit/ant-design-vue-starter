@@ -6,9 +6,8 @@ export function useBaseUrl(): string {
   return import.meta.env.VITE_APP_URL
 }
 
-export function useHeaders() {
+export function authorization() {
   return {
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
     Authorization: `Bearer ${useStorage().token()}`,
   }
 }
