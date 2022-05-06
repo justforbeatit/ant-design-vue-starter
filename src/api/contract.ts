@@ -3,7 +3,8 @@ import type { CascaderProps } from "ant-design-vue/lib/vc-cascader"
 
 export interface ApiRequestMethods {
   auth: {
-    login: (payload: LoginInfo) => Promise<ApiResponse<{ token: string }>>,
+    captcha: () => Promise<{ sensitive: string, key: string, img: string}>
+    login: (payload: JsonData) => Promise<ApiResponse<{ token: string }>>,
     logout: () => Promise<ApiResponse>,
   },
   menu: {

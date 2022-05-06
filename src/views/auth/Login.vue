@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import '@/assets/login.less'
 import logo from '@/composables/logo'
+import captcha from '@/composables/captcha'
 import copyright from '@/composables/copyright'
 import type { FormItem } from '@/types/ant'
 
 const { VITE_APP_TITLE } = import.meta.env
 const router = useRouter()
+const captchaKey = ref('')
 
 const items: Array<FormItem | FormItem[]> = [{
   type: 'Input',
@@ -13,19 +15,12 @@ const items: Array<FormItem | FormItem[]> = [{
   placeholder: '请输入用户名',
   size: 'large',
   prefixIcon: 'UserOutlined',
-  rules: [
-    { min: 4, message: '用户名至少 4 个字符' },
-    { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名必须是英文、数字或下划线组成' },
-  ]
 }, {
   type: 'InputPassword',
   name: 'password',
   placeholder: '请输入密码',
   size: 'large',
   prefixIcon: 'LockOutlined',
-  rules: [
-    { min: 6, message: '密码至少 6 个字符' },
-  ]
 }, [{
   type: 'Input',
   name: 'captcha',
@@ -35,11 +30,14 @@ const items: Array<FormItem | FormItem[]> = [{
   wrapperCol: { span: 16 },
 }, {
   type: 'Custom',
-  name: 'captchaimg',
+  name: 'captcha_img',
   wrapperCol: { span: 8 },
 }]]
 
-const login = async (payload: LoginInfo) => {
+const setCaptchaKey = ({ key }: { key: string }) => captchaKey.value = key
+
+const login = async (params: JsonData) => {
+  const payload = { ...params, key: captchaKey.value }
   const { ok, msg, data: { token } } = await useRequest().auth.login(payload)
   if (!ok) {
     return error(msg)
@@ -65,10 +63,7 @@ const login = async (payload: LoginInfo) => {
           @on-submit="login"
         >
           <template #custom="{ item }">
-            <img v-if="item.name === 'captchaimg'"
-              src="https://n5gm.wanyuenet.com/captcha/math?i23UYInH"
-              style="height: 100%;width: 100%;"
-            >
+            <captcha v-if="item.name === 'captcha_img'" @change="setCaptchaKey"/>
           </template>
           <template #button="{ loading }">
             <a-button html-type="submit" type="primary" size="large" block :loading="loading">
