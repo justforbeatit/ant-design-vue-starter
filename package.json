@@ -1,5 +1,5 @@
 {
-  "name": "vue3-starter",
+  "name": "ant-design-vue-starter",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",

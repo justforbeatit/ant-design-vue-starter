@@ -1,7 +1,5 @@
-import type { AfterFetchContext, BeforeFetchContext, OnFetchErrorContext } from "@vueuse/core";
-import {
-  authorization, asResponseOk, useBaseUrl, asUnauthorized, onUnauthorized, asServerError, onServerError
-} from '@/utils/http'
+import type { BeforeFetchContext } from "@vueuse/core";
+import { baseUrl, authorization, asResponseOk, handleFetchResult } from '@/utils/http'
 import apis from '@/api'
 
 type ApiResponseBase = { ok: boolean }
@@ -25,7 +23,7 @@ export interface ApiResponse<T = PaginationResult | []> extends ApiResponseBase 
 export function httpClient(url: string, method: AllowedHttpMethods, data: JsonData = {}) {
   return new Promise((resolve: CallableFunction) => {
     createFetch({
-      baseUrl: useBaseUrl(),
+      baseUrl: baseUrl(),
       options: {
         beforeFetch({ options }: BeforeFetchContext) {
           return {
@@ -38,16 +36,8 @@ export function httpClient(url: string, method: AllowedHttpMethods, data: JsonDa
             }
           }
         },
-        afterFetch(ctx: AfterFetchContext) {
-          if (asUnauthorized(ctx)) {
-            onUnauthorized()
-          }
-          return ctx
-        },
-        onFetchError(ctx: OnFetchErrorContext) {
-          if (asServerError(ctx)) {
-            onServerError()
-          }
+        onFetchError(ctx: { data: any, response: Response | null, error: any }) {
+          handleFetchResult(ctx)
           return ctx
         }
       },
