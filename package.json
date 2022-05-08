@@ -9,10 +9,12 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
     "@vueuse/core": "^8.2.0",
     "@wangeditor/editor": "^5.0.1",
     "@wangeditor/editor-for-vue": "^5.1.11",
     "ant-design-vue": "^3.2.3",
+    "dayjs": "^1.11.2",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.13",
     "vue": "^3.2.33",
