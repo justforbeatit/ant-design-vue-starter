@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {FormItemRule, FormItemSelectOption, FormItemSize} from '@/types/ant'
+import type { FormItemRule, FormItemSelectOption, FormItemSize } from '@/types/ant'
 import icon from '@/composables/icon'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
