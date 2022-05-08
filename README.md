@@ -1,46 +1,32 @@
-# vue3-starter
-
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
+ _____ _                  _          _        ____            _             
+|_   _| |__   ___        / \   _ __ | |_     |  _ \  ___  ___(_) __ _ _ __  
+  | | | '_ \ / _ \_____ / _ \ | '_ \| __|____| | | |/ _ \/ __| |/ _` | '_ \ 
+  | | | | | |  __/_____/ ___ \| | | | ||_____| |_| |  __/\__ \ | (_| | | | |
+  |_| |_| |_|\___|    /_/   \_\_| |_|\__|    |____/ \___||___/_|\__, |_| |_|
+                                                                |___/       
+    __     __               ____  _             _            
+    \ \   / /   _  ___     / ___|| |_ __ _ _ __| |_ ___ _ __ 
+ ____\ \ / / | | |/ _ \____\___ \| __/ _` | '__| __/ _ \ '__|
+|_____\ V /| |_| |  __/_____|__) | || (_| | |  | ||  __/ |   
+       \_/  \__,_|\___|    |____/ \__\__,_|_|   \__\___|_|   
+                                                             
 ```
 
-### Type-Check, Compile and Minify for Production
+The recommended package manager is [pnpm](https://pnpm.io), which is more excellent than npm and yarn
 
-```sh
-npm run build
+> Install packages:
+```zsh
+  pnpm i
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+> Start dev server:
+```zsh
+  pnpm dev
+```
 
-```sh
-npm run lint
+> Build for production:
+```zsh
+  pnpm build
 ```
