@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {ApiResponse} from '@/utils/http/core';
+import type { ApiResponse } from '@/utils/http/core'
 import type { CascaderProps } from 'ant-design-vue'
 
 const { selected } = defineProps<{
