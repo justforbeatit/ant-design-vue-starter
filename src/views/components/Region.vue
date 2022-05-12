@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type {ApiResponse} from '@/utils/http/core';
 import type { CascaderProps } from 'ant-design-vue'
 
 const { selected } = defineProps<{
@@ -10,12 +11,12 @@ const emit = defineEmits<{
 }>()
 
 const fetchOptions = async (): Promise<CascaderProps['options'][]> => {
-  const { data } = await useRequest().common.provinces()
+  const { data } = await useRequest<ApiResponse<CascaderProps['options'][]>>().common.provinces()
   return data
 }
 
 const fetchData = async (pid: number | string): Promise<CascaderProps['options'][]> => {
-  const { data } = await useRequest().common.areas({ pid })
+  const { data } = await useRequest<ApiResponse<CascaderProps['options'][]>>().common.areas({ pid })
   return data
 }
 

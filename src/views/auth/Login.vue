@@ -4,6 +4,7 @@ import logo from '@/composables/logo'
 import captcha from '@/composables/captcha'
 import copyright from '@/composables/copyright'
 import type { FormItem } from '@/types/ant'
+import type { ApiResponse } from '@/utils/http/core'
 
 const { VITE_APP_TITLE } = import.meta.env
 const router = useRouter()
@@ -38,11 +39,12 @@ const setCaptchaKey = ({ key }: { key: string }) => captchaKey.value = key
 
 const login = async (params: JsonData) => {
   const payload = { ...params, key: captchaKey.value }
-  const { ok, msg, data: { token } } = await useRequest().auth.login(payload)
-  if (!ok) {
-    return error(msg)
+  const result = await useRequest<ApiResponse<{ token: string}>>().auth.login(payload)
+
+  if (!result.ok) {
+    return error(result.msg)
   }
-  useStorage().token(token)
+  useStorage().token(result.data.token)
   success('登录成功')
   router.push({ name: 'index' })
 }

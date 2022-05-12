@@ -20,6 +20,12 @@ export interface ApiResponse<T = PaginationResult | []> extends ApiResponseBase 
   data: T,
 }
 
+export type ApiMapped<T, R> = {
+  [P in keyof T]: T[P] extends infer U
+    ? { [K in keyof U]: (params?: Record<string, string | number>) => Promise<R & ApiResponse> }
+    : never
+}
+
 export function httpClient(url: string, method: AllowedHttpMethods, data: JsonData = {}) {
   return new Promise((resolve: CallableFunction) => {
     createFetch({
@@ -47,7 +53,9 @@ export function httpClient(url: string, method: AllowedHttpMethods, data: JsonDa
   })
 }
 
-export function useRequest(): JsonData {
+export function useRequest<R>(): ApiMapped<typeof apis, R>
+
+export function useRequest(): unknown {
   return new Proxy({
     httpClient
   }, {
@@ -55,7 +63,7 @@ export function useRequest(): JsonData {
       if (!(prop in apis)) {
         throw new Error(`The api ${prop} is not found, please ensure you have configured `)
       }
-      return new Proxy(apis[prop], {
+      return new Proxy((apis as ApiConfig)[prop], {
         get(current, api: string) {
           return (data: Json<unknown> = {}) => {
             const { method, url } = current[api]

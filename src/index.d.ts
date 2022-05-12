@@ -1,4 +1,3 @@
-import type { ApiRequestMethods } from './api/contract'
 import { useStorage } from '@/utils/store'
 
 declare global {
@@ -7,11 +6,8 @@ declare global {
   }
   type JsonData = Json<any>
   type AntComponent = keyof typeof import('ant-design-vue/lib/index')
-  type AntIcon = keyof typeof import('@ant-design/icons-vue')
-}
-
-declare module '@/utils/http/core' {
-  export function useRequest(): ApiRequestMethods
+  type EndWithOutlined<T extends string> = T extends `${infer P}Outlined` ? T : never
+  type AntIcon = EndWithOutlined<keyof typeof import('@ant-design/icons-vue')>
 }
 
 declare module '@/utils/storage' {
