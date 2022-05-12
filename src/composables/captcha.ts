@@ -1,5 +1,11 @@
 import defaultCaptchaImage from '@/assets/captcha.png'
 
+interface Captcha {
+  sensitive: boolean,
+  key: string,
+  img: string
+}
+
 export default defineComponent({
   props: {
     title: {
@@ -16,7 +22,7 @@ export default defineComponent({
     const src = ref(defaultCaptchaImage)
 
     const loadCaptchaImage = async () => {
-      const { key, img } = await useRequest().auth.captcha()
+      const { key, img } = await useRequest<Captcha>().auth.captcha()
       src.value = img
       emit('change', { key, img })
     }
