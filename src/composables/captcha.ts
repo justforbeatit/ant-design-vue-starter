@@ -1,9 +1,9 @@
 import defaultCaptchaImage from '@/assets/captcha.png'
 
-interface Captcha {
-  sensitive: boolean,
+export interface Captcha {
   key: string,
   img: string
+  sensitive?: boolean,
 }
 
 export default defineComponent({
@@ -15,10 +15,15 @@ export default defineComponent({
     style: {
       type: Object,
       default: () => ({ width: '100%', height: '100%', cursor: 'pointer' })
+    },
+    reload: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['change'],
-  setup({ title, style }, { emit }) {
+  setup(props, { emit }) {
+    const { title, style, reload } = toRefs(props)
     const src = ref(defaultCaptchaImage)
 
     const loadCaptchaImage = async () => {
@@ -27,7 +32,9 @@ export default defineComponent({
       emit('change', { key, img })
     }
 
-    loadCaptchaImage()
+    watch(reload, (shouldReload: boolean) => shouldReload && loadCaptchaImage())
+
+    onMounted(() => loadCaptchaImage())
 
     return () => h(
       'img',

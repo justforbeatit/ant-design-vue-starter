@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import '@/assets/login.less'
 import logo from '@/composables/logo'
-import captcha from '@/composables/captcha'
+import captcha, { type Captcha } from '@/composables/captcha'
 import copyright from '@/composables/copyright'
 import type { FormItem } from '@/types/ant'
 import type { ApiResponse } from '@/utils/http/core'
@@ -9,6 +9,7 @@ import type { ApiResponse } from '@/utils/http/core'
 const { VITE_APP_TITLE } = import.meta.env
 const router = useRouter()
 const captchaKey = ref('')
+const reloadCaptcha = ref(false)
 
 const items: Array<FormItem | FormItem[]> = [{
   type: 'Input',
@@ -35,13 +36,15 @@ const items: Array<FormItem | FormItem[]> = [{
   wrapperCol: { span: 8 },
 }]]
 
-const setCaptchaKey = ({ key }: { key: string }) => captchaKey.value = key
+const setCaptchaKey = ({ key }: Captcha) => captchaKey.value = key
 
 const login = async (params: JsonData) => {
   const payload = { ...params, key: captchaKey.value }
-  const result = await useRequest<ApiResponse<{ token: string}>>().auth.login(payload)
+  const result = await useRequest<ApiResponse<{ token: string }>>().auth.login(payload)
 
+  reloadCaptcha.value = false
   if (!result.ok) {
+    reloadCaptcha.value = true
     return error(result.msg)
   }
   useStorage().token(result.data.token)
@@ -65,7 +68,11 @@ const login = async (params: JsonData) => {
           @on-submit="login"
         >
           <template #custom="{ item }">
-            <captcha v-if="item.name === 'captcha_img'" @change="setCaptchaKey"/>
+            <captcha
+              v-if="item.name === 'captcha_img'"
+              :reload="reloadCaptcha"
+              @change="setCaptchaKey"
+            />
           </template>
           <template #button="{ loading }">
             <a-button html-type="submit" type="primary" size="large" block :loading="loading">
