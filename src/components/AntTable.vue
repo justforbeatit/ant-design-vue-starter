@@ -2,7 +2,7 @@
 import { useMenuStore } from '@/store/menu'
 import type { FormItem } from '@/types/ant'
 import type { TableColumnType } from 'ant-design-vue'
-import type { ApiResponse, PaginationResult } from '@/utils/http/core'
+import type { ApiResponse } from '@/utils/http/core'
 
 type Pagination = {
   current: number,
@@ -19,7 +19,7 @@ const {
   columns, dataFetch, actionsColumnWidth, hasBreadcrumb
 } = withDefaults(defineProps<{
   columns: TableColumnType[],
-  dataFetch: (params: JsonData) => Promise<ApiResponse<PaginationResult>>,
+  dataFetch: (params: JsonData) => Promise<ApiResponse<{ data: JsonData, total: number}>>,
   searchItems?: FormItem[],
   actionsColumnWidth?: number
   hasBreadcrumb?: boolean,

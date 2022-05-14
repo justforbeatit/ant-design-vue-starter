@@ -1,4 +1,4 @@
-import type { BeforeFetchContext } from "@vueuse/core";
+import type { BeforeFetchContext } from "@vueuse/core"
 import { baseUrl, authorization, asResponseOk, handleFetchResult } from '@/utils/http'
 import apis from '@/api'
 
@@ -6,23 +6,22 @@ type ApiResponseBase = { ok: boolean }
 
 export type AllowedHttpMethods = 'get' | 'post' | 'put' | 'delete'
 
-export type PaginationResult = { total: number, data: JsonData[]}
-
 export interface ApiConfig {
   [prop: string]: {
     [prop: string]: { url: string, method: AllowedHttpMethods }
   }
 }
 
-export interface ApiResponse<T = PaginationResult | []> extends ApiResponseBase {
+export interface ApiResponse<T = JsonData[] | []> extends ApiResponseBase {
   code: string | number,
   msg: string,
   data: T,
+  total?: number
 }
 
 export type ApiMapped<T, R> = {
   [P in keyof T]: T[P] extends infer U
-    ? { [K in keyof U]: (params?: Record<string, string | number>) => Promise<R & ApiResponse> }
+    ? { [K in keyof U]: (params?: Record<string, string | number>) => Promise<R> }
     : never
 }
 
@@ -53,7 +52,7 @@ export function httpClient(url: string, method: AllowedHttpMethods, data: JsonDa
   })
 }
 
-export function useRequest<R>(): ApiMapped<typeof apis, R>
+export function useRequest<R = ApiResponse>(): ApiMapped<typeof apis, R>
 
 export function useRequest(): unknown {
   return new Proxy({
