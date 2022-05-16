@@ -1,14 +1,18 @@
 import type { BeforeFetchContext } from "@vueuse/core"
 import { baseUrl, authorization, asResponseOk, handleFetchResult } from '@/utils/http'
-import apis from '@/api'
+import definedApi from '@/api'
 
 type ApiResponseBase = { ok: boolean }
 
-export type AllowedHttpMethods = 'get' | 'post' | 'put' | 'delete'
+type AllowedHttpMethods = 'get' | 'post' | 'put' | 'delete'
+
+type AllowedContentType = 'form' | 'json'
 
 export interface ApiConfig {
   [prop: string]: {
-    [prop: string]: { url: string, method: AllowedHttpMethods }
+    [prop: string]: {
+      path: string, method: AllowedHttpMethods, contentType?: AllowedContentType
+    }
   }
 }
 
@@ -25,17 +29,30 @@ export type ApiMapped<T, R> = {
     : never
 }
 
-export function httpClient(url: string, method: AllowedHttpMethods, data: JsonData = {}) {
+export function defineApiConfig<T extends () => ApiConfig>(apis: T): T {
+  return apis
+}
+
+function useFetch(url: string, method: AllowedHttpMethods, data: JsonData = {}, type = 'form') {
   return new Promise((resolve: CallableFunction) => {
     createFetch({
       baseUrl: baseUrl(),
       options: {
         beforeFetch({ options }: BeforeFetchContext) {
+          const contentType = (type: AllowedContentType) => {
+            if (type === 'form') {
+              return {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+              }
+            } else if (type === 'json') {
+              return { 'Content-Type': 'application/json' }
+            }
+          }
           return {
             options: {
               ...options,
               headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                ...contentType(type as AllowedContentType),
                 ...authorization()
               }
             }
@@ -52,11 +69,13 @@ export function httpClient(url: string, method: AllowedHttpMethods, data: JsonDa
   })
 }
 
+const apis = definedApi()
+
 export function useRequest<R = ApiResponse>(): ApiMapped<typeof apis, R>
 
 export function useRequest(): unknown {
   return new Proxy({
-    httpClient
+    useFetch
   }, {
     get(top, prop: string) {
       if (!(prop in apis)) {
@@ -65,22 +84,22 @@ export function useRequest(): unknown {
       return new Proxy((apis as ApiConfig)[prop], {
         get(current, api: string) {
           return (data: Json<unknown> = {}) => {
-            const { method, url } = current[api]
+            const { method, path } = current[api]
             const params:Set<string> = new Set()
-            const parseUrl = (url: string): string => {
+            const parseUrl = (path: string): string => {
               Object.entries(data).forEach(item => {
                 const [key, value] = item
                 const replacement = `{${key}}`
-                if (url.includes(replacement)) {
-                  url = url.replace(replacement, <string>value);
+                if (path.includes(replacement)) {
+                  path = path.replace(replacement, <string>value);
                 } else {
                   params.add(`${key}=${value}`)
                 }
               })
               const queryString = [...params].join('&');
-              return method === 'get' && queryString ? `${url}?${queryString}` : url
+              return method === 'get' && queryString ? `${path}?${queryString}` : path
             }
-            return top.httpClient(parseUrl(url), <AllowedHttpMethods>method, data)
+            return top.useFetch(parseUrl(path), <AllowedHttpMethods>method, data)
           }
         }
       })

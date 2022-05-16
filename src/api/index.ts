@@ -1,17 +1,19 @@
-export default {
+import { defineApiConfig } from '@/utils/http/core'
+
+export default defineApiConfig(() => ({
   common: {
-    provinces: { url: 'api/provinces', method: 'get' },
-    areas: { url: 'api/areas/{pid}', method: 'get' },
+    provinces: { path: 'api/provinces', method: 'get' },
+    areas: { path: 'api/areas/{pid}', method: 'get' },
   },
   auth: {
-    captcha: { url: '/captcha/api/math', method: 'get' },
-    login: { url: '/api/auth/login', method: 'post' },
-    logout: { url: '/api/auth/logout', method: 'post' },
+    captcha: { path: '/captcha/api/math', method: 'get' },
+    login: { path: '/api/auth/login', method: 'post', contentType: 'json' },
+    logout: { path: '/api/auth/logout', method: 'post', contentType: 'form' },
   },
   menu: {
-    query: { url: '/api/menus', method: 'get' },
+    query: { path: '/api/menus', method: 'get' },
   },
   coupon: {
-    query: { url: '/api/coupons', method: 'get' },
+    query: { path: '/api/coupons', method: 'get' },
   },
-}
+}))
