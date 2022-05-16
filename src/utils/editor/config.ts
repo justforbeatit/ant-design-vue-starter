@@ -1,4 +1,4 @@
-import type { IToolbarConfig } from "@wangeditor/core"
+import type { IToolbarConfig } from "@wangeditor/editor"
 
 export const toolbarConfig: Partial<IToolbarConfig> = {
   toolbarKeys: [

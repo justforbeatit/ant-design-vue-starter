@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import '@wangeditor/editor/dist/css/style.css'
-import type { IDomEditor } from '@wangeditor/core'
+import type { IDomEditor } from '@wangeditor/editor'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { toolbarConfig, editorConfig } from '@/utils/editor/config'
 
