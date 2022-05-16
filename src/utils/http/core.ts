@@ -1,17 +1,19 @@
 import type { BeforeFetchContext } from "@vueuse/core"
-import { baseUrl, authorization, asResponseOk, handleFetchResult } from '@/utils/http'
+import {
+  baseUrl, authorization, defaultContentType, asResponseOk, handleFetchResult
+} from '@/utils/http'
 import definedApi from '@/api'
 
 type ApiResponseBase = { ok: boolean }
 
-type AllowedHttpMethods = 'get' | 'post' | 'put' | 'delete'
+type AllowedHttpMethod = 'get' | 'post' | 'put' | 'delete'
 
 type AllowedContentType = 'form' | 'json'
 
 export interface ApiConfig {
   [prop: string]: {
     [prop: string]: {
-      path: string, method: AllowedHttpMethods, contentType?: AllowedContentType
+      path: string, method: AllowedHttpMethod, contentType?: AllowedContentType
     }
   }
 }
@@ -33,7 +35,7 @@ export function defineApiConfig<T extends () => ApiConfig>(apis: T): T {
   return apis
 }
 
-function useFetch(url: string, method: AllowedHttpMethods, data: JsonData = {}, type = 'form') {
+function useFetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, type: AllowedContentType) {
   return new Promise((resolve: CallableFunction) => {
     createFetch({
       baseUrl: baseUrl(),
@@ -52,7 +54,7 @@ function useFetch(url: string, method: AllowedHttpMethods, data: JsonData = {}, 
             options: {
               ...options,
               headers: {
-                ...contentType(type as AllowedContentType),
+                ...contentType(type),
                 ...authorization()
               }
             }
@@ -84,7 +86,7 @@ export function useRequest(): unknown {
       return new Proxy((apis as ApiConfig)[prop], {
         get(current, api: string) {
           return (data: Json<unknown> = {}) => {
-            const { method, path } = current[api]
+            const { method, path, contentType } = current[api]
             const params:Set<string> = new Set()
             const parseUrl = (path: string): string => {
               Object.entries(data).forEach(item => {
@@ -99,7 +101,7 @@ export function useRequest(): unknown {
               const queryString = [...params].join('&');
               return method === 'get' && queryString ? `${path}?${queryString}` : path
             }
-            return top.useFetch(parseUrl(path), <AllowedHttpMethods>method, data)
+            return top.useFetch(parseUrl(path), <AllowedHttpMethod>method, data, contentType || defaultContentType)
           }
         }
       })

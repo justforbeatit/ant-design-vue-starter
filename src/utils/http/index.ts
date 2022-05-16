@@ -13,6 +13,8 @@ export function authorization() {
   }
 }
 
+export const defaultContentType = 'form'
+
 export function asResponseOk(response: ApiResponse): boolean {
   return response?.code === 0
 }
