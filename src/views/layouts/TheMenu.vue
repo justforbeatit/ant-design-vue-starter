@@ -34,7 +34,7 @@ watch(() => router.currentRoute.value, ({ name }) => menu.active(<string>name))
     @openChange="onOpened"
     @select="onSelected"
   >
-    <template v-for="menu in menus as MenuItem[]" :key="menu.id">
+    <template v-for="menu in menus" :key="menu.id">
       <a-menu-item v-if="!menu.children" :key="`${menu.route ?? menu.id}`">
         <icon v-if="menu.icon" :is="menu.icon" />
         <span class="nav-text">{{ menu.name }}</span>

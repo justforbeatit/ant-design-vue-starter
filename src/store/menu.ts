@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import type { MenuItem } from '@/types'
 
 interface MenuState {
   collapsed: boolean,
