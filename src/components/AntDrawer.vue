@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FormItemButton } from '@/types/ant'
+import type { FormItemButton } from '@/types'
 
 withDefaults(defineProps<{
   title: string,

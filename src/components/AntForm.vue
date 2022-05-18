@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FormItem, FormItemButton, FormItemRule } from '@/types/ant'
+import type { FormItem, FormItemButton, FormItemRule } from '@/types'
 import type { ApiResponse } from "@/utils/http/core"
 
 const { values, button, submit, jumpTo } = withDefaults(defineProps<
@@ -44,14 +44,17 @@ const itemsToArray = (_: FormItem | FormItem[]): FormItem[] => {
 const triggerSubmit = () => {
   loading.value = true
   setTimeout(async () => {
-    emit('on-submit', toRaw(state.value))
     if (submit) {
       const { ok, msg } = await submit(toRaw(state.value))
       if (!ok) {
+        loading.value = false
         return error(msg)
       }
       success(msg ?? `${button?.text || ''}成功`)
       jumpTo && router.push(jumpTo)
+    } else {
+      emit('on-submit', toRaw(state.value))
+      loading.value = false
     }
   }, 2000)
 }

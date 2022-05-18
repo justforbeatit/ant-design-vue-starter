@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMenuStore } from '@/store/menu'
-import type { FormItem } from '@/types/ant'
+import type { FormItem } from '@/types'
 import type { TableColumnType } from 'ant-design-vue'
 import type { ApiResponse } from '@/utils/http/core'
 
