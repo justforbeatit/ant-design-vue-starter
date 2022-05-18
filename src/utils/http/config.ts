@@ -3,7 +3,7 @@ import { useStorage } from "../storage"
 
 export default defineApiRequestConfig({
   baseUrl: import.meta.env.VITE_APP_URL,
-  authorization: `Bearer ${useStorage().token()}`,
+  authorization: { Authorization: `Bearer ${useStorage().token()}` },
   contentType: 'form',
   asResponseOk: (response: ApiResponse) => response?.code === 0,
   onAfterFetched: ({ response }) => {

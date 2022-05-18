@@ -27,7 +27,7 @@ export interface ApiResponse<T = JsonData[] | []> extends ApiResponseBase {
 
 export interface ApiRequestConfig {
   baseUrl: string,
-  authorization: string,
+  authorization: { Authorization: string },
   contentType: AllowedContentType,
   asResponseOk: (response: ApiResponse) => boolean,
   onAfterFetched: (result: FetchResult) => void
