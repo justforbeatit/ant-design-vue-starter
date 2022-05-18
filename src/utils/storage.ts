@@ -1,13 +1,11 @@
 export function useStorage() {
-  return new Proxy({}, {
-    //eslint-disable-next-line @typescript-eslint/no-explicit-any
-    get(target: any, prop: string) {
-      target.storage = vueuseStorage(prop, null, undefined, { serializer: StorageSerializers.object })
+  return new Proxy({ storage: window.localStorage }, {
+    get({ storage }: JsonData, prop: string) {
       return (value: undefined | null | string = undefined): string | void => {
         if (value === undefined) {
-          return target.storage.vlaue
+          return <string>storage.getItem(prop)
         }
-        target.storage.value = value
+        storage.setItem(prop, <string>value)
       }
     }
   })
