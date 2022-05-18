@@ -1,14 +1,14 @@
 import type { BeforeFetchContext } from "@vueuse/core"
-import {
-  baseUrl, authorization, defaultContentType, asResponseOk, handleFetchResult
-} from '@/utils/http'
-import definedApi from '@/api'
+import config from './config'
+import apis from '@/api'
 
 type ApiResponseBase = { ok: boolean }
 
 type AllowedHttpMethod = 'get' | 'post' | 'put' | 'delete'
 
-type AllowedContentType = 'form' | 'json'
+type AllowedContentType = 'form' | 'json' extends infer F ?  F : never
+
+export type FetchResult = { data: any, response: Response | null, error: any }
 
 export interface ApiConfig {
   [prop: string]: {
@@ -25,20 +25,33 @@ export interface ApiResponse<T = JsonData[] | []> extends ApiResponseBase {
   total?: number
 }
 
+export interface ApiRequestConfig {
+  baseUrl: string,
+  authorization: string,
+  contentType: AllowedContentType,
+  asResponseOk: (response: ApiResponse) => boolean,
+  onAfterFetched: (result: FetchResult) => void
+}
+
 export type ApiMapped<T, R> = {
   [P in keyof T]: T[P] extends infer U
     ? { [K in keyof U]: (params?: Record<string, string | number>) => Promise<R> }
     : never
 }
 
-export function defineApiConfig<T extends () => ApiConfig>(apis: T): T {
+export function defineApiConfig<T extends ApiConfig>(apis: T): T {
   return apis
+}
+
+export function defineApiRequestConfig<T extends ApiRequestConfig>(options: T): T {
+  return options
 }
 
 function useFetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, type: AllowedContentType) {
   return new Promise((resolve: CallableFunction) => {
+    const { baseUrl, authorization, asResponseOk, onAfterFetched } = config
     createFetch({
-      baseUrl: baseUrl(),
+      baseUrl: baseUrl,
       options: {
         beforeFetch({ options }: BeforeFetchContext) {
           const contentType = (type: AllowedContentType) => {
@@ -54,14 +67,14 @@ function useFetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, t
             options: {
               ...options,
               headers: {
+                'Authorization': authorization,
                 ...contentType(type),
-                ...authorization()
               }
             }
           }
         },
-        onFetchError(ctx: { data: any, response: Response | null, error: any }) {
-          handleFetchResult(ctx)
+        onFetchError(ctx: FetchResult) {
+          onAfterFetched(ctx)
           return ctx
         }
       },
@@ -70,8 +83,6 @@ function useFetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, t
     })
   })
 }
-
-const apis = definedApi()
 
 export function useRequest<R = ApiResponse>(): ApiMapped<typeof apis, R>
 
@@ -101,7 +112,7 @@ export function useRequest(): unknown {
               const queryString = [...params].join('&');
               return method === 'get' && queryString ? `${path}?${queryString}` : path
             }
-            return top.useFetch(parseUrl(path), <AllowedHttpMethod>method, data, contentType || defaultContentType)
+            return top.useFetch(parseUrl(path), <AllowedHttpMethod>method, data, contentType || config.contentType)
           }
         }
       })

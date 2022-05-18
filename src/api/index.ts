@@ -1,6 +1,6 @@
 import { defineApiConfig } from '@/utils/http/core'
 
-export default defineApiConfig(() => ({
+export default defineApiConfig({
   common: {
     provinces: { path: 'api/provinces', method: 'get' },
     areas: { path: 'api/areas/{pid}', method: 'get' },
@@ -16,4 +16,4 @@ export default defineApiConfig(() => ({
   coupon: {
     query: { path: '/api/coupons', method: 'get' },
   },
-}))
+})
