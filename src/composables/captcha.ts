@@ -10,7 +10,7 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      default: '换一张'
+      default: () => '换一张'
     },
     style: {
       type: Object,
@@ -21,9 +21,9 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ['change'],
+  emits: ['change', 'update:reload'],
   setup(props, { emit }) {
-    const { title, style, reload } = toRefs(props)
+    const { title, style } = props
     const src = ref(defaultCaptchaImage)
 
     const loadCaptchaImage = async () => {
@@ -32,7 +32,10 @@ export default defineComponent({
       emit('change', { key, img })
     }
 
-    watch(reload, (shouldReload: boolean) => shouldReload && loadCaptchaImage())
+    watch(() => props.reload, (shouldReload: boolean) => {
+      shouldReload && loadCaptchaImage()
+      emit('update:reload', false)
+    })
 
     onMounted(() => loadCaptchaImage())
 
@@ -40,8 +43,8 @@ export default defineComponent({
       'img',
       {
         src: src.value,
-        title,
-        style,
+        title: title,
+        style: style,
         onClick: loadCaptchaImage
       }
     )

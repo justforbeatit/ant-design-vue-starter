@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import '@/assets/login.less'
 import logo from '@/composables/logo'
-import captcha, { type Captcha } from '@/composables/captcha'
 import copyright from '@/composables/copyright'
-import type { FormItem } from '@/types/ant'
+import captcha, { type Captcha } from '@/composables/captcha'
+import type { FormItem } from '@/types'
 import type { ApiResponse } from '@/utils/http/core'
 
 const { VITE_APP_TITLE } = import.meta.env
@@ -38,11 +38,10 @@ const items: Array<FormItem | FormItem[]> = [{
 
 const setCaptchaKey = ({ key }: Captcha) => captchaKey.value = key
 
-const login = async (params: JsonData) => {
+const login = async (params: Record<string, string>) => {
   const payload = { ...params, key: captchaKey.value }
   const result = await useRequest<ApiResponse<{ token: string }>>().auth.login(payload)
 
-  reloadCaptcha.value = false
   if (!result.ok) {
     reloadCaptcha.value = true
     return error(result.msg)
@@ -70,7 +69,7 @@ const login = async (params: JsonData) => {
           <template #custom="{ item }">
             <captcha
               v-if="item.name === 'captcha_img'"
-              :reload="reloadCaptcha"
+              v-model:reload="reloadCaptcha"
               @change="setCaptchaKey"
             />
           </template>
