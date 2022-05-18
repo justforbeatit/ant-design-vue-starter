@@ -1,6 +1,7 @@
 import 'ant-design-vue/es/breadcrumb/style/index.css'
 import { Breadcrumb } from "ant-design-vue"
 import { useMenuStore } from '@/store/menu'
+import type { MenuItem } from '@/types'
 
 export default defineComponent({
   setup() {
