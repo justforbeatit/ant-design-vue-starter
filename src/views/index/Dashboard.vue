@@ -5,28 +5,33 @@
   <ant-layout :has-breadcrumb="false">
     <template #header>
       <div class="header">
-        <div class="item-l">
+        <div class="item-left">
           <div>
             <p><img src="@/assets/user.svg" style="height: 50px;width: 50px;"/></p>
           </div>
           <div style="margin-left: 1rem;">
-            <p>Hi，祝你开心每一天</p>
+            <p><h1>管理员</h1></p>
             <p><a-typography-text type="secondary">欢迎回来！</a-typography-text></p>
           </div>
         </div>
-        <div class="item-r">
-          <div class="analysis sep">
-            <p><a-typography-text type="secondary">订单数</a-typography-text></p>
-            <p>32932</p>
-          </div>
-          <div class="analysis sep">
-            <p><a-typography-text type="secondary">商品数</a-typography-text></p>
-            <p>32932</p>
-          </div>
-          <div class="analysis">
-            <p><a-typography-text type="secondary">入驻商家</a-typography-text></p>
-            <p>32932</p>
-          </div>
+        <div class="item-right">
+          <a-row>
+            <a-col>
+              <a-statistic title="订单数" :value="92032" class="sep" />
+            </a-col>
+            <a-col>
+              <a-divider type="vertical" class="sep" style="height: 100%;" />
+            </a-col>
+            <a-col>
+              <a-statistic title="商品数" :value="283292" class="sep" />
+            </a-col>
+            <a-col>
+              <a-divider type="vertical" class="sep" style="height: 100%;" />
+            </a-col>
+            <a-col>
+              <a-statistic title="入驻商家" :value="13323" />
+            </a-col>
+          </a-row>
         </div>
       </div>
     </template>
@@ -52,24 +57,17 @@
   align-items: center;
   background-color: #fff;
 }
-.item-l {
+.item-left {
   margin-left: 1rem;
   width: 40%;
   display: flex;
   align-items: center;
 }
-.item-r {
+.item-right {
   margin-right: 1rem;
   display: flex;
 }
-.item-r .analysis {
-  margin-right: 1rem;
-  margin-left: 1rem;
-  text-align: right;
-  padding-top: 0.5rem;
-}
 .sep {
-  border-right: 1px solid #f0f0f0;
   padding-right: 2rem;
 }
 </style>
