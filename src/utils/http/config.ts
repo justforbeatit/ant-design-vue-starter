@@ -1,12 +1,15 @@
-import { defineApiRequestConfig, type ApiResponse } from "@/utils/http/core"
-import { useStorage } from "../storage"
+import { defineRequestConfig, type ApiResponse } from "@/utils/http/core"
+import { useUserStore } from "@/store/user"
 
-export default defineApiRequestConfig({
+export default defineRequestConfig({
   baseUrl: import.meta.env.VITE_APP_URL,
-  authorization: { Authorization: `Bearer ${useStorage().token()}` },
+  authorization: () => {
+    const accessToken = useUserStore().getAccessToken()
+    return { Authorization: `Bearer ${accessToken}` }
+  },
   contentType: 'form',
   asResponseOk: (response: ApiResponse) => response?.code === 0,
-  onAfterFetched: ({ response }) => {
+  onResponsed: ({ response }) => {
     switch (response?.status) {
       case 401:
         warning("会话已失效，请重新登录")

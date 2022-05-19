@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { MenuItem } from '@/types'
+import type { ApiResponse } from '@/utils/http/core'
 
 interface MenuState {
   collapsed: boolean,
@@ -29,8 +30,8 @@ export const useMenuStore = defineStore('menu', {
   },
   actions: {
     async initialize() {
-      const { data }= await useRequest().menu.query()
-      this.data = data as MenuItem[]
+      const { data }= await useRequest<ApiResponse<MenuItem[]>>().menu.query()
+      this.data = data
     },
     toggle() {
       this.collapsed = !this.collapsed

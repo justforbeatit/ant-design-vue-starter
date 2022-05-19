@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
-    "@vueuse/core": "^8.2.0",
+    "@vueuse/core": "^8.4.2",
     "@wangeditor/editor": "^5.0.1",
     "@wangeditor/editor-for-vue": "^5.1.11",
     "ant-design-vue": "^3.2.3",
@@ -25,6 +25,7 @@
     "@types/node": "^16.11.25",
     "@types/nprogress": "^0.2.0",
     "@vitejs/plugin-vue": "^2.2.2",
+    "@vue/compiler-sfc": "^3.2.33",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^10.0.0",
     "@vue/tsconfig": "^0.1.3",

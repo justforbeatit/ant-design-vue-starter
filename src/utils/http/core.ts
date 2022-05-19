@@ -25,12 +25,12 @@ export interface ApiResponse<T = JsonData[] | []> extends ApiResponseBase {
   total?: number
 }
 
-export interface ApiRequestConfig {
+export interface RequestConfig {
   baseUrl: string,
-  authorization: { Authorization: string },
+  authorization: () => ({ Authorization: string }),
   contentType: AllowedContentType,
   asResponseOk: (response: ApiResponse) => boolean,
-  onAfterFetched: (result: FetchResult) => void
+  onResponsed: (result: FetchResult) => void
 }
 
 export type ApiMapped<T, R> = {
@@ -43,13 +43,13 @@ export function defineApiConfig<T extends ApiConfig>(apis: T): T {
   return apis
 }
 
-export function defineApiRequestConfig<T extends ApiRequestConfig>(options: T): T {
+export function defineRequestConfig<T extends RequestConfig>(options: T): T {
   return options
 }
 
-function useFetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, type: AllowedContentType) {
+function _fetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, type: AllowedContentType | undefined) {
+  const { baseUrl, authorization, asResponseOk, onResponsed, contentType: _contentType } = config
   return new Promise((resolve: CallableFunction) => {
-    const { baseUrl, authorization, asResponseOk, onAfterFetched } = config
     createFetch({
       baseUrl: baseUrl,
       options: {
@@ -67,14 +67,14 @@ function useFetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, t
             options: {
               ...options,
               headers: {
-                'Authorization': authorization,
-                ...contentType(type),
+                ...authorization(),
+                ...contentType(type || _contentType),
               }
             }
           }
         },
         onFetchError(ctx: FetchResult) {
-          onAfterFetched(ctx)
+          onResponsed(ctx)
           return ctx
         }
       },
@@ -88,7 +88,7 @@ export function useRequest<R = ApiResponse>(): ApiMapped<typeof apis, R>
 
 export function useRequest(): unknown {
   return new Proxy({
-    useFetch
+    _fetch
   }, {
     get(top, prop: string) {
       if (!(prop in apis)) {
@@ -112,7 +112,7 @@ export function useRequest(): unknown {
               const queryString = [...params].join('&');
               return method === 'get' && queryString ? `${path}?${queryString}` : path
             }
-            return top.useFetch(parseUrl(path), <AllowedHttpMethod>method, data, contentType || config.contentType)
+            return top._fetch(parseUrl(path), <AllowedHttpMethod>method, data, contentType)
           }
         }
       })

@@ -16,12 +16,16 @@ export default defineComponent({
       type: Object,
       default: () => ({ width: '100%', height: '100%', cursor: 'pointer' })
     },
+    secretKey: {
+      type: String,
+      default: ''
+    },
     reload: {
       type: Boolean,
       default: false
     }
   },
-  emits: ['change', 'update:reload'],
+  emits: ['update:secretKey', 'update:reload'],
   setup(props, { emit }) {
     const { title, style } = props
     const src = ref(defaultCaptchaImage)
@@ -29,7 +33,7 @@ export default defineComponent({
     const loadCaptchaImage = async () => {
       const { key, img } = await useRequest<Captcha>().auth.captcha()
       src.value = img
-      emit('change', { key, img })
+      emit('update:secretKey', key)
     }
 
     watch(() => props.reload, (shouldReload: boolean) => {

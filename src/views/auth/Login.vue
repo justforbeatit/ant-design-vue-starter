@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import '@/assets/login.less'
 import logo from '@/composables/logo'
+import captcha from '@/composables/captcha'
 import copyright from '@/composables/copyright'
-import captcha, { type Captcha } from '@/composables/captcha'
+import { useUserStore } from '@/store/user'
 import type { FormItem } from '@/types'
 import type { ApiResponse } from '@/utils/http/core'
 
+type UserContext = { token: string, permissions: Array<string> }
+
 const { VITE_APP_TITLE } = import.meta.env
 const router = useRouter()
+const store = useUserStore()
 const captchaKey = ref('')
 const reloadCaptcha = ref(false)
 
@@ -36,17 +40,17 @@ const items: Array<FormItem | FormItem[]> = [{
   wrapperCol: { span: 8 },
 }]]
 
-const setCaptchaKey = ({ key }: Captcha) => captchaKey.value = key
-
 const login = async (params: Record<string, string>) => {
   const payload = { ...params, key: captchaKey.value }
-  const result = await useRequest<ApiResponse<{ token: string }>>().auth.login(payload)
+  const result = await useRequest<ApiResponse<UserContext>>().auth.login(payload)
 
   if (!result.ok) {
     reloadCaptcha.value = true
     return error(result.msg)
   }
-  useStorage().token(result.data.token)
+  const { token, permissions } = result.data
+  store.setAccessToken(token)
+  store.setPermissions(permissions || [])
   success('登录成功')
   router.push({ name: 'index' })
 }
@@ -70,7 +74,7 @@ const login = async (params: Record<string, string>) => {
             <captcha
               v-if="item.name === 'captcha_img'"
               v-model:reload="reloadCaptcha"
-              @change="setCaptchaKey"
+              v-model:secretKey="captchaKey"
             />
           </template>
           <template #button="{ loading }">
