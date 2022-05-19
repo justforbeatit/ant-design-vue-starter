@@ -9,7 +9,7 @@ export default defineRequestConfig({
   },
   contentType: 'form',
   asResponseOk: (response: ApiResponse) => response?.code === 0,
-  onResponsed: ({ response }) => {
+  afterResponse: ({ response }) => {
     switch (response?.status) {
       case 401:
         warning("会话已失效，请重新登录")

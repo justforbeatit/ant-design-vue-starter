@@ -30,7 +30,7 @@ export interface RequestConfig {
   authorization: () => ({ Authorization: string }),
   contentType: AllowedContentType,
   asResponseOk: (response: ApiResponse) => boolean,
-  onResponsed: (result: FetchResult) => void
+  afterResponse: (result: FetchResult) => void
 }
 
 export type ApiMapped<T, R> = {
@@ -48,7 +48,7 @@ export function defineRequestConfig<T extends RequestConfig>(options: T): T {
 }
 
 function _fetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, type: AllowedContentType | undefined) {
-  const { baseUrl, authorization, asResponseOk, onResponsed, contentType: _contentType } = config
+  const { baseUrl, authorization, asResponseOk, afterResponse, contentType: _contentType } = config
   return new Promise((resolve: CallableFunction) => {
     createFetch({
       baseUrl: baseUrl,
@@ -74,7 +74,7 @@ function _fetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, typ
           }
         },
         onFetchError(ctx: FetchResult) {
-          onResponsed(ctx)
+          afterResponse(ctx)
           return ctx
         }
       },
