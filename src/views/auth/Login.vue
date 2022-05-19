@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import '@/assets/login.less'
+import sha256 from 'crypto-js/sha256'
 import logo from '@/composables/logo'
 import captcha from '@/composables/captcha'
 import copyright from '@/composables/copyright'
@@ -41,7 +42,11 @@ const items: Array<FormItem | FormItem[]> = [{
 }]]
 
 const login = async (params: Record<string, string>) => {
-  const payload = { ...params, key: captchaKey.value }
+  const payload = {
+    ...params,
+    password: sha256(params.password).toString(),
+    key: captchaKey.value
+  }
   const result = await useRequest<ApiResponse<UserContext>>().auth.login(payload)
 
   if (!result.ok) {
