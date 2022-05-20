@@ -1,27 +1,35 @@
 <script setup lang="ts">
 import { useMenuStore } from '@/store/menu'
+import { useUserStore } from '@/store/user'
 
 const container = ref(null)
 const router = useRouter()
-const menuState = useMenuStore()
+const menu = useMenuStore()
+const user = useUserStore()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen(container.value)
+const username = ref()
 
 const logout = () => {
   sure('确定退出登录？').then(async () => {
     const { ok } = await useRequest().auth.logout()
     if (ok) {
-      useStorage().token(null)
+      user.removeAccessToken()
       router.push({ name: 'auth-login'})
     }
   })
 }
+
+onMounted(async () => {
+  const userinfo = await user.getUserInfo()
+  username.value = userinfo?.name
+})
 </script>
 
 <template>
   <a-layout-header class="layout-header">
     <div class="layout-header-toggle">
-      <MenuUnfoldOutlined v-if="menuState.collapsed" class="trigger" @click="menuState.toggle" />
-      <MenuFoldOutlined v-else class="trigger" @click="menuState.toggle" />
+      <MenuUnfoldOutlined v-if="menu.collapsed" class="trigger" @click="menu.toggle" />
+      <MenuFoldOutlined v-else class="trigger" @click="menu.toggle" />
     </div>
     <div class="layout-header-actions">
       <FullscreenOutlined v-if="!isFullscreen" @click="toggleFullscreen" class="fullscreen" />
@@ -31,7 +39,7 @@ const logout = () => {
           <a-avatar style="background-color: #1890ff" size="small">
             <template #icon><UserOutlined /></template>
           </a-avatar>
-          <span style="padding: 0.3rem;cursor: pointer;">管理员</span>
+          <span style="padding: 0.3rem;cursor: pointer;">{{ username ?? '--' }}</span>
           <DownOutlined style="cursor: pointer;" />
         </div>
         <template #overlay>

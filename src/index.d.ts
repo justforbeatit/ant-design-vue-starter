@@ -12,6 +12,6 @@ declare global {
 
 declare module '@/utils/storage' {
   export function useStorage(): {
-    token: (value?: undefined | null | string) => string | void
+    $__token__: (value?: undefined | null | string) => string | void
   }
 }

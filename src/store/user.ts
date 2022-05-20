@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export type UserState = {
   user: { name: string, email?: string, phone?: string } | undefined,
-  token: string,
+  token: string | null,
   permissions: Array<string>,
 }
 
@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', {
   state: (): UserState => {
     return {
       user: undefined,
-      token: '',
+      token: null,
       permissions: []
     }
   },
@@ -25,13 +25,17 @@ export const useUserStore = defineStore('user', {
     },
     setAccessToken(token: string) {
       this.token = token
-      useStorage().token(token)
+      useStorage().$__token__(token)
     },
     getAccessToken() {
       if (!this.token) {
-        this.token = <string>useStorage().token() || ''
+        this.token = <string>useStorage().$__token__()
       }
       return this.token
+    },
+    removeAccessToken() {
+      this.token =  null
+      useStorage().$__token__(null)
     },
     async getPermissions(): Promise<Array<string>> {
       if (this.permissions) {
