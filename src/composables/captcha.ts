@@ -31,7 +31,7 @@ export default defineComponent({
     const src = ref(defaultCaptchaImage)
 
     const loadCaptchaImage = async () => {
-      const { key, img } = await useRequest<Captcha>().auth.captcha()
+      const { key, img } = await useRequest<false, Captcha>().auth.captcha()
       src.value = img
       emit('update:secretKey', key)
     }

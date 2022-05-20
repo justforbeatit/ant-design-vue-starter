@@ -33,9 +33,13 @@ export interface RequestConfig {
   afterResponse: (result: FetchResult) => void
 }
 
-export type ApiMapped<T, R> = {
+export type ApiMapped<T, R, F> = {
   [P in keyof T]: T[P] extends infer U
-    ? { [K in keyof U]: (params?: Record<string, string | number>) => Promise<R> }
+    ? { [K in keyof U]: (params?: Record<string, string | number>) =>
+      R extends infer X
+        ? X extends false ? Promise<F> : Promise<ApiResponse<R>>
+        : never
+      }
     : never
 }
 
@@ -47,7 +51,7 @@ export function defineRequestConfig<T extends RequestConfig>(options: T): T {
   return options
 }
 
-function _fetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, type: AllowedContentType | undefined) {
+function $fetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, type: AllowedContentType | undefined) {
   const { baseUrl, authorization, asResponseOk, afterResponse, contentType: _contentType } = config
   return new Promise((resolve: CallableFunction) => {
     createFetch({
@@ -57,7 +61,8 @@ function _fetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, typ
           const contentType = (type: AllowedContentType) => {
             if (type === 'form') {
               return {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                //'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'Content-Type': 'application/x-www-form-urlencoded',
               }
             } else if (type === 'json') {
               return { 'Content-Type': 'application/json' }
@@ -84,11 +89,11 @@ function _fetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, typ
   })
 }
 
-export function useRequest<R = ApiResponse>(): ApiMapped<typeof apis, R>
+export function useRequest<R = JsonData[] | [], F = false>(): ApiMapped<typeof apis, R, F>
 
 export function useRequest(): unknown {
   return new Proxy({
-    _fetch
+    $fetch
   }, {
     get(top, prop: string) {
       if (!(prop in apis)) {
@@ -112,7 +117,7 @@ export function useRequest(): unknown {
               const queryString = [...params].join('&');
               return method === 'get' && queryString ? `${path}?${queryString}` : path
             }
-            return top._fetch(parseUrl(path), <AllowedHttpMethod>method, data, contentType)
+            return top.$fetch(parseUrl(path), <AllowedHttpMethod>method, data, contentType)
           }
         }
       })

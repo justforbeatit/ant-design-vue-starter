@@ -1,40 +1,45 @@
 import { defineStore } from 'pinia'
 
-interface UserState {
-  accessToken: string,
+export type UserState = {
+  user: { name: string, email?: string, phone?: string } | undefined,
+  token: string,
   permissions: Array<string>,
 }
 
 export const useUserStore = defineStore('user', {
   state: (): UserState => {
     return {
-      accessToken: '',
+      user: undefined,
+      token: '',
       permissions: []
     }
   },
   actions: {
+    async getUserInfo(): Promise<UserState['user']> {
+      if (this.user) {
+        return Promise.resolve(this.user)
+      }
+      const { data } = await useRequest<UserState['user']>().auth.user()
+      this.user = data
+      return Promise.resolve(this.user)
+    },
     setAccessToken(token: string) {
-      this.accessToken = token
+      this.token = token
       useStorage().token(token)
     },
     getAccessToken() {
-      if (!this.accessToken) {
-        this.accessToken = <string>useStorage().token() || ''
+      if (!this.token) {
+        this.token = <string>useStorage().token() || ''
       }
-      return this.accessToken
+      return this.token
     },
-    setPermissions(permissions: Array<string>) {
-      this.permissions = permissions
-    },
-    getPermissions() {
-      if (!this.permissions) {
-        // infact get permissions from api
-        this.permissions = []
+    async getPermissions(): Promise<Array<string>> {
+      if (this.permissions) {
+        return Promise.resolve(this.permissions)
       }
-      return this.permissions
-    },
-    hasPermission(permission: string) {
-      return this.getPermissions().includes(permission)
+      const { data } = await useRequest<Array<string>>().auth.permissions()
+      this.permissions = data
+      return Promise.resolve(this.permissions)
     }
   }
 })

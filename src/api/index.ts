@@ -8,7 +8,9 @@ export default defineApiConfig({
   auth: {
     captcha: { path: '/captcha/api/math', method: 'get' },
     login: { path: '/api/auth/login', method: 'post', contentType: 'json' },
-    logout: { path: '/api/auth/logout', method: 'post', contentType: 'form' },
+    logout: { path: '/api/auth/logout', method: 'post' },
+    user: { path: '/api/auth/user', method: 'get' },
+    permissions: { path: '/api/auth/permissions', method: 'get' }
   },
   menu: {
     query: { path: '/api/menus', method: 'get' },

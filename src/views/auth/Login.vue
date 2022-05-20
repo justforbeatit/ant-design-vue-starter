@@ -4,17 +4,15 @@ import sha256 from 'crypto-js/sha256'
 import logo from '@/composables/logo'
 import captcha from '@/composables/captcha'
 import copyright from '@/composables/copyright'
-import { useUserStore } from '@/store/user'
+import { useUserStore, type UserState } from '@/store/user'
 import type { FormItem } from '@/types'
-import type { ApiResponse } from '@/utils/http/core'
-
-type UserContext = { token: string, permissions: Array<string> }
 
 const { VITE_APP_TITLE } = import.meta.env
 const router = useRouter()
 const store = useUserStore()
 const captchaKey = ref('')
 const reloadCaptcha = ref(false)
+const { user, permissions } = storeToRefs(store)
 
 const items: Array<FormItem | FormItem[]> = [{
   type: 'Input',
@@ -47,15 +45,15 @@ const login = async (params: Record<string, string>) => {
     password: sha256(params.password).toString(),
     key: captchaKey.value
   }
-  const result = await useRequest<ApiResponse<UserContext>>().auth.login(payload)
+  const result = await useRequest<UserState>().auth.login(payload)
 
   if (!result.ok) {
     reloadCaptcha.value = true
     return error(result.msg)
   }
-  const { token, permissions } = result.data
-  store.setAccessToken(token)
-  store.setPermissions(permissions || [])
+  store.setAccessToken(result.data.token)
+  user.value = result.data.user
+  permissions.value = result.data.permissions || []
   success('登录成功')
   router.push({ name: 'index' })
 }
