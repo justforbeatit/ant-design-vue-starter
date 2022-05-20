@@ -14,7 +14,7 @@ const logout = () => {
     const { ok } = await useRequest().auth.logout()
     if (ok) {
       user.removeAccessToken()
-      router.push({ name: 'auth-login'})
+      router.push({ name: 'auth-login' })
     }
   })
 }
