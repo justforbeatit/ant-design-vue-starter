@@ -19,8 +19,6 @@ export default function() {
             'createFetch',
             'useFullscreen',
             'useToggle',
-            ['useStorage', 'vueuseStorage'],
-            'StorageSerializers',
           ],
           'pinia': [
             'storeToRefs'

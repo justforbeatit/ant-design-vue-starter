@@ -2,12 +2,12 @@
 import { useMenuStore } from '@/store/menu'
 import { useUserStore } from '@/store/user'
 
+const username = ref()
 const container = ref(null)
 const router = useRouter()
 const menu = useMenuStore()
 const user = useUserStore()
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen(container.value)
-const username = ref()
 
 const logout = () => {
   sure('确定退出登录？').then(async () => {
@@ -32,14 +32,14 @@ onMounted(async () => {
       <MenuFoldOutlined v-else class="trigger" @click="menu.toggle" />
     </div>
     <div class="layout-header-actions">
-      <FullscreenOutlined v-if="!isFullscreen" @click="toggleFullscreen" class="fullscreen" />
-      <FullscreenExitOutlined v-else @click="toggleFullscreen" class="fullscreen" />
+      <FullscreenOutlined v-if="!isFullscreen" @click="toggleFullscreen" class="tool" />
+      <FullscreenExitOutlined v-else @click="toggleFullscreen" class="tool" />
       <a-dropdown placement="bottomRight">
-        <div style="display: inline-block;">
+        <div>
           <a-avatar style="background-color: #1890ff" size="small">
             <template #icon><UserOutlined /></template>
           </a-avatar>
-          <span style="padding: 0.3rem;cursor: pointer;">{{ username ?? '--' }}</span>
+          <span style="padding: 0.3rem;cursor: pointer;font-weight: 500;">{{ username ?? '--' }}</span>
           <DownOutlined style="cursor: pointer;" />
         </div>
         <template #overlay>
@@ -78,9 +78,9 @@ onMounted(async () => {
 }
 .layout-header-actions {
   height: 100%;
-  margin-right: 24px;
-  line-height: 48px;
-  font-size: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
 }
 .trigger {
   font-size: 20px;
@@ -93,10 +93,9 @@ onMounted(async () => {
 .trigger:hover {
   color: #1890ff;
 }
-.fullscreen {
+.tool {
   margin-right: 1rem;
-  font-size: 1rem;
+  font-size: 20px;
   cursor: pointer;
-  line-height: 48px;
 }
 </style>

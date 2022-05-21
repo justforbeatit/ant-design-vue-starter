@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { icon } from '@/composables/icon'
 </script>
 
 <template>
@@ -7,7 +8,7 @@
       <div class="header">
         <div class="item-left">
           <div>
-            <p><img src="@/assets/user.svg" style="height: 50px;width: 50px;"/></p>
+            <p><icon is="icon-user-avatar" :style="{ fontSize: '50px' }"/></p>
           </div>
           <div style="margin-left: 1rem;">
             <p><h1>管理员</h1></p>

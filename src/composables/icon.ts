@@ -3,11 +3,12 @@ import { createFromIconfontCN } from '@ant-design/icons-vue'
 
 type CustomIconType = [
   'icon-dark-mode',
+  'icon-light-mode',
   'icon-user-avatar'
 ]
 
 const component = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_3416835_p8bwgbtd4n.js'
+  scriptUrl: '//at.alicdn.com/t/font_3416835_c3l71v9ysss.js'
 })
 
 export const icon = defineComponent({

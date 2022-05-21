@@ -38,7 +38,6 @@
     "shallowReactive": true,
     "shallowReadonly": true,
     "shallowRef": true,
-    "StorageSerializers": true,
     "storeToRefs": true,
     "success": true,
     "sure": true,
@@ -57,7 +56,6 @@
     "useSlots": true,
     "useStorage": true,
     "useToggle": true,
-    "vueuseStorage": true,
     "warning": true,
     "watch": true,
     "watchEffect": true
