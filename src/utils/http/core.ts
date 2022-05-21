@@ -77,7 +77,7 @@ function $fetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, to:
         }
       },
     })(url)[method](playload()).json().then(result => {
-      resolve({ok: asFetchSuccess(result.data.value), ...result.data.value})
+      resolve({ ok: asFetchSuccess(result.data.value), ...result.data.value })
     })
   })
 }
