@@ -22,8 +22,20 @@ export default defineConfig(({ mode }) => {
       vue(),
       ...autoImport(),
       ...pages(),
-      viteCompression()
+      viteCompression(),
     ],
+    css: {
+      preprocessorOptions: {
+        less: {
+          modifyVars: {
+            'primary-color': '#1DA57A',
+            'link-color': '#1DA57A',
+            'border-radius-base': '2px',
+          },
+          javascriptEnabled: true
+        },
+      }
+    },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))

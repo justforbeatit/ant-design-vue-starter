@@ -4,8 +4,7 @@
     "env.d.ts",
     "auto-imports.d.ts",
     "src/**/*",
-    "src/**/*.vue",
-    "src/api/type.d.ts"
+    "src/**/*.vue"
   ],
   "compilerOptions": {
     "baseUrl": ".",

@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router'
 import Pages from 'vite-plugin-pages'
-import {resolve} from 'path'
+import { resolve } from 'path'
 
 export default function() {
   return [

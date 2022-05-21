@@ -7,7 +7,10 @@ export default function() {
     Components({
       dirs: ['src/components'],
       resolvers: [
-        AntDesignVueResolver({ resolveIcons: true }),
+        AntDesignVueResolver({
+          importStyle: 'less',
+          resolveIcons: true
+        }),
       ]
     }),
     AutoImport({
