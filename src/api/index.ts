@@ -7,7 +7,7 @@ export default defineApiConfig({
   },
   auth: {
     captcha: { path: '/captcha/api/math', method: 'get' },
-    login: { path: '/api/auth/login', method: 'post', contentType: 'json' },
+    login: { path: '/api/auth/login', method: 'post' },
     logout: { path: '/api/auth/logout', method: 'post' },
     user: { path: '/api/auth/user', method: 'get' },
     permissions: { path: '/api/auth/permissions', method: 'get' }

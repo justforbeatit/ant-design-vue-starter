@@ -4,16 +4,16 @@ import apis from '@/api'
 
 type ApiResponseBase = { ok: boolean }
 
-type AllowedHttpMethod = 'get' | 'post' | 'put' | 'delete'
+type AllowedHttpMethod = ['get', 'post', 'put', 'delete'][number]
 
-type AllowedContentType = 'form' | 'json' extends infer F ?  F : never
+type AllowedSerializer = 'formData' | 'json' extends infer F ?  F : never
 
 export type FetchResult = { data: any, response: Response | null, error: any }
 
 export interface ApiConfig {
   [prop: string]: {
     [prop: string]: {
-      path: string, method: AllowedHttpMethod, contentType?: AllowedContentType
+      path: string, method: AllowedHttpMethod, serializeTo?: AllowedSerializer
     }
   }
 }
@@ -27,10 +27,10 @@ export interface ApiResponse<T = JsonData[] | []> extends ApiResponseBase {
 
 export interface RequestConfig {
   baseUrl: string,
-  authorization: () => ({ Authorization: string }),
-  contentType: AllowedContentType,
-  asResponseOk: (response: ApiResponse) => boolean,
-  afterResponse: (result: FetchResult) => void
+  headers: () => ({ Authorization: string }),
+  serializeTo: AllowedSerializer,
+  asFetchSuccess: (response: ApiResponse) => boolean,
+  handleFetchError: (result: FetchResult) => void
 }
 
 export type ApiMapped<T, R, F> = {
@@ -51,40 +51,33 @@ export function defineRequestConfig<T extends RequestConfig>(options: T): T {
   return options
 }
 
-function $fetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, type: AllowedContentType | undefined) {
-  const { baseUrl, authorization, asResponseOk, afterResponse, contentType: _contentType } = config
+function $fetch(url: string, method: AllowedHttpMethod, data: JsonData = {}, to: AllowedSerializer | undefined) {
+  const { baseUrl, headers, asFetchSuccess, handleFetchError, serializeTo } = config
+
+  const playload = (): URLSearchParams | JsonData | undefined => {
+    if (method === 'get') return undefined
+    return (to ?? serializeTo) === 'formData' ? new URLSearchParams(data) : data
+  }
+
   return new Promise((resolve: CallableFunction) => {
     createFetch({
       baseUrl: baseUrl,
       options: {
         beforeFetch({ options }: BeforeFetchContext) {
-          const contentType = (type: AllowedContentType) => {
-            if (type === 'form') {
-              return {
-                //'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'Content-Type': 'application/x-www-form-urlencoded',
-              }
-            } else if (type === 'json') {
-              return { 'Content-Type': 'application/json' }
-            }
-          }
           return {
             options: {
               ...options,
-              headers: {
-                ...authorization(),
-                ...contentType(type || _contentType),
-              }
+              headers: headers()
             }
           }
         },
         onFetchError(ctx: FetchResult) {
-          afterResponse(ctx)
+          handleFetchError(ctx)
           return ctx
         }
       },
-    })(url)[method](method !== 'get' ? data : undefined).json().then(result => {
-      resolve({ok: asResponseOk(result.data.value), ...result.data.value})
+    })(url)[method](playload()).json().then(result => {
+      resolve({ok: asFetchSuccess(result.data.value), ...result.data.value})
     })
   })
 }
@@ -102,7 +95,7 @@ export function useRequest(): unknown {
       return new Proxy((apis as ApiConfig)[prop], {
         get(current, api: string) {
           return (data: Json<unknown> = {}) => {
-            const { method, path, contentType } = current[api]
+            const { method, path, serializeTo } = current[api]
             const params:Set<string> = new Set()
             const parseUrl = (path: string): string => {
               Object.entries(data).forEach(item => {
@@ -117,7 +110,7 @@ export function useRequest(): unknown {
               const queryString = [...params].join('&');
               return method === 'get' && queryString ? `${path}?${queryString}` : path
             }
-            return top.$fetch(parseUrl(path), <AllowedHttpMethod>method, data, contentType)
+            return top.$fetch(parseUrl(path), <AllowedHttpMethod>method, data, serializeTo)
           }
         }
       })
