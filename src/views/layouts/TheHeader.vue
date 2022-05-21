@@ -59,7 +59,7 @@ onMounted(async () => {
   </a-layout-header>
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .layout-header {
   background: #fff;
   padding: 0 0.5rem;
@@ -68,34 +68,36 @@ onMounted(async () => {
   align-items: center;
   width: 100%;
   height: 48px;
+  line-height: 48px;
   z-index: 9;
   box-shadow:0 1px 4px rgb(0 21 41 / 8%);
-}
-.layout-header-toggle {
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-.layout-header-actions {
-  height: 100%;
-  margin-right: 1rem;
-  display: flex;
-  align-items: center;
-}
-.trigger {
-  font-size: 20px;
-  cursor: pointer;
-  transition: color 0.3s;
-  display: flex;
-  align-items: center;
-  margin-left: 1rem;
-}
-.trigger:hover {
-  color: #1890ff;
-}
-.tool {
-  margin-right: 1rem;
-  font-size: 20px;
-  cursor: pointer;
+  .layout-header-toggle {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .layout-header-actions {
+    height: 100%;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .trigger {
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+  }
+  .trigger:hover {
+    color: #1890ff;
+  }
+  .tool {
+    margin-right: 1rem;
+    font-size: 20px;
+    cursor: pointer;
+  }
 }
 </style>
