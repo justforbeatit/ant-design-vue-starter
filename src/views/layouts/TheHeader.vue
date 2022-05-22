@@ -21,7 +21,7 @@ const logout = () => {
 
 onMounted(async () => {
   const userinfo = await user.getUserInfo()
-  username.value = userinfo?.name
+  username.value = userinfo?.phone ?? userinfo?.name
 })
 </script>
 
