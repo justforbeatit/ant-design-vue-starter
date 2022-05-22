@@ -39,7 +39,7 @@ onMounted(async () => {
           <a-avatar style="background-color: #1890ff" size="small">
             <template #icon><UserOutlined /></template>
           </a-avatar>
-          <span style="padding: 0.3rem;cursor: pointer;font-weight: 500;">{{ username ?? '--' }}</span>
+          <span style="padding: 0.3rem;cursor: pointer;font-size: 1rem;">{{ username ?? '--' }}</span>
           <DownOutlined style="cursor: pointer;" />
         </div>
         <template #overlay>
