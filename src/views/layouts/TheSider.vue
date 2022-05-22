@@ -40,7 +40,7 @@ const { collapsed } = storeToRefs(useMenuStore())
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 1.1rem;
     color: #fff;
   }
