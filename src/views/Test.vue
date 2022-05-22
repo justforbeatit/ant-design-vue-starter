@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import { icon } from '@/composables/icon'
 
 </script>
 
 <template>
-  <a-button type="primary" >暗黑</a-button>
-  <a-button type="primary" >默认</a-button>
-
+  <icon is="icon-n-1" />
+  <icon is="icon-n-2" />
+  <icon is="icon-n-3" />
+  <icon is="icon-n-4" />
+  <icon is="icon-n-5" />
+  <icon is="icon-n-6" />
+  <icon is="icon-n-7" />
 </template>
 
 <style scoped>
