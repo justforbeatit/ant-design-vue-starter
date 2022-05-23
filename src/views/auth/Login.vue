@@ -4,7 +4,7 @@ import sha256 from 'crypto-js/sha256'
 import logo from '@/composables/logo'
 import captcha from '@/composables/captcha'
 import copyright from '@/composables/copyright'
-import { useUserStore, type UserState } from '@/store/user'
+import { useUserStore, type UserContext } from '@/store/user'
 import type { FormItem } from '@/types'
 
 const { VITE_APP_TITLE } = import.meta.env
@@ -45,7 +45,7 @@ const login = async (params: Record<string, string>) => {
     password: sha256(params.password).toString(),
     key: captchaKey.value
   }
-  const result = await useRequest<UserState>().auth.login(payload)
+  const result = await useRequest<UserContext>().auth.login(payload)
 
   if (!result.ok) {
     reloadCaptcha.value = true
