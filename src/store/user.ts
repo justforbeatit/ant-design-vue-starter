@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
 
-export type UserState = {
+export type UserContext = {
   user: { name: string, email?: string, phone?: string } | undefined,
   token: string | null,
   permissions: Array<string>,
 }
 
 export const useUserStore = defineStore('user', {
-  state: (): UserState => {
+  state: (): UserContext => {
     return {
       user: undefined,
       token: null,
@@ -15,11 +15,11 @@ export const useUserStore = defineStore('user', {
     }
   },
   actions: {
-    async getUserInfo(): Promise<UserState['user']> {
+    async getUserInfo(): Promise<UserContext['user']> {
       if (this.user) {
         return Promise.resolve(this.user)
       }
-      const { data } = await useRequest<UserState['user']>().auth.user()
+      const { data } = await useRequest<UserContext['user']>().auth.user()
       this.user = data
       return Promise.resolve(this.user)
     },
