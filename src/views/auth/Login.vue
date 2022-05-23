@@ -51,7 +51,7 @@ const login = async (params: Record<string, string>) => {
     reloadCaptcha.value = true
     return error(result.msg)
   }
-  store.setAccessToken(result.data.token)
+  store.setAccessToken(<string>result.data.token)
   user.value = result.data.user
   permissions.value = result.data.permissions || []
   success('登录成功')
@@ -73,7 +73,7 @@ const login = async (params: Record<string, string>) => {
           :items="items"
           @on-submit="login"
         >
-          <template #custom="{ item }">
+          <template #itemRender="{ item }">
             <captcha
               v-if="item.name === 'captcha_img'"
               v-model:reload="reloadCaptcha"

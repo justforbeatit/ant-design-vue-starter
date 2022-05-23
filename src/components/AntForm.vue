@@ -80,7 +80,7 @@ const triggerSubmit = () => {
           :label="(item as FormItem).label"
           :rules="(item as FormItem).rules as FormItemRule || []"
         >
-          <slot name="custom" :item="item" :state="state"></slot>
+          <slot name="itemRender" :item="item" :state="state"></slot>
         </a-form-item>
         <ant-form-item v-else
           v-model="state[(item as FormItem).name]"
